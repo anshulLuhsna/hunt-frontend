@@ -14,6 +14,7 @@ const Hunt = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
+  const [progress, setProgress] = useState({ completed: 0, total: 0 });
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
@@ -24,7 +25,17 @@ const Hunt = () => {
     }
     setTeamName(user.teamName);
     fetchHint();
+    fetchProgress();
   }, [user, navigate]);
+
+  const fetchProgress = async () => {
+    try {
+      const progressData = await api.getProgress();
+      setProgress(progressData);
+    } catch (error) {
+      console.error('Error fetching progress:', error);
+    }
+  };
 
   const fetchHint = async () => {
     try {
@@ -37,6 +48,7 @@ const Hunt = () => {
       setPuzzleAnswer('');
       setErrors({});
       setSuccessMessage('');
+      await fetchProgress();
     } catch (error) {
       console.error('Error fetching hint:', error);
       if (error.message.includes('Hunt completed')) {
@@ -153,6 +165,23 @@ const Hunt = () => {
           </div>
         )}
 
+        {/* Progress Section */}
+        <section className="progress-section">
+          <div className="progress-info">
+            <h2>📊 Progress</h2>
+            <div className="progress-details">
+              <span>Puzzle {progress.completed + 1} of {progress.total}</span>
+              <span>{progress.total > 0 ? Math.round((progress.completed / progress.total) * 100) : 0}% Complete</span>
+            </div>
+          </div>
+          <div className="progress-bar">
+            <div
+              className="progress-fill"
+              style={{ width: `${progress.total > 0 ? (progress.completed / progress.total) * 100 : 0}%` }}
+            ></div>
+          </div>
+        </section>
+
         {currentHint && currentHint.msg ? (
           <section className="puzzle-section">
             <h2>🎉 Adventure Status</h2>
@@ -169,13 +198,23 @@ const Hunt = () => {
           </section>
         ) : (
           <>
+            {/* Puzzle Section */}
             <section className="puzzle-section">
-              <h2>🗺️ Current Location</h2>
+              <h2>🧩 Puzzle #{progress.completed + 1}</h2>
               <div className="puzzle-text">
-                {currentHint?.hint || 'Loading hint...'}
+                {currentHint?.hint || 'Loading puzzle...'}
               </div>
             </section>
 
+            {/* Location Clue Section */}
+            <section className="clue-section">
+              <h2>💡 Location Clue:</h2>
+              <div className="clue-text">
+                Look for the information hub where students gather to study and research.
+              </div>
+            </section>
+
+            {/* Submit Location Code Section */}
             <section className="submit-section">
               <form onSubmit={handleLocationCodeSubmit} className="location-form">
                 <h2>📍 Submit Location Code</h2>
@@ -196,6 +235,7 @@ const Hunt = () => {
                 </button>
               </form>
 
+              {/* Puzzle Answer Section - Only shows after correct code submission */}
               {showPuzzleInput && (
                 <form onSubmit={handlePuzzleAnswerSubmit} className="answer-form">
                   <h2>💡 Answer the Puzzle</h2>
