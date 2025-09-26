@@ -17,6 +17,14 @@ class ApiService {
       ...options,
     };
 
+    // Debug: Log the request config
+    console.log('[API] Request config:', {
+      url,
+      method: config.method,
+      body: config.body,
+      headers: config.headers
+    });
+
     // Add authorization header if token exists and not already set
     if (!config.headers.Authorization) {
       const token = localStorage.getItem('token');
