@@ -1,5 +1,5 @@
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// Load API URL from environment variables, defaulting to localhost
+const API_BASE_URL = 'http://206.189.138.165:5000'
 
 class ApiService {
   constructor() {

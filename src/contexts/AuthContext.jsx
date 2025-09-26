@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+// Resolve API base URL from env for deployed environments (Vercel)
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -27,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (teamName, password) => {
     try {
-      const response = await fetch('http://localhost:5000/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +57,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (teamName, password) => {
     try {
-      const response = await fetch('http://localhost:5000/auth/signup', {
+      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
