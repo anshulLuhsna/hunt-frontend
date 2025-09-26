@@ -1,7 +1,8 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Resolve API base URL from env for deployed environments (Vercel)
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// Always use relative /api so Vercel (prod) and Vite (dev) proxies handle target
+const API_BASE_URL = '/api';
 
 const AuthContext = createContext();
 
