@@ -76,7 +76,7 @@ class ApiService {
 
   // Leaderboard endpoint
   async getLeaderboard() {
-    return this.request('/leaderboard/', {
+    return this.request('/leaderboard', {
       method: 'GET',
     });
   }
