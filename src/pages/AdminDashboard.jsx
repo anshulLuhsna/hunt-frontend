@@ -49,6 +49,16 @@ const AdminDashboard = () => {
 
   const handleQuestionSubmit = async (e) => {
     e.preventDefault();
+    
+    // Debug: Log the form data being sent
+    console.log('Form data being sent:', questionForm);
+    
+    // Validate form data before sending
+    if (!questionForm.hint || !questionForm.code || !questionForm.question || !questionForm.answer) {
+      setError('All fields are required');
+      return;
+    }
+    
     try {
       if (editingQuestion) {
         await api.updateAdminQuestion(editingQuestion.id, questionForm);
@@ -57,9 +67,11 @@ const AdminDashboard = () => {
       }
       setQuestionForm({ hint: '', code: '', question: '', answer: '' });
       setEditingQuestion(null);
+      setError(''); // Clear any previous errors
       fetchData();
     } catch (err) {
-      setError('Failed to save question');
+      console.error('Error saving question:', err);
+      setError(err.message || 'Failed to save question');
     }
   };
 
