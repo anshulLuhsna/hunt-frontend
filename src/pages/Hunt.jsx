@@ -216,13 +216,7 @@ const Hunt = () => {
               </div>
             </section>
 
-            {/* Location Clue Section */}
-            <section className="clue-section">
-              <h2>💡 Location Clue:</h2>
-              <div className="clue-text">
-                Look for the information hub where students gather to study and research.
-              </div>
-            </section>
+            {/* Location Clue Section removed */}
 
             {/* Submit Location Code Section */}
             <section className="submit-section">
