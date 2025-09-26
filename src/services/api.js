@@ -17,10 +17,12 @@ class ApiService {
       ...options,
     };
 
-    // Add authorization header if token exists
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    // Add authorization header if token exists and not already set
+    if (!config.headers.Authorization) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
 
     try {
