@@ -212,7 +212,13 @@ const AdminDashboard = () => {
                   <button
                     onClick={() => {
                       setEditingQuestion(q);
-                      setQuestionForm(q);
+                      // Only set the form fields, not the id
+                      setQuestionForm({
+                        hint: q.hint,
+                        code: q.code,
+                        question: q.question,
+                        answer: q.answer
+                      });
                     }}
                     className="edit-button"
                   >
