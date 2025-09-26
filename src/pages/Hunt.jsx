@@ -141,13 +141,6 @@ const Hunt = () => {
     <div className="hunt-container">
       <header className="hunt-header">
         <div className="header-left">
-          <div className="logo">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-              <circle cx="20" cy="20" r="20" fill="#FFD700"/>
-              <path d="M20 10L25 18H15L20 10Z" fill="#2C3E50"/>
-              <circle cx="20" cy="25" r="5" fill="#2C3E50"/>
-            </svg>
-          </div>
           <div className="team-info">
             <Avatar 
               seed={teamAvatar || teamName} 
@@ -159,13 +152,13 @@ const Hunt = () => {
           </div>
         </div>
         <div className="header-right">
+          <button onClick={() => navigate('/leaderboard')} className="leaderboard-button">
+            <FaTrophy /> Leaderboard
+          </button>
           <button onClick={handleLogout} className="logout-button">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
               <path d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a.5.5 0 00-.707-.707L10 11.086 6 7.086a.5.5 0 00-.707.707L9.293 12l-4 4a.5.5 0 00.707.707L10 12.707l4 4a.5.5 0 00.707-.707L10.707 12l4-4z"/>
             </svg>
-          </button>
-          <button onClick={() => navigate('/leaderboard')} className="leaderboard-button">
-            <FaTrophy /> Leaderboard
           </button>
         </div>
       </header>

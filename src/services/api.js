@@ -1,5 +1,5 @@
 // Use the backend URL directly
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://206.189.138.165:5000';
+const API_BASE_URL = import.meta.env.DEV ? '/api' : '/api';
 
 class ApiService {
   constructor() {
