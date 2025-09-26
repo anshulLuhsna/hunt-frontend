@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  animation: backgroundPulse 8s ease-in-out infinite;
+  /* animation removed to reduce jank */
   position: relative;
   overflow: hidden;
 }
@@ -21,7 +21,7 @@
   border: 3px solid rgba(255, 215, 0, 0.1);
   border-top: 3px solid #FFD700;
   border-radius: 50%;
-  animation: spinWheel 2s linear infinite;
+  /* animation removed */
   z-index: 0;
 }
 
@@ -36,7 +36,7 @@
   border: 2px solid rgba(78, 205, 196, 0.1);
   border-bottom: 2px solid #4ECDC4;
   border-radius: 50%;
-  animation: spinWheelReverse 3s linear infinite;
+  /* animation removed */
   z-index: 0;
 }
 
@@ -94,7 +94,7 @@
 
 .logo {
   display: inline-block;
-  animation: logoFloat 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate;
+  /* animations removed */
   transform: translateY(0);
   position: relative;
   z-index: 1;
@@ -124,7 +124,7 @@
   font-weight: 700;
   margin-bottom: 15px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  animation: titleGlow 2s ease-in-out infinite alternate;
+  /* animation removed */
   position: relative;
   z-index: 1;
 }
@@ -351,7 +351,7 @@
 .start-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-  animation: buttonPulse 1s ease-in-out infinite;
+  /* pulse removed */
 }
 
 @keyframes buttonPulse {
@@ -368,6 +368,22 @@
   animation: buttonClick 0.1s ease-out;
 }
 
+/* Stabilize button during async actions */
+.start-button:disabled,
+.start-button[disabled] {
+  cursor: not-allowed;
+  opacity: 1;            /* avoid native dimming flicker */
+  filter: none;
+  transform: none;
+  box-shadow: none;
+  animation: none;
+}
+
+.start-button:disabled::before,
+.start-button[disabled]::before {
+  display: none;        /* stop shimmer during loading */
+}
+
 @keyframes buttonClick {
   0% {
     transform: scale(1);
@@ -378,6 +394,58 @@
   100% {
     transform: scale(1);
   }
+}
+
+/* Respect users who prefer reduced motion and reduce repaint cost */
+@media (prefers-reduced-motion: reduce) {
+  .login-container,
+  .logo,
+  .title,
+  .subtitle,
+  .login-form,
+  .form-group,
+  .form-group input,
+  .start-button {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.auth-toggle {
+  margin-top: 30px;
+  text-align: center;
+  animation: fadeInUp 0.6s ease-out 1.2s both;
+}
+
+.auth-toggle p {
+  color: #B0C4DE;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.toggle-button {
+  background: transparent;
+  color: #FFD700;
+  border: 2px solid #FFD700;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.toggle-button:hover {
+  background: #FFD700;
+  color: #2C3E50;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.toggle-button:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 480px) {

@@ -2,7 +2,7 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #0F1419 0%, #1a2332 100%);
   color: white;
-  animation: leaderboardBackgroundFlow 12s ease-in-out infinite;
+  /* background animation removed to avoid heavy repaints */
 }
 
 @keyframes leaderboardBackgroundFlow {
@@ -41,7 +41,7 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-  animation: headerSweep 4s ease-in-out infinite;
+  /* sweep removed */
 }
 
 @keyframes leaderboardHeaderSlide {
@@ -162,7 +162,7 @@
 .back-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
-  animation: backButtonFloat 1s ease-in-out infinite;
+  /* float removed */
 }
 
 @keyframes backButtonFloat {
@@ -234,7 +234,7 @@
   width: 100%;
   height: 2px;
   background: linear-gradient(90deg, transparent, #FFD700, transparent);
-  animation: statCardShine 3s ease-in-out infinite;
+  /* shine removed */
 }
 
 @keyframes statCardSlideIn {
@@ -284,7 +284,7 @@
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  animation: iconPulse 2s ease-in-out infinite;
+  /* pulse removed */
   position: relative;
 }
 
@@ -338,11 +338,11 @@
   background: rgba(15, 20, 25, 0.9);
   border-radius: 15px;
   padding: 30px;
-  backdrop-filter: blur(10px);
+  /* removed backdrop-filter to avoid compositing glitches */
   border: 1px solid rgba(255, 255, 255, 0.1);
   animation: rankingsSectionEntrance 0.8s ease-out 0.4s both;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* prevent clipping children on hover */
 }
 
 .rankings-section::before {
@@ -353,7 +353,7 @@
   width: 100%;
   height: 2px;
   background: linear-gradient(90deg, transparent, #4ECDC4, transparent);
-  animation: rankingsShine 5s ease-in-out infinite;
+  /* shine removed */
 }
 
 @keyframes rankingsSectionEntrance {
@@ -380,7 +380,7 @@
   margin: 0 0 30px 0;
   color: #E6F3FF;
   font-size: 1.5rem;
-  animation: rankingsTitleGlow 2s ease-in-out infinite alternate;
+  /* glow removed */
 }
 
 @keyframes rankingsTitleGlow {
@@ -413,31 +413,35 @@
   border-radius: 12px;
   padding: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
-  animation: teamCardSlideIn 0.6s ease-out both;
+  transition: none;
+  animation: none;
   position: relative;
-  overflow: hidden;
+  /* avoid clipping during transforms */
+  overflow: visible;
+  will-change: transform;
 }
 
-.team-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.05), transparent);
-  transition: left 0.5s;
-}
-
-.team-card:hover::before {
-  left: 100%;
-}
+/* removed overlay sweep to prevent covering content on hover */
 
 .team-card:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateX(5px);
-  animation: teamCardHover 0.3s ease-out;
+  background: rgba(255, 255, 255, 0.05);
+  transform: none;
+}
+
+/* Hard-disable animations and transitions within cards */
+.team-card *,
+.team-card *::before,
+.team-card *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* As a last resort, nuke all animations/transitions on the page */
+.leaderboard-container *,
+.leaderboard-container *::before,
+.leaderboard-container *::after {
+  animation: none !important;
+  transition: none !important;
 }
 
 @keyframes teamCardSlideIn {
@@ -469,7 +473,7 @@
 .team-card.winner {
   background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.1) 100%);
   border: 2px solid rgba(255, 215, 0, 0.3);
-  animation: winnerCardGlow 2s ease-in-out infinite alternate, winnerPulse 1s ease-in-out infinite;
+  /* winner glow/pulse removed */
 }
 
 @keyframes winnerCardGlow {
@@ -551,7 +555,7 @@
   border-radius: 50%;
   border: 2px solid transparent;
   background: linear-gradient(45deg, #FFD700, #FFA500) border-box;
-  animation: avatarBorderRotate 3s linear infinite;
+  /* rotating border removed */
 }
 
 @keyframes avatarSpin {
@@ -667,7 +671,7 @@
 .progress-info span:first-child {
   color: #B0C4DE;
   font-size: 0.9rem;
-  animation: progressTextGlow 2s ease-in-out infinite alternate;
+  /* text glow removed */
 }
 
 @keyframes progressTextGlow {
@@ -734,7 +738,7 @@
   right: 0;
   bottom: 0;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  animation: progressFillShimmer 2s ease-in-out infinite;
+  /* shimmer removed */
 }
 
 @keyframes progressFillShimmer {

@@ -3,15 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
 
-const Login = () => {
+const Signup = () => {
   const [formData, setFormData] = useState({
     teamName: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { signup } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,9 +37,18 @@ const Login = () => {
     const newErrors = {};
     if (!formData.teamName.trim()) {
       newErrors.teamName = 'Team name is required';
+    } else if (formData.teamName.length < 3) {
+      newErrors.teamName = 'Team name must be at least 3 characters';
     }
     if (!formData.password.trim()) {
       newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    if (!formData.confirmPassword.trim()) {
+      newErrors.confirmPassword = 'Please confirm your password';
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -48,7 +58,7 @@ const Login = () => {
     }
 
     try {
-      const result = await login(formData.teamName, formData.password);
+      const result = await signup(formData.teamName, formData.password);
 
       if (result.success) {
         navigate('/hunt');
@@ -56,7 +66,7 @@ const Login = () => {
         setErrors({ general: result.error });
       }
     } catch (error) {
-      setErrors({ general: 'Login failed. Please try again.' });
+      setErrors({ general: 'Signup failed. Please try again.' });
     } finally {
       setLoading(false);
     }
@@ -75,8 +85,8 @@ const Login = () => {
           </div>
         </div>
 
-        <h1 className="title">Treasure Hunt Platform</h1>
-        <p className="subtitle">Enter your team credentials to begin the adventure</p>
+        <h1 className="title">Join the Adventure</h1>
+        <p className="subtitle">Create your team to start the treasure hunt</p>
 
         {errors.general && (
           <div className="error-message" style={{ textAlign: 'center', marginBottom: '20px' }}>
@@ -108,26 +118,41 @@ const Login = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter your password"
+              placeholder="Create a password"
               className={errors.password ? 'error' : ''}
               disabled={loading}
             />
             {errors.password && <span className="error-message">{errors.password}</span>}
           </div>
 
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirm your password"
+              className={errors.confirmPassword ? 'error' : ''}
+              disabled={loading}
+            />
+            {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+          </div>
+
           <button type="submit" className="start-button" disabled={loading}>
-            {loading ? 'Logging in...' : 'Start Adventure'}
+            {loading ? 'Creating Team...' : 'Create Team'}
           </button>
         </form>
 
         <div className="auth-toggle">
-          <p>Don't have a team yet?</p>
+          <p>Already have a team?</p>
           <button 
             type="button" 
             className="toggle-button"
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/login')}
           >
-            Create Team
+            Sign In
           </button>
         </div>
       </div>
@@ -135,4 +160,5 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
+

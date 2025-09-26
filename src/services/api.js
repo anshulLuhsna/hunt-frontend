@@ -44,6 +44,13 @@ class ApiService {
     });
   }
 
+  async signup(credentials) {
+    return this.request('/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+    });
+  }
+
   // Hunt endpoints
   async getHint() {
     return this.request('/hunt/hint', {

@@ -52,6 +52,33 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const signup = async (teamName, password) => {
+    try {
+      const response = await fetch('http://localhost:5000/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ teamName: teamName, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.msg || 'Signup failed');
+      }
+
+      // Store token and team name
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('teamName', teamName);
+
+      setUser({ teamName, token: data.token });
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('teamName');
@@ -61,6 +88,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     login,
+    signup,
     logout,
     loading,
   };
