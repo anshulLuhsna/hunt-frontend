@@ -74,10 +74,98 @@ class ApiService {
     });
   }
 
+  // Progress endpoint
+  async getProgress() {
+    return this.request('/hunt/progress', {
+      method: 'GET',
+    });
+  }
+
+  // Team endpoints
+  async updateAvatar(avatarSeed) {
+    return this.request('/team/avatar', {
+      method: 'PUT',
+      body: JSON.stringify({ avatarSeed }),
+    });
+  }
+
   // Leaderboard endpoint
   async getLeaderboard() {
     return this.request('/leaderboard', {
       method: 'GET',
+    });
+  }
+
+  // Admin endpoints
+  async adminLogin(password) {
+    return this.request('/admin/login', {
+      method: 'POST',
+      body: JSON.stringify({ password }),
+    });
+  }
+
+  async getAdminQuestions() {
+    return this.request('/admin/questions', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  async addAdminQuestion(question) {
+    return this.request('/admin/questions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+      body: JSON.stringify(question),
+    });
+  }
+
+  async updateAdminQuestion(id, question) {
+    return this.request(`/admin/questions/${id}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+      body: JSON.stringify(question),
+    });
+  }
+
+  async deleteAdminQuestion(id) {
+    return this.request(`/admin/questions/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  async getAdminTeams() {
+    return this.request('/admin/teams', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  async deleteAdminTeam(id) {
+    return this.request(`/admin/teams/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  async resetAdminTeamProgress(id) {
+    return this.request(`/admin/teams/${id}/reset`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
     });
   }
 }

@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Hunt from './pages/Hunt';
 import Leaderboard from './pages/Leaderboard';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
 
 const ProtectedRoute = ({ children }) => {
@@ -21,15 +23,10 @@ function AppRoutes() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route
-        path="/hunt"
-        element={
-          
-            <Hunt />
-          
-        }
-      />
-      <Route path="/leaderboard" element={<Leaderboard />} />
+      <Route path="/hunt" element={<ProtectedRoute><Hunt /></ProtectedRoute>} />
+      <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/" element={<Navigate to="/login" />} />
     </Routes>
   );

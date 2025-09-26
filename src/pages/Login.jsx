@@ -75,7 +75,7 @@ const Login = () => {
           </div>
         </div>
 
-        <h1 className="title">Treasure Hunt Platform</h1>
+        <h1 className="title jersey-15-regular">Treasure Hunt Platform</h1>
         <p className="subtitle">Enter your team credentials to begin the adventure</p>
 
         {errors.general && (

@@ -85,7 +85,7 @@ const Signup = () => {
           </div>
         </div>
 
-        <h1 className="title">Join the Adventure</h1>
+        <h1 className="title jersey-15-regular">Join the Adventure</h1>
         <p className="subtitle">Create your team to start the treasure hunt</p>
 
         {errors.general && (

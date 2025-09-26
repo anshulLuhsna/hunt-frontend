@@ -1,13 +1,13 @@
 .login-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0F1419 0%, #1a2332 100%);
+  background: rgba(11, 18, 32, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  /* animation removed to reduce jank */
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(1px);
 }
 
 .login-container::before {
@@ -60,14 +60,14 @@
 }
 
 .login-card {
-  background: rgba(15, 20, 25, 0.95);
+  background: rgba(17, 24, 39, 0.3);
   border-radius: 20px;
   padding: 40px;
   width: 100%;
   max-width: 450px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(31, 41, 55, 0.3);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
   animation: cardEntrance 0.8s ease-out;
   transform: translateY(0);
@@ -304,8 +304,8 @@
 }
 
 .start-button {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-  color: #2C3E50;
+  background: #22C55E;
+  color: white;
   border: none;
   border-radius: 12px;
   padding: 18px 40px;
@@ -349,9 +349,9 @@
 }
 
 .start-button:hover {
+  background: #16A34A;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-  /* pulse removed */
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
 }
 
 @keyframes buttonPulse {
@@ -448,17 +448,118 @@
   transform: translateY(0);
 }
 
-@media (max-width: 480px) {
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 15px;
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  }
+
   .login-card {
     padding: 30px 20px;
     margin: 10px;
+    max-width: 100%;
+    width: 100%;
   }
 
   .title {
     font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group input {
+    padding: 12px 15px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    min-height: 48px; /* Better touch target */
+  }
+
+  .start-button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    min-height: 48px;
+    width: 100%;
+  }
+
+  .auth-toggle {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .toggle-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    min-height: 44px;
+    width: 100%;
+  }
+
+  .error-message {
+    font-size: 0.9rem;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 10px;
+  }
+
+  .login-card {
+    padding: 25px 15px;
+    margin: 5px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
   }
 
   .subtitle {
     font-size: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group input {
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+
+  .start-button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+
+  .toggle-button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .login-container {
+    padding: 10px;
+  }
+
+  .login-card {
+    padding: 20px;
+    max-width: 400px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
   }
 }

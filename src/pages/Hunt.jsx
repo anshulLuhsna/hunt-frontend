@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
 import './Hunt.css';
 import QrScannerComponent from '../components/QRScanner';
+import Avatar from '../components/Avatar';
+import AvatarSelector from '../components/AvatarSelector';
+import { FaTrophy, FaQrcode, FaLightbulb, FaStar, FaCamera, FaCheckCircle } from 'react-icons/fa';
 
 const Hunt = () => {
   const [teamName, setTeamName] = useState('');
   const [currentHint, setCurrentHint] = useState(null);
-  const [locationCode, setLocationCode] = useState('');
   const [puzzleAnswer, setPuzzleAnswer] = useState('');
   const [showPuzzleInput, setShowPuzzleInput] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState('');
@@ -17,36 +19,27 @@ const Hunt = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [progress, setProgress] = useState({ completed: 0, total: 0 });
   const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [showAvatarSelector, setShowAvatarSelector] = useState(false);
+  const [teamAvatar, setTeamAvatar] = useState(null);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    setTeamName(user.teamName);
-    fetchHint();
-    fetchProgress();
-  }, [user, navigate]);
-
-  const fetchProgress = async () => {
+  const fetchProgress = useCallback(async () => {
     try {
       const progressData = await api.getProgress();
       setProgress(progressData);
     } catch (error) {
       console.error('Error fetching progress:', error);
     }
-  };
+  }, []);
 
-  const fetchHint = async () => {
+  const fetchHint = useCallback(async () => {
     try {
       setLoading(true);
       const response = await api.getHint();
       setCurrentHint(response);
       setShowPuzzleInput(false);
       setCurrentQuestion('');
-      setLocationCode('');
       setPuzzleAnswer('');
       setErrors({});
       setSuccessMessage('');
@@ -61,7 +54,20 @@ const Hunt = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [fetchProgress]);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    setTeamName(user.teamName);
+    // Initialize avatar with saved preference or team name as seed
+    const savedAvatar = localStorage.getItem('teamAvatar');
+    setTeamAvatar(savedAvatar || user.teamName);
+    fetchHint();
+    fetchProgress();
+  }, [user, navigate, fetchHint, fetchProgress]);
 
   const submitLocationCode = async (code) => {
     if (!code || !code.trim()) {
@@ -83,14 +89,15 @@ const Hunt = () => {
     }
   };
 
-  const handleLocationCodeSubmit = async (e) => {
-    e.preventDefault();
-    await submitLocationCode(locationCode);
-  };
 
   const handleQrScanned = async (scanned) => {
-    setLocationCode(scanned || '');
     await submitLocationCode(scanned);
+  };
+
+  const handleAvatarSelect = (newAvatarSeed) => {
+    setTeamAvatar(newAvatarSeed);
+    // Here you could save the avatar to localStorage or send to backend
+    localStorage.setItem('teamAvatar', newAvatarSeed);
   };
 
   const handlePuzzleAnswerSubmit = async (e) => {
@@ -141,7 +148,15 @@ const Hunt = () => {
               <circle cx="20" cy="25" r="5" fill="#2C3E50"/>
             </svg>
           </div>
-          <span className="team-name">Team: {teamName}</span>
+          <div className="team-info">
+            <Avatar 
+              seed={teamAvatar || teamName} 
+              size={35} 
+              onClick={() => setShowAvatarSelector(true)}
+              className="team-avatar"
+            />
+            <span className="team-name">Team: {teamName}</span>
+          </div>
         </div>
         <div className="header-right">
           <button onClick={handleLogout} className="logout-button">
@@ -150,7 +165,7 @@ const Hunt = () => {
             </svg>
           </button>
           <button onClick={() => navigate('/leaderboard')} className="leaderboard-button">
-            🏆 Leaderboard
+            <FaTrophy /> Leaderboard
           </button>
         </div>
       </header>
@@ -175,26 +190,10 @@ const Hunt = () => {
           </div>
         )}
 
-        {/* Progress Section */}
-        <section className="progress-section">
-          <div className="progress-info">
-            <h2>📊 Progress</h2>
-            <div className="progress-details">
-              <span>Puzzle {progress.completed + 1} of {progress.total}</span>
-              <span>{progress.total > 0 ? Math.round((progress.completed / progress.total) * 100) : 0}% Complete</span>
-            </div>
-          </div>
-          <div className="progress-bar">
-            <div
-              className="progress-fill"
-              style={{ width: `${progress.total > 0 ? (progress.completed / progress.total) * 100 : 0}%` }}
-            ></div>
-          </div>
-        </section>
 
         {currentHint && currentHint.msg ? (
           <section className="puzzle-section">
-            <h2>🎉 Adventure Status</h2>
+            <h2 className="jersey-15-regular"><FaStar /> Adventure Status</h2>
             <div className="puzzle-text" style={{ background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)' }}>
               {currentHint.msg}
             </div>
@@ -203,14 +202,14 @@ const Hunt = () => {
               className="submit-code-button"
               style={{ marginTop: '20px' }}
             >
-              🏆 View Leaderboard
+              <FaTrophy /> View Leaderboard
             </button>
           </section>
         ) : (
           <>
             {/* Puzzle Section */}
             <section className="puzzle-section">
-              <h2>🧩 Puzzle #{progress.completed + 1}</h2>
+              <h2 className="jersey-15-regular">🧩 Puzzle #{progress.completed + 1}</h2>
               <div className="puzzle-text">
                 {currentHint?.hint || 'Loading puzzle...'}
               </div>
@@ -218,39 +217,24 @@ const Hunt = () => {
 
             {/* Location Clue Section removed */}
 
-            {/* Submit Location Code Section */}
+            {/* QR Scanner Section */}
             <section className="submit-section">
-              <form onSubmit={handleLocationCodeSubmit} className="location-form">
-                <h2>📍 Submit Location Code</h2>
-                <p>Enter the code found at the location or scan the QR</p>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    value={locationCode}
-                    onChange={(e) => setLocationCode(e.target.value)}
-                    placeholder="Location code"
-                    className={errors.locationCode ? 'error' : ''}
-                    disabled={loading}
-                  />
-                  {errors.locationCode && <span className="error-message">{errors.locationCode}</span>}
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                  <QrScannerComponent
-                    isScannerOpen={isScannerOpen}
-                    setIsScannerOpen={setIsScannerOpen}
-                    onScanned={handleQrScanned}
-                  />
-                  <span style={{ color: '#B0C4DE', fontSize: 14 }}>Tap camera to scan QR</span>
-                </div>
-                <button type="submit" className="submit-code-button" disabled={loading}>
-                  {loading ? 'Submitting...' : '🔓 Submit Code'}
-                </button>
-              </form>
+              <h2 className="jersey-15-regular"><FaQrcode /> Scan QR Code</h2>
+              <p>Scan the QR code at the location to unlock the puzzle</p>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                <QrScannerComponent
+                  isScannerOpen={isScannerOpen}
+                  setIsScannerOpen={setIsScannerOpen}
+                  onScanned={handleQrScanned}
+                />
+              </div>
+            </section>
 
-              {/* Puzzle Answer Section - Only shows after correct code submission */}
-              {showPuzzleInput && (
+            {/* Puzzle Answer Section - Only shows after correct code submission */}
+            {showPuzzleInput && (
+              <section className="answer-section">
                 <form onSubmit={handlePuzzleAnswerSubmit} className="answer-form">
-                  <h2>💡 Answer the Puzzle</h2>
+                  <h2 className="jersey-15-regular"><FaLightbulb /> Answer the Puzzle</h2>
                   <div className="clue-text" style={{ marginBottom: '20px' }}>
                     {currentQuestion}
                   </div>
@@ -266,14 +250,22 @@ const Hunt = () => {
                     {errors.puzzleAnswer && <span className="error-message">{errors.puzzleAnswer}</span>}
                   </div>
                   <button type="submit" className="submit-answer-button" disabled={loading}>
-                    {loading ? 'Submitting...' : '✨ Submit Answer'}
+                    {loading ? 'Submitting...' : 'Submit Answer'}
                   </button>
                 </form>
-              )}
-            </section>
+              </section>
+            )}
           </>
         )}
       </main>
+
+      {showAvatarSelector && (
+        <AvatarSelector
+          currentSeed={teamAvatar || teamName}
+          onSelect={handleAvatarSelect}
+          onClose={() => setShowAvatarSelector(false)}
+        />
+      )}
     </div>
   );
 };
