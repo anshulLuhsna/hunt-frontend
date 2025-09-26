@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
 import './Hunt.css';
+import QrScannerComponent from '../components/QRScanner';
 
 const Hunt = () => {
   const [teamName, setTeamName] = useState('');
@@ -15,6 +16,7 @@ const Hunt = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
   const [progress, setProgress] = useState({ completed: 0, total: 0 });
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
@@ -61,16 +63,14 @@ const Hunt = () => {
     }
   };
 
-  const handleLocationCodeSubmit = async (e) => {
-    e.preventDefault();
-    if (!locationCode.trim()) {
+  const submitLocationCode = async (code) => {
+    if (!code || !code.trim()) {
       setErrors({ locationCode: 'Location code is required' });
       return;
     }
-
     try {
       setLoading(true);
-      const response = await api.submitCode(locationCode);
+      const response = await api.submitCode(code.trim());
       setCurrentQuestion(response.question);
       setShowPuzzleInput(true);
       setErrors({});
@@ -81,6 +81,16 @@ const Hunt = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLocationCodeSubmit = async (e) => {
+    e.preventDefault();
+    await submitLocationCode(locationCode);
+  };
+
+  const handleQrScanned = async (scanned) => {
+    setLocationCode(scanned || '');
+    await submitLocationCode(scanned);
   };
 
   const handlePuzzleAnswerSubmit = async (e) => {
@@ -218,7 +228,7 @@ const Hunt = () => {
             <section className="submit-section">
               <form onSubmit={handleLocationCodeSubmit} className="location-form">
                 <h2>📍 Submit Location Code</h2>
-                <p>Enter the code found at the location</p>
+                <p>Enter the code found at the location or scan the QR</p>
                 <div className="form-group">
                   <input
                     type="text"
@@ -229,6 +239,14 @@ const Hunt = () => {
                     disabled={loading}
                   />
                   {errors.locationCode && <span className="error-message">{errors.locationCode}</span>}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                  <QrScannerComponent
+                    isScannerOpen={isScannerOpen}
+                    setIsScannerOpen={setIsScannerOpen}
+                    onScanned={handleQrScanned}
+                  />
+                  <span style={{ color: '#B0C4DE', fontSize: 14 }}>Tap camera to scan QR</span>
                 </div>
                 <button type="submit" className="submit-code-button" disabled={loading}>
                   {loading ? 'Submitting...' : '🔓 Submit Code'}
