@@ -17,7 +17,8 @@ const AdminDashboard = () => {
     hint: '',
     code: '',
     question: '',
-    answer: ''
+    answer: '',
+    question_image: ''
   });
 
   useEffect(() => {
@@ -54,7 +55,7 @@ const AdminDashboard = () => {
     console.log('Form data being sent:', questionForm);
     
     // Validate form data before sending
-    if (!questionForm.hint || !questionForm.code || !questionForm.question || !questionForm.answer) {
+    if (!questionForm.hint || !questionForm.code || !questionForm.question || !questionForm.answer || !questionForm.question_image) {
       setError('All fields are required');
       return;
     }
@@ -67,7 +68,7 @@ const AdminDashboard = () => {
       } else {
         await api.addAdminQuestion(questionForm);
       }
-      setQuestionForm({ hint: '', code: '', question: '', answer: '' });
+      setQuestionForm({ hint: '', code: '', question: '', answer: '', question_image: '' });
       setEditingQuestion(null);
       setError(''); // Clear any previous errors
       fetchData();
@@ -178,6 +179,15 @@ const AdminDashboard = () => {
                 required
               />
             </div>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Question Image (e.g., 1.png)"
+                value={questionForm.question_image}
+                onChange={(e) => setQuestionForm({...questionForm, question_image: e.target.value})}
+                required
+              />
+            </div>
             <div className="form-actions">
               <button type="submit" className="save-button">
                 {editingQuestion ? 'Update Question' : 'Add Question'}
@@ -207,6 +217,7 @@ const AdminDashboard = () => {
                   <p><strong>Code:</strong> {q.code}</p>
                   <p><strong>Question:</strong> {q.question}</p>
                   <p><strong>Answer:</strong> {q.answer}</p>
+                  <p><strong>Image:</strong> {q.question_image || 'None'}</p>
                 </div>
                 <div className="question-actions">
                   <button
@@ -217,7 +228,8 @@ const AdminDashboard = () => {
                         hint: q.hint,
                         code: q.code,
                         question: q.question,
-                        answer: q.answer
+                        answer: q.answer,
+                        question_image: q.question_image || ''
                       });
                     }}
                     className="edit-button"

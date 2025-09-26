@@ -228,8 +228,23 @@ const Hunt = () => {
               <section className="answer-section">
                 <form onSubmit={handlePuzzleAnswerSubmit} className="answer-form">
                   <h2 className="jersey-15-regular"><FaLightbulb /> Answer the Puzzle</h2>
-                  <div className="clue-text" style={{ marginBottom: '20px' }}>
-                    {currentQuestion}
+                  <div className="question-image-container" style={{ marginBottom: '20px', textAlign: 'center' }}>
+                    {currentQuestion && (
+                      <img 
+                        src={`/${currentQuestion}`} 
+                        alt="Puzzle Question" 
+                        style={{ 
+                          maxWidth: '100%', 
+                          maxHeight: '400px', 
+                          borderRadius: '8px',
+                          boxShadow: '0 4px 8px rgba(0,0,0,0.3)'
+                        }}
+                        onError={(e) => {
+                          console.error('Image failed to load:', currentQuestion);
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    )}
                   </div>
                   <div className="form-group">
                     <input
