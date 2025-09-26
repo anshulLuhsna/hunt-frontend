@@ -61,7 +61,9 @@ const AdminDashboard = () => {
     
     try {
       if (editingQuestion) {
-        await api.updateAdminQuestion(editingQuestion.id, questionForm);
+        // Remove id from form data before sending
+        const { id, ...formData } = questionForm;
+        await api.updateAdminQuestion(editingQuestion.id, formData);
       } else {
         await api.addAdminQuestion(questionForm);
       }
