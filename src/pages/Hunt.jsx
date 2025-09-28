@@ -6,7 +6,7 @@ import './Hunt.css';
 import QrScannerComponent from '../components/QRScanner';
 import Avatar from '../components/Avatar';
 import AvatarSelector from '../components/AvatarSelector';
-import { FaTrophy, FaQrcode, FaLightbulb, FaStar, FaCamera, FaCheckCircle } from 'react-icons/fa';
+import { FaTrophy, FaQrcode, FaLightbulb, FaStar, FaCamera, FaCheckCircle, FaUser, FaSignOutAlt, FaCog } from 'react-icons/fa';
 
 const Hunt = () => {
   const [teamName, setTeamName] = useState('');
@@ -21,6 +21,7 @@ const Hunt = () => {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [showAvatarSelector, setShowAvatarSelector] = useState(false);
   const [teamAvatar, setTeamAvatar] = useState(null);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
@@ -68,6 +69,20 @@ const Hunt = () => {
     fetchHint();
     fetchProgress();
   }, [user, navigate, fetchHint, fetchProgress]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showProfileDropdown && !event.target.closest('.profile-dropdown')) {
+        setShowProfileDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showProfileDropdown]);
 
   const submitLocationCode = async (code) => {
     if (!code || !code.trim()) {
@@ -141,25 +156,48 @@ const Hunt = () => {
     <div className="hunt-container">
       <header className="hunt-header">
         <div className="header-left">
-          <div className="team-info">
-            <Avatar 
-              seed={teamAvatar || teamName} 
-              size={35} 
-              onClick={() => setShowAvatarSelector(true)}
-              className="team-avatar"
-            />
-            <span className="team-name">Team: {teamName}</span>
-          </div>
-        </div>
-        <div className="header-right">
           <button onClick={() => navigate('/leaderboard')} className="leaderboard-button">
             <FaTrophy /> Leaderboard
           </button>
-          <button onClick={handleLogout} className="logout-button">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a.5.5 0 00-.707-.707L10 11.086 6 7.086a.5.5 0 00-.707.707L9.293 12l-4 4a.5.5 0 00.707.707L10 12.707l4 4a.5.5 0 00.707-.707L10.707 12l4-4z"/>
-            </svg>
-          </button>
+        </div>
+        <div className="header-center">
+          <span className="team-name">Team: {teamName}</span>
+        </div>
+        <div className="header-right">
+          <div className="profile-dropdown">
+            <button 
+              onClick={() => setShowProfileDropdown(!showProfileDropdown)} 
+              className="profile-button"
+            >
+              <Avatar 
+                seed={teamAvatar || teamName} 
+                size={35} 
+                className="profile-avatar"
+              />
+            </button>
+            {showProfileDropdown && (
+              <div className="dropdown-menu">
+                <button 
+                  onClick={() => {
+                    setShowAvatarSelector(true);
+                    setShowProfileDropdown(false);
+                  }}
+                  className="dropdown-item"
+                >
+                  <FaCog /> Change Avatar
+                </button>
+                <button 
+                  onClick={() => {
+                    handleLogout();
+                    setShowProfileDropdown(false);
+                  }}
+                  className="dropdown-item"
+                >
+                  <FaSignOutAlt /> Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
