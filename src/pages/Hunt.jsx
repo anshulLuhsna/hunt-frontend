@@ -109,10 +109,15 @@ const Hunt = () => {
     await submitLocationCode(scanned);
   };
 
-  const handleAvatarSelect = (newAvatarSeed) => {
-    setTeamAvatar(newAvatarSeed);
-    // Here you could save the avatar to localStorage or send to backend
-    localStorage.setItem('teamAvatar', newAvatarSeed);
+  const handleAvatarSelect = async (newAvatarSeed) => {
+    try {
+      setTeamAvatar(newAvatarSeed);
+      localStorage.setItem('teamAvatar', newAvatarSeed);
+      // Update avatar in backend database
+      await api.updateAvatar(newAvatarSeed);
+    } catch (error) {
+      console.error('Error updating avatar:', error);
+    }
   };
 
   const handlePuzzleAnswerSubmit = async (e) => {

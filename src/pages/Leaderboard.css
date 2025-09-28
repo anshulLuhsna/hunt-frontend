@@ -30,6 +30,29 @@
   background: #16A34A;
 }
 
+.refresh-button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #06B6D4;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.refresh-button:hover:not(:disabled) {
+  background: #0891B2;
+}
+
+.refresh-button:disabled {
+  background: #64748B;
+  cursor: not-allowed;
+}
+
 .rankings-list {
   max-width: 1200px;
   margin: 30px auto;

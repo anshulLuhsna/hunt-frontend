@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import './Leaderboard.css';
-import { FaTrophy, FaBullseye, FaCrown, FaSearch, FaPuzzlePiece, FaLightbulb, FaRocket, FaStar, FaTheaterMasks, FaPalette, FaUser, FaClock, FaEye } from 'react-icons/fa';
+import { FaTrophy, FaBullseye, FaCrown, FaSearch, FaPuzzlePiece, FaLightbulb, FaRocket, FaStar, FaTheaterMasks, FaPalette, FaUser, FaClock, FaEye, FaSync } from 'react-icons/fa';
 import Avatar from '../components/Avatar';
 
 const Leaderboard = () => {
@@ -16,6 +16,13 @@ const Leaderboard = () => {
   useEffect(() => {
     fetchLeaderboard();
   }, []);
+
+  // Refresh leaderboard when modal is closed to get latest avatar updates
+  useEffect(() => {
+    if (!showProgress) {
+      fetchLeaderboard();
+    }
+  }, [showProgress]);
 
   const fetchLeaderboard = async () => {
     try {
@@ -72,6 +79,9 @@ const Leaderboard = () => {
       <header className="leaderboard-header">
         <button onClick={() => navigate('/hunt')} className="back-button">
           ← Back to Hunt
+        </button>
+        <button onClick={fetchLeaderboard} className="refresh-button" disabled={loading}>
+          <FaSync /> {loading ? 'Loading...' : 'Refresh'}
         </button>
       </header>
       
