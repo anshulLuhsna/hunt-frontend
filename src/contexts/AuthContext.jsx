@@ -20,13 +20,37 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check if user is logged in on app start
-    const token = localStorage.getItem('token');
-    const teamName = localStorage.getItem('teamName');
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      const teamName = localStorage.getItem('teamName');
 
-    if (token && teamName) {
-      setUser({ teamName, token });
-    }
-    setLoading(false);
+      if (token && teamName) {
+        // Verify token is still valid by making a test request
+        try {
+          const response = await fetch(`${API_BASE_URL}/hunt/progress`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+            credentials: 'include'
+          });
+          
+          if (response.ok) {
+            setUser({ teamName, token });
+          } else {
+            // Token is invalid, clear storage
+            localStorage.removeItem('token');
+            localStorage.removeItem('teamName');
+          }
+        } catch (error) {
+          // Network error or invalid token, clear storage
+          localStorage.removeItem('token');
+          localStorage.removeItem('teamName');
+        }
+      }
+      setLoading(false);
+    };
+
+    checkAuth();
   }, []);
 
   const login = async (teamName, password) => {
@@ -36,6 +60,7 @@ export const AuthProvider = ({ children }) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ teamName: teamName, password }),
       });
 
@@ -63,6 +88,7 @@ export const AuthProvider = ({ children }) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ teamName: teamName, password }),
       });
 
@@ -83,10 +109,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('teamName');
-    setUser(null);
+  const logout = async () => {
+    try {
+      // Call backend logout to clear cookie
+      await fetch(`${API_BASE_URL}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      // Clear local storage and state
+      localStorage.removeItem('token');
+      localStorage.removeItem('teamName');
+      setUser(null);
+    }
   };
 
   const value = {
