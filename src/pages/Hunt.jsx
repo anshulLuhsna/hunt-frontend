@@ -131,6 +131,11 @@ const Hunt = () => {
       setLoading(true);
       const response = await api.submitAnswer(puzzleAnswer);
       setSuccessMessage(response.msg);
+      
+      // Reset puzzle input and clear form
+      setShowPuzzleInput(false);
+      setPuzzleAnswer('');
+      setErrors({});
 
       // Wait a moment then fetch the next hint
       setTimeout(() => {
@@ -243,28 +248,31 @@ const Hunt = () => {
           </section>
         ) : (
           <>
-            {/* Puzzle Section */}
-            <section className="puzzle-section">
-              <h2 className="jersey-15-regular">Location Hint #{progress.completed + 1}</h2>
-              <div className="puzzle-text">
-                {currentHint?.hint || 'Loading puzzle...'}
-              </div>
-            </section>
+            {/* Show location hint and QR scanner only when puzzle input is NOT shown */}
+            {!showPuzzleInput && (
+              <>
+                {/* Puzzle Section */}
+                <section className="puzzle-section">
+                  <h2 className="jersey-15-regular">Location Hint #{progress.completed + 1}</h2>
+                  <div className="puzzle-text">
+                    {currentHint?.hint || 'Loading puzzle...'}
+                  </div>
+                </section>
 
-            {/* Location Clue Section removed */}
-
-            {/* QR Scanner Section */}
-            <section className="submit-section">
-              <h2 className="jersey-15-regular"><FaQrcode /> Scan QR Code</h2>
-              <p className="jersey-15-regular">Scan the QR code at the location to unlock the puzzle</p>
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                <QrScannerComponent
-                  isScannerOpen={isScannerOpen}
-                  setIsScannerOpen={setIsScannerOpen}
-                  onScanned={handleQrScanned}
-                />
-              </div>
-            </section>
+                {/* QR Scanner Section */}
+                <section className="submit-section">
+                  <h2 className="jersey-15-regular"><FaQrcode /> Scan QR Code</h2>
+                  <p className="jersey-15-regular">Scan the QR code at the location to unlock the puzzle</p>
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                    <QrScannerComponent
+                      isScannerOpen={isScannerOpen}
+                      setIsScannerOpen={setIsScannerOpen}
+                      onScanned={handleQrScanned}
+                    />
+                  </div>
+                </section>
+              </>
+            )}
 
             {/* Puzzle Answer Section - Only shows after correct code submission */}
             {showPuzzleInput && (
