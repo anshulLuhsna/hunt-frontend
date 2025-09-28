@@ -86,7 +86,7 @@ const Signup = () => {
         </div>
 
         <h1 className="title jersey-15-regular">Join the Adventure</h1>
-        <p className="subtitle">Create your team to start the treasure hunt</p>
+        <p className="subtitle">Create your team to start the FE Carnival Treasure Hunt</p>
 
         {errors.general && (
           <div className="error-message" style={{ textAlign: 'center', marginBottom: '20px' }}>

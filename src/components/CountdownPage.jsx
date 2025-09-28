@@ -8,7 +8,7 @@ const CountdownPage = () => {
   const navigate = useNavigate();
 
   // Set your hunt start time here (format: YYYY-MM-DDTHH:MM:SS)
-  const huntStartTime = new Date('2026-01-15T10:00:00'); // Change this to your actual start time
+  const huntStartTime = new Date('2025-09-30T19:00:00'); // Change this to your actual start time
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -57,7 +57,7 @@ const CountdownPage = () => {
   return (
     <div className="countdown-container">
       <div className="countdown-content">
-        <h1 className="countdown-title jersey-15-regular">🌿 Jungle Quest Treasure Hunt</h1>
+        <h1 className="countdown-title jersey-15-regular">🎪 FE Carnival Treasure Hunt</h1>
         <p className="countdown-subtitle jersey-15-regular">
           The adventure begins in:
         </p>
