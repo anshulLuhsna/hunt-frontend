@@ -25,21 +25,20 @@ function AppRoutes() {
   const isDevMode = urlParams.get('dev') === 'true';
   
   // Set your hunt start time here (same as in CountdownPage.jsx)
-  const huntStartTime = new Date('2025-09-30T19:00:00'); // Change this to your actual start time
+  const huntStartTime = new Date('2025-09-29T01:36:00'); // Change this to your actual start time
   const now = new Date();
   const isHuntStarted = now >= huntStartTime;
-  
-  // Show countdown if hunt hasn't started and not in dev mode
-  if (!isHuntStarted && !isDevMode) {
-    return <CountdownPage />;
-  }
 
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/hunt" element={<ProtectedRoute><Hunt /></ProtectedRoute>} />
-      <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
+      <Route path="/hunt" element={
+        !isHuntStarted && !isDevMode ? <CountdownPage isLoggedIn={true} /> : <ProtectedRoute><Hunt /></ProtectedRoute>
+      } />
+      <Route path="/leaderboard" element={
+        !isHuntStarted && !isDevMode ? <CountdownPage isLoggedIn={true} /> : <ProtectedRoute><Leaderboard /></ProtectedRoute>
+      } />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/" element={<Navigate to="/login" />} />

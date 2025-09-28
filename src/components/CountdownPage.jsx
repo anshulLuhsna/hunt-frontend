@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CountdownPage.css';
 
-const CountdownPage = () => {
+const CountdownPage = ({ isLoggedIn = false }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isExpired, setIsExpired] = useState(false);
   const navigate = useNavigate();
 
   // Set your hunt start time here (format: YYYY-MM-DDTHH:MM:SS)
-  const huntStartTime = new Date('2025-09-30T19:00:00'); // Change this to your actual start time
+  const huntStartTime = new Date('2025-09-29T01:36:00'); // Change this to your actual start time
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -59,7 +59,7 @@ const CountdownPage = () => {
       <div className="countdown-content">
         <h1 className="countdown-title jersey-15-regular">🎪 FE Carnival Treasure Hunt</h1>
         <p className="countdown-subtitle jersey-15-regular">
-          The adventure begins in:
+          {isLoggedIn ? 'The hunt begins in:' : 'The adventure begins in:'}
         </p>
         
         <div className="countdown-timer">
@@ -85,12 +85,23 @@ const CountdownPage = () => {
         </div>
 
         <div className="countdown-info">
-          <h3 className="info-title jersey-15-regular">🎯 Hunt Instructions</h3>
+          <h3 className="info-title jersey-15-regular">🎯 {isLoggedIn ? 'Get Ready!' : 'Hunt Instructions'}</h3>
           <ul className="info-list jersey-15-regular">
-            <li>📱 Use your phone to scan QR codes at each location</li>
-            <li>🧩 Solve puzzles to unlock the next clue</li>
-            <li>🏆 Race against other teams to complete the hunt first</li>
-            <li>👥 Work together as a team to solve challenging riddles</li>
+            {isLoggedIn ? (
+              <>
+                <li>🎪 You're all set for the FE Carnival Treasure Hunt!</li>
+                <li>📱 Make sure your team is ready with phones for QR scanning</li>
+                <li>🧩 Prepare to solve challenging carnival-themed puzzles</li>
+                <li>🏆 Get ready to race against other teams!</li>
+              </>
+            ) : (
+              <>
+                <li>📱 Use your phone to scan QR codes at each location</li>
+                <li>🧩 Solve puzzles to unlock the next clue</li>
+                <li>🏆 Race against other teams to complete the hunt first</li>
+                <li>👥 Work together as a team to solve challenging riddles</li>
+              </>
+            )}
           </ul>
         </div>
 
