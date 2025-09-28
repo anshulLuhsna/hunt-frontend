@@ -101,7 +101,7 @@ const Leaderboard = () => {
               onClick={() => handleTeamClick(team)}
             >
               <div className="rank-avatar">
-                <span className="rank">#{index + 1}</span>
+                <span className="rank">#{team.rank || index + 1}</span>
                 <div className="avatar">
                   {getAvatar(team)}
                 </div>
@@ -110,9 +110,9 @@ const Leaderboard = () => {
                 <h3 className="jersey-15-regular">{team.team_name}</h3>
                 <div className="team-details">
                   <span className="question-info jersey-15-regular">Question {team.score}/15</span>
-                  {team.score > 0 && team.first_solve_time && (
+                  {team.score > 0 && team.last_solve_time && (
                     <span className="time-info jersey-15-regular">
-                      <FaClock /> First solve: {formatTime(team.first_solve_time)}
+                      <FaClock /> Last solve: {formatTime(team.last_solve_time)}
                     </span>
                   )}
                   {team.score > 0 ? (
