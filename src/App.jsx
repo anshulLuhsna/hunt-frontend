@@ -25,7 +25,7 @@ function AppRoutes() {
   const isDevMode = urlParams.get('dev') === 'true';
   
   // Set your hunt start time here (same as in CountdownPage.jsx)
-  const huntStartTime = new Date('2025-09-29T01:36:00'); // Change this to your actual start time
+  const huntStartTime = new Date('2025-09-29T01:43:00'); // Change this to your actual start time
   const now = new Date();
   const isHuntStarted = now >= huntStartTime;
 
