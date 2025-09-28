@@ -92,6 +92,7 @@ const Hunt = () => {
     try {
       setLoading(true);
       const response = await api.submitCode(code.trim());
+      console.log('Submit code response:', response);
       setCurrentQuestion(response.question);
       setShowPuzzleInput(true);
       setErrors({});
@@ -220,12 +221,15 @@ const Hunt = () => {
 
         {successMessage && (
           <div className="success-message" style={{
-            background: 'rgba(76, 175, 80, 0.2)',
-            color: '#4CAF50',
-            padding: '15px',
+            background: 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)',
+            color: 'white',
+            padding: '15px 20px',
             borderRadius: '8px',
             textAlign: 'center',
-            marginBottom: '20px'
+            marginBottom: '20px',
+            fontWeight: '600',
+            boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
+            border: '1px solid rgba(34, 197, 94, 0.3)'
           }}>
             {successMessage}
           </div>
@@ -280,7 +284,7 @@ const Hunt = () => {
                 <form onSubmit={handlePuzzleAnswerSubmit} className="answer-form">
                   <h2 className="jersey-15-regular"><FaLightbulb /> Answer the Puzzle</h2>
                   <div className="question-image-container" style={{ marginBottom: '20px', textAlign: 'center' }}>
-                    {currentQuestion && (
+                    {currentQuestion ? (
                       <img 
                         src={`/${currentQuestion}`} 
                         alt="Puzzle Question" 
@@ -294,7 +298,23 @@ const Hunt = () => {
                           console.error('Image failed to load:', currentQuestion);
                           e.target.style.display = 'none';
                         }}
+                        onLoad={() => {
+                          console.log('Image loaded successfully:', currentQuestion);
+                        }}
                       />
+                    ) : (
+                      <div style={{
+                        padding: '40px',
+                        background: 'rgba(31, 41, 55, 0.3)',
+                        borderRadius: '8px',
+                        border: '2px dashed #64748B',
+                        color: '#94A3B8'
+                      }}>
+                        <p className="jersey-15-regular">Loading question image...</p>
+                        <p style={{ fontSize: '0.8rem', marginTop: '10px' }}>
+                          Question: {currentQuestion || 'No question loaded'}
+                        </p>
+                      </div>
                     )}
                   </div>
                   <div className="form-group">
