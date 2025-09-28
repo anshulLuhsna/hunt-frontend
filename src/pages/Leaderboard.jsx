@@ -35,7 +35,7 @@ const Leaderboard = () => {
   if (loading) {
     return (
       <div className="leaderboard-container">
-        <div className="loading">Loading leaderboard...</div>
+        <div className="loading jersey-15-regular">Loading leaderboard...</div>
       </div>
     );
   }
@@ -52,8 +52,8 @@ const Leaderboard = () => {
         {teams.length === 0 ? (
           <div className="team-card">
             <div className="team-info">
-              <h3>No teams found</h3>
-              <p>Be the first to start the adventure!</p>
+              <h3 className="jersey-15-regular">No teams found</h3>
+              <p className="jersey-15-regular">Be the first to start the adventure!</p>
             </div>
           </div>
         ) : (
@@ -69,11 +69,11 @@ const Leaderboard = () => {
                 </div>
               </div>
               <div className="team-info">
-                <h3>{team.team_name}</h3>
+                <h3 className="jersey-15-regular">{team.team_name}</h3>
                 <div className="team-details">
-                  <span className="question-info">Question {team.score}/3</span>
+                  <span className="question-info jersey-15-regular">Question {team.score}/15</span>
                   {team.score > 0 && (
-                    <span className="time-info">Solved at {new Date().toLocaleTimeString()}</span>
+                    <span className="time-info jersey-15-regular">Solved at {new Date().toLocaleTimeString()}</span>
                   )}
                 </div>
               </div>

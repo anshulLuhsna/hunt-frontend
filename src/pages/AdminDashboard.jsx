@@ -127,12 +127,12 @@ const AdminDashboard = () => {
     navigate('/admin/login');
   };
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) return <div className="loading jersey-15-regular">Loading...</div>;
 
   return (
     <div className="admin-dashboard">
       <header className="admin-header">
-        <h1>Admin Dashboard</h1>
+        <h1 className="jersey-15-regular">Admin Dashboard</h1>
         <button onClick={handleLogout} className="logout-button">Logout</button>
       </header>
 
@@ -162,7 +162,7 @@ const AdminDashboard = () => {
       {activeTab === 'questions' && (
         <div className="questions-section">
           <form onSubmit={handleQuestionSubmit} className="question-form">
-            <h2>{editingQuestion ? 'Edit Question' : 'Add New Question'}</h2>
+            <h2 className="jersey-15-regular">{editingQuestion ? 'Edit Question' : 'Add New Question'}</h2>
             <div className="form-group">
               <input
                 type="text"
@@ -228,11 +228,11 @@ const AdminDashboard = () => {
           </form>
 
           <div className="questions-list">
-            <h2>Questions List</h2>
+            <h2 className="jersey-15-regular">Questions List</h2>
             {questions.map((q) => (
               <div key={q.id} className="question-card">
                 <div className="question-content">
-                  <h3>Location {q.id}</h3>
+                  <h3 className="jersey-15-regular">Question {q.id}</h3>
                   <p><strong>Hint:</strong> {q.hint}</p>
                   <p><strong>Code:</strong> {q.code}</p>
                   <p><strong>Question:</strong> {q.question}</p>
@@ -271,12 +271,12 @@ const AdminDashboard = () => {
 
       {activeTab === 'teams' && (
         <div className="teams-section">
-          <h2>Teams List</h2>
+          <h2 className="jersey-15-regular">Teams List</h2>
           <div className="teams-list">
             {teams.map((team) => (
               <div key={team.id} className="team-card">
                 <div className="team-content">
-                  <h3>{team.team_name}</h3>
+                  <h3 className="jersey-15-regular">{team.team_name}</h3>
                   <p><strong>Score:</strong> {team.score}</p>
                   <p><strong>Completed Locations:</strong> {team.completed_locations}</p>
                 </div>
@@ -303,7 +303,7 @@ const AdminDashboard = () => {
       {activeTab === 'sequences' && (
         <div className="sequences-section">
           <div className="sequences-header">
-            <h2>Team Sequences</h2>
+            <h2 className="jersey-15-regular">Team Sequences</h2>
             <button
               onClick={handleRegenerateSequences}
               className="regenerate-button"
@@ -315,7 +315,7 @@ const AdminDashboard = () => {
             {sequences.map((team) => (
               <div key={team.id} className="sequence-card">
                 <div className="sequence-content">
-                  <h3>{team.team_name}</h3>
+                  <h3 className="jersey-15-regular">{team.team_name}</h3>
                   <p><strong>Current Score:</strong> {team.score}/15</p>
                   <div className="sequence-display">
                     <strong>Sequence:</strong>

@@ -161,7 +161,7 @@ const Hunt = () => {
           </button>
         </div>
         <div className="header-center">
-          <span className="team-name">Team: {teamName}</span>
+          <span className="team-name jersey-15-regular">Team: {teamName}</span>
         </div>
         <div className="header-right">
           <div className="profile-dropdown">
@@ -240,7 +240,7 @@ const Hunt = () => {
           <>
             {/* Puzzle Section */}
             <section className="puzzle-section">
-              <h2 className="jersey-15-regular">🧩 Puzzle #{progress.completed + 1}</h2>
+              <h2 className="jersey-15-regular">Location Hint #{progress.completed + 1}</h2>
               <div className="puzzle-text">
                 {currentHint?.hint || 'Loading puzzle...'}
               </div>
@@ -251,7 +251,7 @@ const Hunt = () => {
             {/* QR Scanner Section */}
             <section className="submit-section">
               <h2 className="jersey-15-regular"><FaQrcode /> Scan QR Code</h2>
-              <p>Scan the QR code at the location to unlock the puzzle</p>
+              <p className="jersey-15-regular">Scan the QR code at the location to unlock the puzzle</p>
               <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                 <QrScannerComponent
                   isScannerOpen={isScannerOpen}
