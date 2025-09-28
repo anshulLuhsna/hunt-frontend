@@ -69,6 +69,12 @@ class ApiService {
     });
   }
 
+  async getQuestion() {
+    return this.request('/hunt/question', {
+      method: 'GET',
+    });
+  }
+
   async submitCode(code) {
     return this.request('/hunt/code', {
       method: 'POST',
@@ -172,6 +178,64 @@ class ApiService {
   async resetAdminTeamProgress(id) {
     return this.request(`/admin/teams/${id}/reset`, {
       method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  // Sequence Management endpoints
+  async getTeamSequences() {
+    return this.request('/admin/sequences', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  async regenerateAllSequences() {
+    return this.request('/admin/sequences/regenerate', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  // Locations Management endpoints
+  async getAdminLocations() {
+    return this.request('/admin/locations', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  async addAdminLocation(location) {
+    return this.request('/admin/locations', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+      body: JSON.stringify(location),
+    });
+  }
+
+  async updateAdminLocation(id, location) {
+    return this.request(`/admin/locations/${id}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+      body: JSON.stringify(location),
+    });
+  }
+
+  async deleteAdminLocation(id) {
+    return this.request(`/admin/locations/${id}`, {
+      method: 'DELETE',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
       },

@@ -6,6 +6,7 @@ import './AdminDashboard.css';
 const AdminDashboard = () => {
   const [questions, setQuestions] = useState([]);
   const [teams, setTeams] = useState([]);
+  const [sequences, setSequences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('questions');
@@ -34,12 +35,14 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [questionsData, teamsData] = await Promise.all([
+      const [questionsData, teamsData, sequencesData] = await Promise.all([
         api.getAdminQuestions(),
-        api.getAdminTeams()
+        api.getAdminTeams(),
+        api.getTeamSequences()
       ]);
       setQuestions(questionsData);
       setTeams(teamsData);
+      setSequences(sequencesData);
     } catch (err) {
       setError('Failed to fetch data');
       console.error(err);
@@ -108,6 +111,17 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleRegenerateSequences = async () => {
+    if (!window.confirm('Are you sure you want to regenerate ALL team sequences? This will affect all teams.')) return;
+    try {
+      await api.regenerateAllSequences();
+      setError('');
+      fetchData();
+    } catch (err) {
+      setError('Failed to regenerate sequences');
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     navigate('/admin/login');
@@ -136,6 +150,12 @@ const AdminDashboard = () => {
           onClick={() => setActiveTab('teams')}
         >
           Teams
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'sequences' ? 'active' : ''}`}
+          onClick={() => setActiveTab('sequences')}
+        >
+          Sequences
         </button>
       </div>
 
@@ -273,6 +293,46 @@ const AdminDashboard = () => {
                   >
                     Delete Team
                   </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'sequences' && (
+        <div className="sequences-section">
+          <div className="sequences-header">
+            <h2>Team Sequences</h2>
+            <button
+              onClick={handleRegenerateSequences}
+              className="regenerate-button"
+            >
+              Regenerate All Sequences
+            </button>
+          </div>
+          <div className="sequences-list">
+            {sequences.map((team) => (
+              <div key={team.id} className="sequence-card">
+                <div className="sequence-content">
+                  <h3>{team.team_name}</h3>
+                  <p><strong>Current Score:</strong> {team.score}/15</p>
+                  <div className="sequence-display">
+                    <strong>Sequence:</strong>
+                    <div className="sequence-numbers">
+                      {team.sequence && team.sequence.map((locationId, index) => (
+                        <span
+                          key={index}
+                          className={`sequence-number ${
+                            index < team.score ? 'completed' : 
+                            index === team.score ? 'current' : 'pending'
+                          }`}
+                        >
+                          {locationId}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
