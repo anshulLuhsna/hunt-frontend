@@ -10,7 +10,7 @@ const CountdownPage = ({ isLoggedIn = false }) => {
   const { user } = useAuth();
 
   // Set your hunt start time here (format: YYYY-MM-DDTHH:MM:SS)
-  const huntStartTime = new Date('2025-09-29T01:43:00'); // Change this to your actual start time
+  const huntStartTime = new Date('2025-09-29T01:48:00'); // Change this to your actual start time
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -34,13 +34,9 @@ const CountdownPage = ({ isLoggedIn = false }) => {
   }, [huntStartTime]);
 
   const handleStartHunt = () => {
-    // If user is already logged in, go to hunt page
-    // Otherwise, go to login page
-    if (user) {
-      navigate('/hunt');
-    } else {
-      navigate('/login');
-    }
+    // Refresh the page to ensure the app logic updates
+    // This ensures the hunt start time is re-evaluated
+    window.location.reload();
   };
 
   if (isExpired) {
