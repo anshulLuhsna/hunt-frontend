@@ -1,0 +1,230 @@
+.countdown-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0B1220 0%, #0F172A 50%, #111827 100%);
+  background-image: url('../assets/jungle-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+}
+
+.countdown-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(11, 18, 32, 0.7);
+  backdrop-filter: blur(2px);
+}
+
+.countdown-content {
+  background: rgba(17, 24, 39, 0.9);
+  border-radius: 20px;
+  border: 2px solid rgba(34, 197, 94, 0.3);
+  padding: 40px;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 1;
+}
+
+.countdown-title {
+  font-size: 2.5rem;
+  color: #22C55E;
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+  animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  from {
+    text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+  }
+  to {
+    text-shadow: 0 0 30px rgba(34, 197, 94, 0.8);
+  }
+}
+
+.countdown-subtitle {
+  font-size: 1.2rem;
+  color: #E5E7EB;
+  margin-bottom: 40px;
+}
+
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.time-unit {
+  background: rgba(15, 23, 42, 0.8);
+  border: 2px solid rgba(34, 197, 94, 0.4);
+  border-radius: 15px;
+  padding: 20px 15px;
+  min-width: 100px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.time-unit:hover {
+  border-color: rgba(34, 197, 94, 0.8);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+}
+
+.time-value {
+  font-size: 2.5rem;
+  color: #22C55E;
+  font-weight: bold;
+  text-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.time-label {
+  font-size: 0.9rem;
+  color: #94A3B8;
+  margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.time-separator {
+  font-size: 2rem;
+  color: #22C55E;
+  font-weight: bold;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.3;
+  }
+}
+
+.countdown-info {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 40px 0;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.info-title {
+  font-size: 1.5rem;
+  color: #22C55E;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.info-list li {
+  color: #E5E7EB;
+  margin: 15px 0;
+  padding: 10px;
+  background: rgba(31, 41, 55, 0.3);
+  border-radius: 8px;
+  border-left: 3px solid #22C55E;
+  transition: all 0.3s ease;
+}
+
+.info-list li:hover {
+  background: rgba(31, 41, 55, 0.5);
+  transform: translateX(5px);
+}
+
+.countdown-footer {
+  margin-top: 30px;
+}
+
+.footer-text {
+  color: #94A3B8;
+  font-size: 1rem;
+}
+
+.start-hunt-button {
+  background: linear-gradient(135deg, #22C55E, #16A34A);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+  margin-top: 20px;
+}
+
+.start-hunt-button:hover {
+  background: linear-gradient(135deg, #16A34A, #15803D);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+}
+
+.start-hunt-button:active {
+  transform: translateY(0);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .countdown-content {
+    padding: 30px 20px;
+    margin: 10px;
+  }
+  
+  .countdown-title {
+    font-size: 2rem;
+  }
+  
+  .countdown-timer {
+    gap: 10px;
+  }
+  
+  .time-unit {
+    min-width: 80px;
+    padding: 15px 10px;
+  }
+  
+  .time-value {
+    font-size: 2rem;
+  }
+  
+  .time-separator {
+    font-size: 1.5rem;
+  }
+  
+  .info-list li {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
