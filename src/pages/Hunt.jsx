@@ -39,11 +39,26 @@ const Hunt = () => {
       setLoading(true);
       const response = await api.getHint();
       setCurrentHint(response);
-      setShowPuzzleInput(false);
-      setCurrentQuestion('');
-      setPuzzleAnswer('');
-      setErrors({});
-      setSuccessMessage('');
+      
+      // If location is already scanned, show the question directly
+      if (response.alreadyScanned) {
+        setShowPuzzleInput(true);
+        // Get the question for current step
+        try {
+          const questionResponse = await api.getQuestion();
+          setCurrentQuestion(questionResponse.question_image || `${response.id}.png`);
+          setSuccessMessage('Location already scanned! Answer the puzzle below.');
+        } catch (questionError) {
+          console.error('Error fetching question:', questionError);
+        }
+      } else {
+        setShowPuzzleInput(false);
+        setCurrentQuestion('');
+        setPuzzleAnswer('');
+        setErrors({});
+        setSuccessMessage('');
+      }
+      
       await fetchProgress();
     } catch (error) {
       console.error('Error fetching hint:', error);
@@ -114,7 +129,13 @@ const Hunt = () => {
       setShowPuzzleInput(true);
       console.log('🎯 Set showPuzzleInput to true');
       setErrors({});
-      setSuccessMessage('Code accepted! Answer the puzzle below.');
+      
+      // Show different message based on whether location was already scanned
+      if (response.alreadyScanned) {
+        setSuccessMessage('Location already scanned! Answer the puzzle below.');
+      } else {
+        setSuccessMessage('Code accepted! Answer the puzzle below.');
+      }
     } catch (error) {
       console.error('❌ Error submitting code:', error);
       setErrors({ locationCode: error.message || 'Invalid location code. Please check and try again.' });
