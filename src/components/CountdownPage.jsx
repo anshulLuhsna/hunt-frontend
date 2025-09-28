@@ -8,7 +8,7 @@ const CountdownPage = () => {
   const navigate = useNavigate();
 
   // Set your hunt start time here (format: YYYY-MM-DDTHH:MM:SS)
-  const huntStartTime = new Date('2025-01-15T10:00:00'); // Change this to your actual start time
+  const huntStartTime = new Date('2026-01-15T10:00:00'); // Change this to your actual start time
 
   useEffect(() => {
     const timer = setInterval(() => {
