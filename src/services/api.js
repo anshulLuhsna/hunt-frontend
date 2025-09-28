@@ -111,6 +111,12 @@ class ApiService {
     });
   }
 
+  async getTeamProgress(teamId) {
+    return this.request(`/leaderboard/team/${teamId}`, {
+      method: 'GET',
+    });
+  }
+
   // Admin endpoints
   async adminLogin(password) {
     return this.request('/admin/login', {

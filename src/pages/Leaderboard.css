@@ -48,6 +48,16 @@
   align-items: center;
   gap: 15px;
   transition: transform 0.2s ease;
+}
+
+.team-card.clickable {
+  cursor: pointer;
+}
+
+.team-card.clickable:hover {
+  background: rgba(17, 24, 39, 0.5);
+  transform: translateY(-2px);
+}
   backdrop-filter: blur(6px);
   min-height: 60px;
 }
@@ -239,5 +249,132 @@
   .avatar {
     width: 32px;
     height: 32px;
+  }
+}
+
+/* Progress Modal Styles */
+.progress-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.progress-modal {
+  background: rgba(17, 24, 39, 0.95);
+  border-radius: 12px;
+  border: 1px solid rgba(31, 41, 55, 0.5);
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+}
+
+.progress-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid rgba(31, 41, 55, 0.3);
+}
+
+.progress-modal-header h2 {
+  margin: 0;
+  color: #E5E7EB;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: rgba(31, 41, 55, 0.5);
+  color: #E5E7EB;
+}
+
+.progress-content {
+  padding: 20px;
+}
+
+.progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progress-item {
+  background: rgba(31, 41, 55, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid rgba(31, 41, 55, 0.5);
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.question-number {
+  color: #22C55E;
+  font-weight: 600;
+}
+
+.solve-time {
+  color: #94A3B8;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.view-progress {
+  color: #06B6D4;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+/* Mobile styles for modal */
+@media (max-width: 768px) {
+  .progress-modal {
+    margin: 10px;
+    max-height: 90vh;
+  }
+  
+  .progress-modal-header {
+    padding: 15px;
+  }
+  
+  .progress-content {
+    padding: 15px;
+  }
+  
+  .progress-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .solve-time {
+    font-size: 0.8rem;
   }
 }

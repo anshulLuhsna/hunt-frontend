@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import './Leaderboard.css';
-import { FaTrophy, FaBullseye, FaCrown, FaSearch, FaPuzzlePiece, FaLightbulb, FaRocket, FaStar, FaTheaterMasks, FaPalette, FaUser } from 'react-icons/fa';
+import { FaTrophy, FaBullseye, FaCrown, FaSearch, FaPuzzlePiece, FaLightbulb, FaRocket, FaStar, FaTheaterMasks, FaPalette, FaUser, FaClock, FaEye } from 'react-icons/fa';
 import Avatar from '../components/Avatar';
 
 const Leaderboard = () => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [teamProgress, setTeamProgress] = useState([]);
+  const [showProgress, setShowProgress] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +27,25 @@ const Leaderboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchTeamProgress = async (teamId) => {
+    try {
+      const response = await api.getTeamProgress(teamId);
+      setTeamProgress(response);
+      setShowProgress(true);
+    } catch (error) {
+      console.error('Error fetching team progress:', error);
+    }
+  };
+
+  const handleTeamClick = (team) => {
+    setSelectedTeam(team);
+    fetchTeamProgress(team.id);
+  };
+
+  const formatTime = (timestamp) => {
+    return new Date(timestamp).toLocaleString();
   };
 
 
@@ -60,7 +82,8 @@ const Leaderboard = () => {
           teams.map((team, index) => (
             <div
               key={index}
-              className={`team-card ${team.score >= 3 ? 'winner' : ''}`}
+              className={`team-card ${team.score >= 15 ? 'winner' : ''} ${team.score > 0 ? 'clickable' : ''}`}
+              onClick={() => team.score > 0 && handleTeamClick(team)}
             >
               <div className="rank-avatar">
                 <span className="rank">#{index + 1}</span>
@@ -72,8 +95,15 @@ const Leaderboard = () => {
                 <h3 className="jersey-15-regular">{team.team_name}</h3>
                 <div className="team-details">
                   <span className="question-info jersey-15-regular">Question {team.score}/15</span>
+                  {team.score > 0 && team.first_solve_time && (
+                    <span className="time-info jersey-15-regular">
+                      <FaClock /> First solve: {formatTime(team.first_solve_time)}
+                    </span>
+                  )}
                   {team.score > 0 && (
-                    <span className="time-info jersey-15-regular">Solved at {new Date().toLocaleTimeString()}</span>
+                    <span className="view-progress jersey-15-regular">
+                      <FaEye /> Click to view progress
+                    </span>
                   )}
                 </div>
               </div>
@@ -81,6 +111,43 @@ const Leaderboard = () => {
           ))
         )}
       </div>
+
+      {/* Team Progress Modal */}
+      {showProgress && selectedTeam && (
+        <div className="progress-modal-overlay" onClick={() => setShowProgress(false)}>
+          <div className="progress-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="progress-modal-header">
+              <h2 className="jersey-15-regular">{selectedTeam.team_name}'s Progress</h2>
+              <button 
+                className="close-button"
+                onClick={() => setShowProgress(false)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="progress-content">
+              {teamProgress.length === 0 ? (
+                <p className="jersey-15-regular">No questions solved yet</p>
+              ) : (
+                <div className="progress-list">
+                  {teamProgress.map((progress, index) => (
+                    <div key={index} className="progress-item">
+                      <div className="progress-info">
+                        <span className="question-number jersey-15-regular">
+                          Question #{progress.question_number}
+                        </span>
+                        <span className="solve-time jersey-15-regular">
+                          <FaClock /> {formatTime(progress.solved_at)}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
