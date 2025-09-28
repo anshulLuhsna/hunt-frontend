@@ -353,6 +353,17 @@
   margin-top: 5px;
 }
 
+.no-progress-info {
+  color: #94A3B8;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.no-progress {
+  text-align: center;
+  padding: 20px;
+}
+
 /* Mobile styles for modal */
 @media (max-width: 768px) {
   .progress-modal {

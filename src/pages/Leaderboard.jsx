@@ -41,7 +41,12 @@ const Leaderboard = () => {
 
   const handleTeamClick = (team) => {
     setSelectedTeam(team);
-    fetchTeamProgress(team.id);
+    if (team.score > 0) {
+      fetchTeamProgress(team.id);
+    } else {
+      setTeamProgress([]);
+      setShowProgress(true);
+    }
   };
 
   const formatTime = (timestamp) => {
@@ -82,8 +87,8 @@ const Leaderboard = () => {
           teams.map((team, index) => (
             <div
               key={index}
-              className={`team-card ${team.score >= 15 ? 'winner' : ''} ${team.score > 0 ? 'clickable' : ''}`}
-              onClick={() => team.score > 0 && handleTeamClick(team)}
+              className={`team-card ${team.score >= 15 ? 'winner' : ''} clickable`}
+              onClick={() => handleTeamClick(team)}
             >
               <div className="rank-avatar">
                 <span className="rank">#{index + 1}</span>
@@ -100,9 +105,13 @@ const Leaderboard = () => {
                       <FaClock /> First solve: {formatTime(team.first_solve_time)}
                     </span>
                   )}
-                  {team.score > 0 && (
+                  {team.score > 0 ? (
                     <span className="view-progress jersey-15-regular">
                       <FaEye /> Click to view progress
+                    </span>
+                  ) : (
+                    <span className="no-progress-info jersey-15-regular" style={{ color: '#94A3B8', fontSize: '0.8rem' }}>
+                      Not started yet
                     </span>
                   )}
                 </div>
@@ -127,7 +136,12 @@ const Leaderboard = () => {
             </div>
             <div className="progress-content">
               {teamProgress.length === 0 ? (
-                <p className="jersey-15-regular">No questions solved yet</p>
+                <div className="no-progress">
+                  <p className="jersey-15-regular">No questions solved yet</p>
+                  <p className="jersey-15-regular" style={{ color: '#94A3B8', fontSize: '0.9rem', marginTop: '10px' }}>
+                    This team hasn't started the treasure hunt yet. They need to solve at least one question to see progress here.
+                  </p>
+                </div>
               ) : (
                 <div className="progress-list">
                   {teamProgress.map((progress, index) => (
