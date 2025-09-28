@@ -301,7 +301,7 @@ const Hunt = () => {
               <section className="answer-section">
                 <form onSubmit={handlePuzzleAnswerSubmit} className="answer-form">
                   <h2 className="jersey-15-regular"><FaLightbulb /> Answer the Puzzle</h2>
-                  <div className="question-image-container" style={{ marginBottom: '20px', textAlign: 'center' }}>
+                  <div className="question-image-container" style={{ marginBottom: '10px', textAlign: 'center' }}>
                     {(() => {
                       console.log('🖼️ Rendering question image container');
                       console.log('🖼️ currentQuestion value:', currentQuestion);
