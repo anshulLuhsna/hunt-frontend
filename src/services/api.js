@@ -143,7 +143,9 @@ class ApiService {
 
   // Leaderboard endpoint
   async getLeaderboard(page = 1, limit = 10) {
-    return this.request(`/leaderboard?page=${page}&limit=${limit}`, {
+    const url = `/leaderboard?page=${page}&limit=${limit}`;
+    console.log(`🌐 API Request: ${url}`);
+    return this.request(url, {
       method: 'GET',
     });
   }
