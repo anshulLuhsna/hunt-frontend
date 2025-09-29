@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -6,7 +7,10 @@ import Hunt from './pages/Hunt';
 import Leaderboard from './pages/Leaderboard';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import BonusRound1 from './pages/BonusRound1';
+import BonusRound2 from './pages/BonusRound2';
 import CountdownPage from './components/CountdownPage';
+import api from './services/api';
 import './App.css';
 
 const ProtectedRoute = ({ children }) => {
@@ -20,14 +24,33 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function AppRoutes() {
+  const [isHuntStarted, setIsHuntStarted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  
   // Check for dev mode override
   const urlParams = new URLSearchParams(window.location.search);
   const isDevMode = urlParams.get('dev') === 'true';
   
-  // Set your hunt start time here (same as in CountdownPage.jsx)
-  const huntStartTime = new Date('2025-09-29T01:48:00'); // Change this to your actual start time
-  const now = new Date();
-  const isHuntStarted = now >= huntStartTime;
+  useEffect(() => {
+    const fetchHuntStatus = async () => {
+      try {
+        const response = await api.getMainHuntStatus();
+        setIsHuntStarted(response.isStarted);
+      } catch (error) {
+        console.error('Error fetching hunt status:', error);
+        // Fallback to false if API fails
+        setIsHuntStarted(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchHuntStatus();
+  }, []);
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
 
   return (
     <Routes>
@@ -39,6 +62,8 @@ function AppRoutes() {
       <Route path="/leaderboard" element={
         !isHuntStarted && !isDevMode ? <CountdownPage isLoggedIn={true} /> : <ProtectedRoute><Leaderboard /></ProtectedRoute>
       } />
+      <Route path="/bonus1" element={<BonusRound1 />} />
+      <Route path="/bonus2" element={<BonusRound2 />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/" element={<Navigate to="/login" />} />

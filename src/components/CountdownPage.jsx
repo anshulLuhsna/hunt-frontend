@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { getMainHuntStartTime } from '../utils/config';
 import './CountdownPage.css';
 
 const CountdownPage = ({ isLoggedIn = false }) => {
@@ -9,8 +10,8 @@ const CountdownPage = ({ isLoggedIn = false }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Set your hunt start time here (format: YYYY-MM-DDTHH:MM:SS)
-  const huntStartTime = new Date('2025-09-29T01:48:00'); // Change this to your actual start time
+  // Get hunt start time from config
+  const huntStartTime = getMainHuntStartTime();
 
   useEffect(() => {
     const timer = setInterval(() => {

@@ -1,0 +1,208 @@
+.bonus-leaderboard-container {
+  min-height: 100vh;
+  background: linear-gradient(rgba(11, 18, 32, 0.8), rgba(15, 23, 42, 0.9)), url('/jungle-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Jersey 15', sans-serif;
+  overflow-y: auto;
+}
+
+.bonus-leaderboard-content {
+  background: rgba(17, 24, 39, 0.95);
+  border-radius: 16px;
+  border: 1px solid rgba(31, 41, 55, 0.5);
+  padding: 40px;
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.bonus-leaderboard-title {
+  font-size: 2.5rem;
+  color: #22C55E;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.submissions-stats {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 2px solid #22C55E;
+  border-radius: 12px;
+  padding: 15px 25px;
+}
+
+.stat-icon {
+  color: #22C55E;
+  font-size: 1.2rem;
+}
+
+.stat-text {
+  color: #E5E7EB;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.submissions-list {
+  margin-bottom: 30px;
+}
+
+.submission-item {
+  background: rgba(31, 41, 55, 0.3);
+  border: 2px solid rgba(34, 197, 94, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.submission-item:hover {
+  background: rgba(34, 197, 94, 0.05);
+  border-color: #22C55E;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+}
+
+.submission-rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  height: 50px;
+  background: rgba(17, 24, 39, 0.8);
+  border-radius: 50%;
+  border: 2px solid rgba(34, 197, 94, 0.3);
+}
+
+.rank-icon {
+  font-size: 1.5rem;
+}
+
+.rank-icon.gold {
+  color: #FFD700;
+}
+
+.rank-icon.silver {
+  color: #C0C0C0;
+}
+
+.rank-icon.bronze {
+  color: #CD7F32;
+}
+
+.rank-number {
+  color: #94A3B8;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.submission-info {
+  flex: 1;
+  text-align: left;
+}
+
+.submission-names {
+  margin-bottom: 10px;
+}
+
+.leader-name,
+.team-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  color: #E5E7EB;
+  font-size: 1.1rem;
+}
+
+.leader-name {
+  font-weight: bold;
+  color: #22C55E;
+}
+
+.name-icon {
+  color: #22C55E;
+  font-size: 0.9rem;
+}
+
+.submission-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94A3B8;
+  font-size: 0.9rem;
+}
+
+.time-icon {
+  color: #64748B;
+  font-size: 0.8rem;
+}
+
+.time-text {
+  font-style: italic;
+}
+
+.leaderboard-footer {
+  background: rgba(31, 41, 55, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.footer-text {
+  color: #E5E7EB;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.no-submissions {
+  background: rgba(31, 41, 55, 0.3);
+  border: 2px dashed rgba(34, 197, 94, 0.3);
+  border-radius: 12px;
+  padding: 40px;
+  color: #94A3B8;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .bonus-leaderboard-content {
+    padding: 30px 20px;
+  }
+  
+  .bonus-leaderboard-title {
+    font-size: 2rem;
+  }
+  
+  .submission-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .submission-info {
+    text-align: center;
+  }
+  
+  .submission-names {
+    margin-bottom: 15px;
+  }
+}

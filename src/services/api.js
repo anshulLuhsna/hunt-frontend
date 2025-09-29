@@ -1,5 +1,5 @@
 // Use the backend URL directly
-const API_BASE_URL = import.meta.env.DEV ? '/api' : '/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 class ApiService {
   constructor() {
@@ -92,6 +92,13 @@ class ApiService {
   // Progress endpoint
   async getProgress() {
     return this.request('/hunt/progress', {
+      method: 'GET',
+    });
+  }
+
+  // Main hunt status endpoint
+  async getMainHuntStatus() {
+    return this.request('/hunt/status', {
       method: 'GET',
     });
   }
@@ -242,6 +249,52 @@ class ApiService {
   async deleteAdminLocation(id) {
     return this.request(`/admin/locations/${id}`, {
       method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  // Bonus Round endpoints
+  async getBonusStatus(roundId) {
+    return this.request(`/bonus/${roundId}/status`, {
+      method: 'GET',
+    });
+  }
+
+  async submitBonusLocationCode(roundId, code) {
+    return this.request(`/bonus/${roundId}/scan`, {
+      method: 'POST',
+      body: JSON.stringify({ code }),
+    });
+  }
+
+  async submitBonusAnswer(roundId, answer) {
+    return this.request(`/bonus/${roundId}/answer`, {
+      method: 'POST',
+      body: JSON.stringify({ answer }),
+    });
+  }
+
+  async submitBonusWinner(roundId, leaderName, teamName) {
+    return this.request(`/bonus/${roundId}/winner`, {
+      method: 'POST',
+      body: JSON.stringify({ leaderName, teamName }),
+    });
+  }
+
+  async getBonusLeaderboard(roundId) {
+    return this.request(`/bonus/${roundId}/leaderboard`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  async endBonusRound(roundId) {
+    return this.request(`/bonus/${roundId}/end`, {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
       },

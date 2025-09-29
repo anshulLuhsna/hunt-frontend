@@ -7,6 +7,7 @@ const AdminDashboard = () => {
   const [questions, setQuestions] = useState([]);
   const [teams, setTeams] = useState([]);
   const [sequences, setSequences] = useState([]);
+  const [bonusRounds, setBonusRounds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('questions');
@@ -43,6 +44,13 @@ const AdminDashboard = () => {
       setQuestions(questionsData);
       setTeams(teamsData);
       setSequences(sequencesData);
+      
+      // Fetch bonus round data
+      const [bonus1Data, bonus2Data] = await Promise.all([
+        api.getBonusStatus(1).catch(() => null),
+        api.getBonusStatus(2).catch(() => null)
+      ]);
+      setBonusRounds([bonus1Data, bonus2Data].filter(Boolean));
     } catch (err) {
       setError('Failed to fetch data');
       console.error(err);
@@ -122,6 +130,17 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleEndBonusRound = async (roundId) => {
+    if (!window.confirm(`Are you sure you want to end Bonus Round ${roundId}? This action cannot be undone.`)) return;
+    try {
+      await api.endBonusRound(roundId);
+      setError('');
+      fetchData();
+    } catch (err) {
+      setError(`Failed to end Bonus Round ${roundId}`);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     navigate('/admin/login');
@@ -156,6 +175,12 @@ const AdminDashboard = () => {
           onClick={() => setActiveTab('sequences')}
         >
           Sequences
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'bonus' ? 'active' : ''}`}
+          onClick={() => setActiveTab('bonus')}
+        >
+          Bonus Rounds
         </button>
       </div>
 
@@ -333,6 +358,54 @@ const AdminDashboard = () => {
                       ))}
                     </div>
                   </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'bonus' && (
+        <div className="bonus-section">
+          <h2 className="jersey-15-regular">Bonus Rounds Management</h2>
+          <div className="bonus-rounds-list">
+            {bonusRounds.map((round, index) => (
+              <div key={round.id || index} className="bonus-round-card">
+                <div className="bonus-round-header">
+                  <h3 className="jersey-15-regular">Bonus Round {round.id || index + 1}</h3>
+                  <div className="bonus-round-status">
+                    <span className={`status-badge ${round.isEnded ? 'ended' : round.isStarted ? 'active' : 'pending'}`}>
+                      {round.isEnded ? 'Ended' : round.isStarted ? 'Active' : 'Pending'}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="bonus-round-details">
+                  <p><strong>Start Time:</strong> {new Date(round.start_time).toLocaleString()}</p>
+                  <p><strong>Location Code:</strong> {round.location_code}</p>
+                  <p><strong>Question Image:</strong> {round.question_image}</p>
+                  {round.ended_at && (
+                    <p><strong>Ended At:</strong> {new Date(round.ended_at).toLocaleString()}</p>
+                  )}
+                </div>
+                
+                <div className="bonus-round-actions">
+                  {!round.isEnded && round.isStarted && (
+                    <button
+                      onClick={() => handleEndBonusRound(round.id || index + 1)}
+                      className="end-bonus-button"
+                    >
+                      End Bonus Round
+                    </button>
+                  )}
+                  {round.isEnded && (
+                    <button
+                      onClick={() => window.open(`/bonus${round.id || index + 1}`, '_blank')}
+                      className="view-leaderboard-button"
+                    >
+                      View Leaderboard
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

@@ -1,0 +1,19 @@
+{
+  "bonus1": {
+    "startTime": "2025-09-29T02:46:00",
+    "questionImage": "bonus1.png",
+    "answer": "correct_answer_1",
+    "locationHint": "Go to the main entrance",
+    "locationCode": "BONUS1"
+  },
+  "bonus2": {
+    "startTime": "2025-09-29T17:00:00",
+    "questionImage": "bonus2.png",
+    "answer": "correct_answer_2",
+    "locationHint": "Check the library",
+    "locationCode": "BONUS2"
+  },
+  "mainHunt": {
+    "startTime": "2025-09-30T17:00:00"
+  }
+}
