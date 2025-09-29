@@ -11,18 +11,27 @@ const QrScannerComponent = ({ isScannerOpen, setIsScannerOpen, onScanned }) => {
   };
 
   const handleScan = (detectedCodes) => {
+    console.log('[QRScanner] handleScan called with:', detectedCodes);
+    console.log('[QRScanner] detectedCodes length:', detectedCodes?.length);
+    
     if (detectedCodes && detectedCodes.length > 0) {
       const result = detectedCodes[0].rawValue;
       console.log('[QRScanner] Detected codes:', detectedCodes);
       console.log('[QRScanner] Raw value:', result);
+      console.log('[QRScanner] Raw value type:', typeof result);
+      console.log('[QRScanner] Raw value length:', result?.length);
+      console.log('[QRScanner] Raw value JSON:', JSON.stringify(result));
       
       setScanSuccess(true);
       
       // Add a small delay to show the scan was successful
       setTimeout(() => {
+        console.log('[QRScanner] Calling onScanned with:', result);
         onScanned?.(result);
         toggleScanner();
       }, 1000);
+    } else {
+      console.log('[QRScanner] No codes detected or empty array');
     }
   };
 

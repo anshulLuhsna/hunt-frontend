@@ -76,9 +76,18 @@ class ApiService {
   }
 
   async submitCode(code) {
+    console.log('[API] submitCode called with:', code);
+    console.log('[API] Code type:', typeof code);
+    console.log('[API] Code length:', code?.length);
+    console.log('[API] Code trimmed:', code?.trim());
+    
+    const requestBody = { code };
+    console.log('[API] Request body:', requestBody);
+    console.log('[API] JSON stringified:', JSON.stringify(requestBody));
+    
     return this.request('/hunt/code', {
       method: 'POST',
-      body: JSON.stringify({ code }),
+      body: JSON.stringify(requestBody),
     });
   }
 
