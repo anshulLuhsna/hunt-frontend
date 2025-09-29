@@ -386,29 +386,6 @@ const Hunt = () => {
                     </div>
                   )}
                   
-                  {/* Debug Information */}
-                  <div style={{
-                    marginTop: '20px',
-                    padding: '15px',
-                    background: 'rgba(31, 41, 55, 0.3)',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(31, 41, 55, 0.5)',
-                    fontSize: '0.8rem',
-                    color: '#94A3B8'
-                  }}>
-                    <div style={{ fontWeight: '600', marginBottom: '8px', color: '#F59E0B' }}>
-                      🔍 Debug Information
-                    </div>
-                    <div>Team: {user?.teamName || 'Unknown'}</div>
-                    <div>Progress: {progress.completed}/{progress.total}</div>
-                    <div>Current Step: {progress.completed + 1}</div>
-                    <div>Loading: {loading ? 'Yes' : 'No'}</div>
-                    <div>Scanner Open: {isScannerOpen ? 'Yes' : 'No'}</div>
-                    <div>Puzzle Input: {showPuzzleInput ? 'Yes' : 'No'}</div>
-                    {currentHint && (
-                      <div>Current Hint: {currentHint.hint || 'None'}</div>
-                    )}
-                  </div>
                 </section>
               </>
             )}
