@@ -54,7 +54,8 @@ const BonusRound1 = () => {
   };
 
   const handleStart = () => {
-    setCurrentStep('question');
+    // Reload the page to ensure timing updates are applied
+    window.location.reload();
   };
 
   const handleLocationScanned = async (code) => {
