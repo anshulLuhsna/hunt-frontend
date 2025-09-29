@@ -115,8 +115,12 @@ const Hunt = () => {
       setErrors({ locationCode: 'Location code is required' });
       return;
     }
+    
     try {
       setLoading(true);
+      setErrors({}); // Clear previous errors
+      setSuccessMessage(''); // Clear previous success messages
+      
       console.log('📡 Calling api.submitCode with:', code.trim());
       const response = await api.submitCode(code.trim());
       console.log('✅ Submit code response:', response);
@@ -124,11 +128,13 @@ const Hunt = () => {
       console.log('📝 Response type:', typeof response);
       console.log('📝 Response keys:', Object.keys(response || {}));
       
+      // Close QR scanner
+      setIsScannerOpen(false);
+      
       setCurrentQuestion(response.question);
       console.log('🎯 Set currentQuestion to:', response.question);
       setShowPuzzleInput(true);
       console.log('🎯 Set showPuzzleInput to true');
-      setErrors({});
       
       // Show different message based on whether location was already scanned
       if (response.alreadyScanned) {
@@ -139,6 +145,8 @@ const Hunt = () => {
     } catch (error) {
       console.error('❌ Error submitting code:', error);
       setErrors({ locationCode: error.message || 'Invalid location code. Please check and try again.' });
+      // Close scanner on error too
+      setIsScannerOpen(false);
     } finally {
       setLoading(false);
     }
@@ -306,6 +314,40 @@ const Hunt = () => {
                 <section className="submit-section">
                   <h2 className="jersey-15-regular"><FaQrcode /> Scan QR Code</h2>
                   <p className="jersey-15-regular">Scan the QR code at the location to unlock the puzzle</p>
+                  
+                  {/* Loading indicator */}
+                  {loading && (
+                    <div className="loading-indicator" style={{
+                      textAlign: 'center',
+                      padding: '20px',
+                      color: '#F59E0B',
+                      fontSize: '1.1rem',
+                      fontWeight: '600'
+                    }}>
+                      <div style={{ marginBottom: '10px' }}>🔄 Processing QR code...</div>
+                      <div style={{ fontSize: '0.9rem', color: '#94A3B8' }}>
+                        Please wait while we verify your location
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Error message for location code */}
+                  {errors.locationCode && (
+                    <div className="error-message" style={{
+                      background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
+                      color: 'white',
+                      padding: '15px 20px',
+                      borderRadius: '8px',
+                      textAlign: 'center',
+                      marginBottom: '20px',
+                      fontWeight: '600',
+                      boxShadow: '0 4px 15px rgba(239, 68, 68, 0.3)',
+                      border: '1px solid rgba(239, 68, 68, 0.3)'
+                    }}>
+                      ❌ {errors.locationCode}
+                    </div>
+                  )}
+                  
                   <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                     <QrScannerComponent
                       isScannerOpen={isScannerOpen}
@@ -313,6 +355,18 @@ const Hunt = () => {
                       onScanned={handleQrScanned}
                     />
                   </div>
+                  
+                  {/* Instructions */}
+                  {!isScannerOpen && !loading && (
+                    <div style={{
+                      textAlign: 'center',
+                      marginTop: '15px',
+                      color: '#94A3B8',
+                      fontSize: '0.9rem'
+                    }}>
+                      Click the camera icon to start scanning
+                    </div>
+                  )}
                 </section>
               </>
             )}

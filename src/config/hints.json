@@ -1,0 +1,62 @@
+{
+  "1": {
+    "hint": "Look for patterns in the numbers. Try adding them together or finding a sequence.",
+    "question": "What is the sum of all visible numbers?"
+  },
+  "2": {
+    "hint": "Colors can represent different values. Count how many of each color you see.",
+    "question": "What color appears most frequently?"
+  },
+  "3": {
+    "hint": "Shapes have meaning. Count the number of sides or corners in the largest shape.",
+    "question": "How many sides does the largest shape have?"
+  },
+  "4": {
+    "hint": "Look at the text carefully. The answer might be hidden in the letters or words.",
+    "question": "What is the capital city mentioned?"
+  },
+  "5": {
+    "hint": "Mathematical operations are key. Try different combinations of the numbers shown.",
+    "question": "What is 2 + 2?"
+  },
+  "6": {
+    "hint": "Days of the week follow a pattern. Look for clues in the sequence or arrangement.",
+    "question": "What day comes after Monday?"
+  },
+  "7": {
+    "hint": "Planets have a specific order. Think about our solar system and which planet is fourth from the sun.",
+    "question": "What is the fourth planet from the sun?"
+  },
+  "8": {
+    "hint": "Numbers can be arranged in many ways. Try counting objects or finding the highest number.",
+    "question": "What is the highest number visible?"
+  },
+  "9": {
+    "hint": "Elements are fundamental. Think about what we need to survive - what do we drink?",
+    "question": "What is the chemical symbol for water?"
+  },
+  "10": {
+    "hint": "Counting is essential. Look for repeated elements or count the total number of items.",
+    "question": "How many items are there in total?"
+  },
+  "11": {
+    "hint": "Patterns repeat. Look for the most common element or the one that appears most frequently.",
+    "question": "How many times does the most common element appear?"
+  },
+  "12": {
+    "hint": "Colors have meaning. Look for the color that represents nature or growth.",
+    "question": "What color represents grass?"
+  },
+  "13": {
+    "hint": "Numbers follow logic. Try adding the smallest and largest numbers together.",
+    "question": "What is 3 + 4?"
+  },
+  "14": {
+    "hint": "Geography matters. Think about the capital city of India.",
+    "question": "What is the capital of India?"
+  },
+  "15": {
+    "hint": "Final countdown. Look for the total number of elements or the sum of all visible numbers.",
+    "question": "What is the total sum of all numbers?"
+  }
+}

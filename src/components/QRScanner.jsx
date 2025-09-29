@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Scanner } from '@yudiel/react-qr-scanner';
-import { FaCamera } from 'react-icons/fa';
+import { FaCamera, FaCheckCircle } from 'react-icons/fa';
 
 const QrScannerComponent = ({ isScannerOpen, setIsScannerOpen, onScanned }) => {
+  const [scanSuccess, setScanSuccess] = useState(false);
+  
   const toggleScanner = () => {
     setIsScannerOpen(!isScannerOpen);
+    setScanSuccess(false);
   };
 
   const handleScan = (detectedCodes) => {
@@ -12,8 +15,14 @@ const QrScannerComponent = ({ isScannerOpen, setIsScannerOpen, onScanned }) => {
       const result = detectedCodes[0].rawValue;
       console.log('[QRScanner] Detected codes:', detectedCodes);
       console.log('[QRScanner] Raw value:', result);
-      onScanned?.(result);
-      toggleScanner();
+      
+      setScanSuccess(true);
+      
+      // Add a small delay to show the scan was successful
+      setTimeout(() => {
+        onScanned?.(result);
+        toggleScanner();
+      }, 1000);
     }
   };
 
@@ -31,11 +40,36 @@ const QrScannerComponent = ({ isScannerOpen, setIsScannerOpen, onScanned }) => {
 
       <div className="qr-scanner-container" style={{ marginTop: 12 }}>
         {isScannerOpen && (
-          <Scanner
-            onScan={handleScan}
-            onError={handleError}
-            constraints={{ facingMode: 'environment' }}
-          />
+          <div style={{ position: 'relative' }}>
+            <Scanner
+              onScan={handleScan}
+              onError={handleError}
+              constraints={{ facingMode: 'environment' }}
+            />
+            {scanSuccess && (
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                background: 'rgba(34, 197, 94, 0.9)',
+                color: 'white',
+                padding: '20px',
+                borderRadius: '12px',
+                textAlign: 'center',
+                zIndex: 1000,
+                boxShadow: '0 4px 20px rgba(34, 197, 94, 0.5)'
+              }}>
+                <FaCheckCircle style={{ fontSize: '2rem', marginBottom: '10px' }} />
+                <div style={{ fontWeight: '600', fontSize: '1.1rem' }}>
+                  QR Code Scanned!
+                </div>
+                <div style={{ fontSize: '0.9rem', marginTop: '5px' }}>
+                  Processing...
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </>
