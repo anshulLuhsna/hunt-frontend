@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
+
 import Hunt from './pages/Hunt';
 import Leaderboard from './pages/Leaderboard';
 import AdminLogin from './pages/AdminLogin';
@@ -55,7 +55,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+
       <Route path="/hunt" element={
         !isHuntStarted && !isDevMode ? <CountdownPage isLoggedIn={true} /> : <ProtectedRoute><Hunt /></ProtectedRoute>
       } />
