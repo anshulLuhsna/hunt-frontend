@@ -68,6 +68,7 @@ const BonusRound2 = () => {
       ...prev,
       questionImage: response.questionImage
     }));
+    return response;
   };
 
   const handleAnswerSubmitted = async (answer) => {

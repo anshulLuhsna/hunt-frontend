@@ -20,11 +20,23 @@ const BonusQuestion = ({
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
 
-  const handleQRScan = (code) => {
+  const handleQRScan = async (code) => {
     setShowScanner(false);
-    onLocationScanned(code);
-    setStep('question');
-    setSuccessMessage('Location code accepted! Now solve the puzzle below.');
+    setErrors({});
+    setSuccessMessage('');
+    setLoading(true);
+
+    try {
+      const sanitizedCode = (code || '').trim();
+      await onLocationScanned(sanitizedCode);
+      setStep('question');
+      setSuccessMessage('Location code accepted! Now solve the puzzle below.');
+    } catch (error) {
+      setErrors({ location: error?.message || 'Invalid location code' });
+      setStep('location');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAnswerSubmit = async (e) => {
@@ -104,6 +116,14 @@ const BonusQuestion = ({
                 onScanned={handleQRScan}
               />
             </div>
+            {errors.location && (
+              <div className="error-message jersey-15-regular" style={{ marginTop: 12 }}>
+                {errors.location}
+              </div>
+            )}
+            {loading && (
+              <div className="jersey-15-regular" style={{ color: '#94A3B8', marginTop: 8 }}>Validating...</div>
+            )}
           </section>
         </div>
       </div>
