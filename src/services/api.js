@@ -1,5 +1,5 @@
 // Use relative paths for production (Vercel redirects) or direct URL for development
-const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+const API_BASE_URL = import.meta.env.DEV ? '/api' : '/api';
 
 class ApiService {
   constructor() {
