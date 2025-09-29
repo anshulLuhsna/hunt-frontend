@@ -36,8 +36,33 @@ const Leaderboard = () => {
     try {
       setLoading(true);
       const response = await api.getLeaderboard(page, 10);
-      setTeams(response.teams);
-      setPagination(response.pagination);
+      console.log('Leaderboard API response:', response);
+      console.log('Teams:', response.teams);
+      console.log('Pagination:', response.pagination);
+      
+      // Handle both new pagination format and old array format
+      if (response.teams && Array.isArray(response.teams)) {
+        setTeams(response.teams);
+      } else if (Array.isArray(response)) {
+        // Fallback for old format (direct array)
+        console.log('Using fallback format (direct array)');
+        setTeams(response);
+        setPagination({
+          currentPage: 1,
+          totalPages: 1,
+          totalTeams: response.length,
+          limit: 10,
+          hasNextPage: false,
+          hasPrevPage: false
+        });
+      } else {
+        console.error('Invalid response format:', response);
+        setTeams([]);
+      }
+      
+      if (response.pagination) {
+        setPagination(response.pagination);
+      }
     } catch (error) {
       console.error('Error fetching leaderboard:', error);
     } finally {
@@ -102,7 +127,7 @@ const Leaderboard = () => {
         <div className="header-center">
           <h1 className="leaderboard-title jersey-15-regular">🏆 Leaderboard</h1>
           <p className="leaderboard-subtitle jersey-15-regular">
-            Page {pagination.currentPage} of {pagination.totalPages} • {pagination.totalTeams} teams
+            Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1} • {pagination?.totalTeams || 0} teams
           </p>
         </div>
         <button onClick={handleRefresh} className="refresh-button" disabled={loading}>
@@ -157,26 +182,26 @@ const Leaderboard = () => {
       </div>
 
       {/* Pagination Controls */}
-      {pagination.totalPages > 1 && (
+      {(pagination?.totalPages || 1) > 1 && (
         <div className="pagination-controls">
           <button 
             className="pagination-button"
-            onClick={() => handlePageChange(pagination.currentPage - 1)}
-            disabled={!pagination.hasPrevPage || loading}
+            onClick={() => handlePageChange((pagination?.currentPage || 1) - 1)}
+            disabled={!pagination?.hasPrevPage || loading}
           >
             <FaChevronLeft /> Previous
           </button>
           
           <div className="pagination-info">
             <span className="jersey-15-regular">
-              Page {pagination.currentPage} of {pagination.totalPages}
+              Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1}
             </span>
           </div>
           
           <button 
             className="pagination-button"
-            onClick={() => handlePageChange(pagination.currentPage + 1)}
-            disabled={!pagination.hasNextPage || loading}
+            onClick={() => handlePageChange((pagination?.currentPage || 1) + 1)}
+            disabled={!pagination?.hasNextPage || loading}
           >
             Next <FaChevronRight />
           </button>
