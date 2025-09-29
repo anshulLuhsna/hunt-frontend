@@ -145,13 +145,13 @@ const Leaderboard = () => {
           </p>
           {currentTeamRank && (
             <div className="current-team-rank jersey-15-regular">
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                <FaTrophy style={{ color: '#F59E0B' }} />
-                <span>Your rank: #{currentTeamRank.rank} of {currentTeamRank.totalTeams} teams</span>
+              <div className="rank-main-info">
+                <FaTrophy className="trophy-icon" />
+                <span>Rank #{currentTeamRank.rank} of {currentTeamRank.totalTeams}</span>
               </div>
               {currentTeamRank.score > 0 && (
-                <div style={{ color: '#22C55E', fontSize: '0.9em', marginTop: '4px' }}>
-                  {currentTeamRank.score}/15 questions solved
+                <div className="rank-score-info">
+                  {currentTeamRank.score}/15 solved
                 </div>
               )}
             </div>

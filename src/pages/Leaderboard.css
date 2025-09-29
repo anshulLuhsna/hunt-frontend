@@ -54,6 +54,25 @@
   gap: 4px;
 }
 
+.rank-main-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.trophy-icon {
+  color: #F59E0B;
+  font-size: 0.9em;
+}
+
+.rank-score-info {
+  color: #22C55E;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
 .back-button {
   padding: 10px 20px;
   border-radius: 8px;
@@ -297,12 +316,36 @@
   }
   
   .current-team-rank {
-    font-size: 0.75rem;
-    padding: 6px 8px;
-    margin: 4px 0 0 0;
+    font-size: 0.7rem;
+    padding: 4px 6px;
+    margin: 0;
     flex-direction: column;
     text-align: center;
-    gap: 2px;
+    gap: 1px;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  
+  .rank-main-info {
+    gap: 3px;
+    font-size: 0.85em;
+  }
+  
+  .trophy-icon {
+    font-size: 0.75em;
+  }
+  
+  .rank-score-info {
+    font-size: 0.75em;
+  }
+  
+  .leaderboard-title {
+    font-size: 1.1rem;
+  }
+  
+  .leaderboard-subtitle {
+    font-size: 0.75rem;
   }
 }
 
@@ -505,21 +548,55 @@
   
   .leaderboard-header {
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     text-align: center;
+    padding: 15px 20px;
   }
   
   .header-center {
     order: -1;
+    width: 100%;
+  }
+  
+  .leaderboard-title {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+  }
+  
+  .leaderboard-subtitle {
+    font-size: 0.8rem;
+    margin-bottom: 8px;
   }
   
   .current-team-rank {
-    font-size: 0.8rem;
-    padding: 8px 10px;
-    margin: 6px 0 0 0;
+    font-size: 0.75rem;
+    padding: 6px 8px;
+    margin: 0;
     flex-direction: column;
     text-align: center;
+    gap: 2px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .rank-main-info {
     gap: 4px;
+    font-size: 0.9em;
+  }
+  
+  .trophy-icon {
+    font-size: 0.8em;
+  }
+  
+  .rank-score-info {
+    font-size: 0.8em;
+  }
+  
+  .back-button {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
   }
   
   .progress-modal-header {
