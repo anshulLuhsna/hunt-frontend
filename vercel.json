@@ -6,6 +6,10 @@
       "destination": "http://206.189.138.165:5000/:path*"
     },
     {
+      "source": "/admin/:path*",
+      "destination": "/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
