@@ -3,7 +3,6 @@ import api from '../services/api';
 import BonusCountdown from '../components/BonusCountdown';
 import BonusQuestion from '../components/BonusQuestion';
 import BonusLeaderboard from '../components/BonusLeaderboard';
-import { getBonusRoundStartTime } from '../utils/config';
 import './BonusRound2.css';
 
 const BonusRound2 = () => {
@@ -101,7 +100,7 @@ const BonusRound2 = () => {
   if (currentStep === 'countdown') {
     return (
       <BonusCountdown 
-        startTime={status?.start_time || getBonusRoundStartTime(2)}
+        startTime={status?.start_time}
         onStart={handleStart}
       />
     );

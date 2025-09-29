@@ -1,19 +1,33 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { getMainHuntStartTime } from '../utils/config';
+import api from '../services/api';
 import './CountdownPage.css';
 
 const CountdownPage = ({ isLoggedIn = false }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isExpired, setIsExpired] = useState(false);
-  const navigate = useNavigate();
-  const { user } = useAuth();
+  const [huntStartTime, setHuntStartTime] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Get hunt start time from config
-  const huntStartTime = getMainHuntStartTime();
-
+  // Fetch hunt status from API
   useEffect(() => {
+    const fetchHuntStatus = async () => {
+      try {
+        const response = await api.getMainHuntStatus();
+        setHuntStartTime(new Date(response.startTime));
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching hunt status:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchHuntStatus();
+  }, []);
+
+  // Update countdown timer
+  useEffect(() => {
+    if (!huntStartTime) return;
+
     const timer = setInterval(() => {
       const now = new Date();
       const difference = huntStartTime - now;
@@ -39,6 +53,16 @@ const CountdownPage = ({ isLoggedIn = false }) => {
     // This ensures the hunt start time is re-evaluated
     window.location.reload();
   };
+
+  if (loading) {
+    return (
+      <div className="countdown-container">
+        <div className="countdown-content">
+          <div className="loading jersey-15-regular">Loading hunt timing...</div>
+        </div>
+      </div>
+    );
+  }
 
   if (isExpired) {
     return (
