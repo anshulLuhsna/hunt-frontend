@@ -18,18 +18,21 @@ const BonusRound1 = () => {
   const fetchStatus = useCallback(async () => {
     try {
       const response = await api.getBonusStatus(ROUND_ID);
+      console.log('Bonus Round 1 Status:', response);
       setStatus(response);
       
       if (response.isEnded) {
         setCurrentStep('leaderboard');
         fetchLeaderboard();
       } else if (response.isStarted) {
+        console.log('Bonus Round 1 is started, moving to question step');
         setCurrentStep('question');
         setQuestionData({
           locationHint: response.location_hint,
           questionImage: response.question_image
         });
       } else {
+        console.log('Bonus Round 1 not started yet, showing countdown');
         setCurrentStep('countdown');
       }
     } catch (error) {
@@ -54,8 +57,16 @@ const BonusRound1 = () => {
   };
 
   const handleStart = () => {
-    // Reload the page to ensure timing updates are applied
-    window.location.reload();
+    console.log('Start button clicked, status:', status);
+    // Check if the bonus round has actually started according to backend
+    if (status && status.isStarted) {
+      console.log('Bonus round is started, moving to question step');
+      setCurrentStep('question');
+    } else {
+      console.log('Bonus round not started yet, reloading page');
+      // If not started yet, reload to get fresh timing data
+      window.location.reload();
+    }
   };
 
   const handleLocationScanned = async (code) => {

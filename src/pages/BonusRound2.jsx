@@ -53,8 +53,13 @@ const BonusRound2 = () => {
   };
 
   const handleStart = () => {
-    // Reload the page to ensure timing updates are applied
-    window.location.reload();
+    // Check if the bonus round has actually started according to backend
+    if (status && status.isStarted) {
+      setCurrentStep('question');
+    } else {
+      // If not started yet, reload to get fresh timing data
+      window.location.reload();
+    }
   };
 
   const handleLocationScanned = async (code) => {
