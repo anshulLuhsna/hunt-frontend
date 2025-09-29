@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FaQrcode, FaCamera, FaCheck, FaLightbulb } from 'react-icons/fa';
-import QRScanner from './QRScanner';
+import QrScannerComponent from './QRScanner';
 import './BonusQuestion.css';
 
 const BonusQuestion = ({ 
@@ -98,10 +98,10 @@ const BonusQuestion = ({
             <h2 className="jersey-15-regular"><FaQrcode /> Scan QR Code</h2>
             <p className="jersey-15-regular">Scan the QR code at the location to unlock the puzzle</p>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-              <QRScanner 
+              <QrScannerComponent 
                 isScannerOpen={showScanner}
                 setIsScannerOpen={setShowScanner}
-                onScan={handleQRScan}
+                onScanned={handleQRScan}
               />
             </div>
           </section>
