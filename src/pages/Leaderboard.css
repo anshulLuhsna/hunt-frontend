@@ -38,6 +38,19 @@
   margin: 5px 0 0 0;
 }
 
+.current-team-rank {
+  font-size: 0.85rem;
+  color: #F59E0B;
+  margin: 8px 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245, 158, 11, 0.1);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
 .back-button {
   padding: 10px 20px;
   border-radius: 8px;
@@ -311,6 +324,9 @@
   justify-content: center;
   z-index: 1000;
   padding: 20px;
+  /* Ensure modal is perfectly centered */
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 .progress-modal {

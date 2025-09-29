@@ -156,6 +156,12 @@ class ApiService {
     });
   }
 
+  async getCurrentTeamRank() {
+    return this.request('/leaderboard/my-rank', {
+      method: 'GET',
+    });
+  }
+
   // Admin endpoints
   async adminLogin(password) {
     return this.request('/admin/login', {

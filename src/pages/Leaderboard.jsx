@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
 import './Leaderboard.css';
-import { FaTrophy, FaBullseye, FaCrown, FaSearch, FaPuzzlePiece, FaLightbulb, FaRocket, FaStar, FaTheaterMasks, FaPalette, FaUser, FaClock, FaEye, FaSync, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaTrophy, FaBullseye, FaCrown, FaSearch, FaPuzzlePiece, FaLightbulb, FaRocket, FaStar, FaTheaterMasks, FaPalette, FaUser, FaClock, FaEye, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import Avatar from '../components/Avatar';
 
 const Leaderboard = () => {
@@ -11,6 +12,7 @@ const Leaderboard = () => {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [teamProgress, setTeamProgress] = useState([]);
   const [showProgress, setShowProgress] = useState(false);
+  const [currentTeamRank, setCurrentTeamRank] = useState(null);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -19,11 +21,15 @@ const Leaderboard = () => {
     hasNextPage: false,
     hasPrevPage: false
   });
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchLeaderboard(pagination.currentPage);
-  }, []);
+    if (user) {
+      fetchCurrentTeamRank();
+    }
+  }, [user]);
 
   // Refresh leaderboard when modal is closed to get latest avatar updates
   useEffect(() => {
@@ -82,6 +88,15 @@ const Leaderboard = () => {
     }
   };
 
+  const fetchCurrentTeamRank = async () => {
+    try {
+      const response = await api.getCurrentTeamRank();
+      setCurrentTeamRank(response);
+    } catch (error) {
+      console.error('Error fetching current team rank:', error);
+    }
+  };
+
   const handleTeamClick = (team) => {
     setSelectedTeam(team);
     if (team.score > 0) {
@@ -108,9 +123,6 @@ const Leaderboard = () => {
     }
   };
 
-  const handleRefresh = () => {
-    fetchLeaderboard(pagination.currentPage);
-  };
 
   if (loading) {
     return (
@@ -131,10 +143,19 @@ const Leaderboard = () => {
           <p className="leaderboard-subtitle jersey-15-regular">
             Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1} • {pagination?.totalTeams || 0} teams
           </p>
+          {currentTeamRank && (
+            <div className="current-team-rank jersey-15-regular">
+              <FaTrophy style={{ color: '#F59E0B', marginRight: '8px' }} />
+              Your rank: #{currentTeamRank.rank} of {currentTeamRank.totalTeams} teams
+              {currentTeamRank.score > 0 && (
+                <span style={{ color: '#22C55E', marginLeft: '10px' }}>
+                  ({currentTeamRank.score}/15 questions solved)
+                </span>
+              )}
+            </div>
+          )}
         </div>
-        <button onClick={handleRefresh} className="refresh-button" disabled={loading}>
-          <FaSync /> {loading ? 'Loading...' : 'Refresh'}
-        </button>
+        <div></div>
       </header>
       
       <div className="rankings-list">
