@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaQrcode, FaCamera, FaCheck } from 'react-icons/fa';
+import { FaQrcode, FaCamera, FaCheck, FaLightbulb } from 'react-icons/fa';
 import QRScanner from './QRScanner';
 import './BonusQuestion.css';
 
@@ -85,33 +85,26 @@ const BonusQuestion = ({
         <div className="bonus-question-content">
           <h1 className="bonus-question-title jersey-15-regular">🎯 Bonus Round {roundId}</h1>
           
-          <div className="location-hint-section">
-            <h2 className="location-hint-title jersey-15-regular">Location Hint</h2>
-            <p className="location-hint-text jersey-15-regular">{locationHint}</p>
-          </div>
-
-          <div className="scanner-section">
-            <button 
-              className="scanner-button jersey-15-regular"
-              onClick={() => setShowScanner(true)}
-            >
-              <FaQrcode /> Scan QR Code
-            </button>
-          </div>
-
-          {showScanner && (
-            <div className="scanner-overlay">
-              <div className="scanner-modal">
-                <QRScanner onScan={handleQRScan} />
-                <button 
-                  className="close-scanner jersey-15-regular"
-                  onClick={() => setShowScanner(false)}
-                >
-                  Close Scanner
-                </button>
-              </div>
+          {/* Location Hint Section */}
+          <section className="hint-section">
+            <h2 className="jersey-15-regular"><FaLightbulb /> Location Hint</h2>
+            <div className="puzzle-text">
+              {locationHint}
             </div>
-          )}
+          </section>
+
+          {/* QR Scanner Section - Same as main hunt */}
+          <section className="submit-section">
+            <h2 className="jersey-15-regular"><FaQrcode /> Scan QR Code</h2>
+            <p className="jersey-15-regular">Scan the QR code at the location to unlock the puzzle</p>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+              <QRScanner 
+                isScannerOpen={showScanner}
+                setIsScannerOpen={setShowScanner}
+                onScan={handleQRScan}
+              />
+            </div>
+          </section>
         </div>
       </div>
     );
