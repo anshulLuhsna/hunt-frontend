@@ -1,0 +1,122 @@
+---
+description: API integration patterns and endpoint documentation
+---
+
+# API Integration Guide
+
+## Base URL
+- Use `VITE_API_URL` on frontend; fallback to `http://localhost:5000`.
+- Backend CORS should include deployed frontend origin.
+
+## Authentication Flow
+1. **Signup**: `POST /auth/signup` → returns JWT token (stored in localStorage)
+2. **Login**: `POST /auth/login` → returns JWT token
+3. **Admin Login**: `POST /admin/login` → returns admin JWT token
+4. **Protected requests**: Include `Authorization: Bearer <token>` header
+
+## Game Progression API
+- **Get Hint**: `GET /hunt/hint`
+- **Get Question**: `GET /hunt/question` (step-based questions 1-15)
+- **Submit Code**: `POST /hunt/code` (QR scanning)
+- **Submit Answer**: `POST /hunt/answer`
+- **Get Progress**: `GET /hunt/progress`
+- **Leaderboard**: `GET /leaderboard/`
+
+## Admin API
+- **Questions CRUD**: `GET/POST/PUT/DELETE /admin/questions` (step-based questions 1-15)
+- **Locations CRUD**: `GET/POST/PUT/DELETE /admin/locations` (physical checkpoints)
+- **Teams Management**: `GET/DELETE /admin/teams`
+- **Team Progress Reset**: `POST /admin/teams/:id/reset`
+- **Sequence Management**: `GET /admin/sequences`, `POST /admin/sequences/regenerate`
+
+## Team API
+- **Avatar Update**: `PUT /team/avatar`
+
+## Request/Response Patterns
+```javascript
+// Signup Request
+POST /auth/signup
+{
+  "teamName": "string",
+  "password": "string"
+}
+
+// Login Request
+POST /auth/login
+{
+  "teamName": "string",
+  "password": "string"
+}
+
+// Admin Login Request
+POST /admin/login
+{
+  "password": "admin_password"
+}
+
+// Login/Signup Response
+{
+  "token": "jwt_token_string"
+}
+
+// Hunt Hint Response
+{
+  "id": 1,
+  "hint": "Go to the library entrance"
+}
+
+// Code Submission Request (QR scanning)
+POST /hunt/code
+{
+  "code": "1234"
+}
+
+// Code Submission Response (Success)
+{
+  "success": true,
+  "locationId": 1
+}
+
+// Question Response (Step-based)
+{
+  "id": 1,
+  "question_text": "What is 2+2?",
+  "question_image": "1.png"
+}
+
+// Progress Response
+{
+  "completed": 3,
+  "total": 15
+}
+
+// Avatar Update Request
+PUT /team/avatar
+{
+  "avatarSeed": "new_seed_string"
+}
+```
+
+## Error Handling
+- **401**: Invalid/expired token
+- **400**: Invalid credentials, wrong code/answer, missing fields
+- **403**: Admin access required
+- **500**: Server errors
+- All errors return: `{ "msg": "error_message" }`
+
+## Key Features
+- **QR Code Scanning**: Camera-based location code submission
+- **Image Questions**: Questions returned as image filenames (e.g., "1.png")
+- **DiceBear Avatars**: Team avatars with random seeds and profile dropdown
+- **Admin Dashboard**: Full CRUD operations for questions and locations separately
+- **Progress Tracking**: Real-time completion status (15 total)
+- **Decoupled System**: Questions are step-based (1-15), locations are randomized per team
+- **Randomized Sequences**: Each team gets unique location order (15 locations)
+- **Sequence Management**: Admin can view and regenerate team sequences
+- **Mobile Optimization**: Improved header layout with profile dropdown
+
+## Deployment Notes
+- Supabase Postgres via pooler (6543), `?sslmode=require`.
+- Set `DATABASE_URL` and `JWT_SECRET` in backend `.env`.
+- Set `VITE_API_URL` in frontend host to point to backend URL.
+- Ensure CORS includes deployed frontend origin.

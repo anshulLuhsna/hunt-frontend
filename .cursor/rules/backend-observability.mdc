@@ -1,0 +1,38 @@
+---
+description: Backend observability, latency logging, DB pool warm-up and keep-alive
+---
+
+# Backend Observability & Performance
+
+## Request Latency
+- `server.js` logs per-request latency:
+  - `[HTTP] METHOD URL -> STATUS in X.XX ms`
+- Useful to identify slow endpoints vs DB time.
+
+## DB Query Timing
+- `src/db.js` wraps `pool.query`:
+  - `[DB] X.XX ms | rows=N | SQL preview`
+  - On error: `[DB][ERROR] X.XX ms | ... -> error message`.
+
+## Supabase Pooling & SSL
+- Pool uses keepAlive, min: 1, idleTimeoutMillis, connectionTimeoutMillis
+- SSL enabled (`rejectUnauthorized: false`) when not in development
+- Use Pooler (6543) with `sslmode=require` in `DATABASE_URL`
+
+## Warm-up & Keep-alive
+- On server start, three parallel `SELECT 1` warm the pool
+- Periodic keep-alive ping runs every `DB_KEEPALIVE_MS` (default 120s)
+- Graceful shutdown clears interval and closes pool
+
+## Files
+- Server: [server.js](mdc:decrypto-backend/server.js)
+- DB Pool: [db.js](mdc:decrypto-backend/src/db.js)
+
+## Env
+```
+DATABASE_URL=postgresql://...pooler.supabase.com:6543/postgres?sslmode=require
+JWT_SECRET=...
+PORT=5000
+NODE_ENV=production
+DB_KEEPALIVE_MS=120000
+```

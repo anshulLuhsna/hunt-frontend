@@ -1,0 +1,58 @@
+---
+description: Frontend performance and animation guidelines to prevent jank and glitches
+---
+
+# Frontend Performance Guidelines
+
+## Animation Best Practices
+- **Minimize Animations**: Avoid infinite animations that cause glitches
+- **Use Transform/Opacity**: Prefer `transform` and `opacity` for smooth animations
+- **Avoid Heavy Effects**: Remove `backdrop-filter`, `box-shadow` animations
+- **Disable on Hover**: Prevent cards from disappearing on hover
+- **Accessibility**: Respect `prefers-reduced-motion` for users with motion sensitivity
+
+## Mobile Optimization
+- **Touch Targets**: Minimum 44px touch targets for buttons and interactive elements
+- **Viewport**: Use `dvh` (dynamic viewport height) for proper mobile sizing
+- **Responsive Design**: Mobile-first approach with `@media` queries
+- **Font Loading**: Preload Google Fonts (Jersey 15) for better performance
+- **Image Optimization**: Compress background images and use appropriate formats
+
+## Performance Anti-Patterns
+- **Infinite Animations**: Remove `animation: pulse 2s infinite`
+- **Heavy Transitions**: Avoid `transition: all 0.3s ease`
+- **Complex Selectors**: Simplify CSS selectors for better performance
+- **Layout Shifts**: Prevent content jumping with fixed dimensions
+
+## CSS Guidelines
+```css
+/* Good: Simple, performant animations */
+.button {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Bad: Heavy, glitchy animations */
+.card {
+  animation: pulse 2s infinite;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+```
+
+## Component Performance
+- **useCallback**: Wrap API functions to prevent infinite re-renders
+- **Memoization**: Use `useMemo` for expensive calculations
+- **Lazy Loading**: Consider code splitting for large components
+- **Error Boundaries**: Implement proper error handling
+
+## Mobile-Specific Optimizations
+- **Swipe Gestures**: Implement touch-friendly navigation
+- **Keyboard Handling**: Proper input focus and keyboard avoidance
+- **Orientation**: Handle device rotation gracefully
+- **Network**: Optimize for slower mobile connections
+
+## Debugging Performance Issues
+- **Chrome DevTools**: Use Performance tab to identify bottlenecks
+- **React DevTools**: Monitor component re-renders
+- **Network Tab**: Check for unnecessary API calls
+- **Console Logs**: Add performance markers for debugging

@@ -1,0 +1,86 @@
+---
+alwaysApply: true
+description: Project structure and navigation guide for the Carnival Treasure Hunt Platform
+---
+
+# Carnival Treasure Hunt Platform - Project Structure
+
+This is a full-stack treasure hunt application with separate frontend and backend codebases.
+
+## Project Layout
+```
+carnival/
+├── decrypto-backend/     # Node.js/Express backend
+│   ├── server.js         # Main server entry point with latency logging
+│   ├── src/
+│   │   ├── controllers/  # Business logic handlers
+│   │   │   ├── authController.js      # Login/signup with bcrypt
+│   │   │   ├── huntController.js      # Game progression, QR scanning
+│   │   │   ├── leaderboardController.js # Team rankings with avatars
+│   │   │   ├── adminController.js     # Admin CRUD operations
+│   │   │   └── teamController.js      # Team avatar management
+│   │   ├── routes/       # API route definitions
+│   │   │   ├── auth.js                # Authentication routes
+│   │   │   ├── hunt.js                # Game progression routes
+│   │   │   ├── leaderboard.js         # Leaderboard routes
+│   │   │   ├── admin.js               # Admin CRUD routes
+│   │   │   └── team.js                # Team management routes
+│   │   ├── middleware/   # Authentication middleware
+│   │   │   ├── authMiddleware.js      # JWT token validation
+│   │   │   └── adminMiddleware.js     # Admin token validation
+│   │   ├── migrations/   # Database migrations
+│   │   │   ├── add_avatar_to_teams.sql
+│   │   │   └── add_image_questions.sql
+│   │   └── db.js         # Database connection with pool warm-up
+│   └── scripts/
+│       └── init.sql      # Database schema and sample data
+└── hunt-frontend/        # React frontend
+    ├── src/
+    │   ├── pages/        # Main application pages
+    │   │   ├── Login.jsx              # Team authentication
+    │   │   ├── Signup.jsx             # Team registration
+    │   │   ├── Hunt.jsx               # Main game with QR scanning
+    │   │   ├── Leaderboard.jsx        # Team rankings with avatars
+    │   │   ├── AdminLogin.jsx         # Admin authentication
+    │   │   └── AdminDashboard.jsx     # Admin CRUD interface
+    │   ├── components/   # Reusable components
+    │   │   ├── QRScanner.jsx          # QR code scanning
+    │   │   ├── Avatar.jsx           # DiceBear avatar display
+    │   │   └── AvatarSelector.jsx     # Avatar selection
+    │   ├── contexts/     # React Context for state management
+    │   │   └── AuthContext.jsx        # JWT token and user state
+    │   ├── services/     # API service layer
+    │   │   └── api.js                 # Centralized API service
+    │   └── assets/       # Static assets
+    ├── public/           # Public static files
+    │   ├── jungle-bg.jpg             # Background image
+    │   ├── 1.png, 2.png, ...        # Question images
+    │   └── index.html                # Main HTML with Jersey 15 font
+    └── index.html         # Main HTML file
+```
+
+## Key Entry Points
+- Backend: [server.js](mdc:decrypto-backend/server.js) - Express server with CORS, latency logging, and route setup
+- Frontend: [App.jsx](mdc:hunt-frontend/src/App.jsx) - React app with routing and auth context
+- Database: [init.sql](mdc:decrypto-backend/scripts/init.sql) - Schema with teams, locations, and progress tables
+
+## Supabase & Environment
+- Database hosted on Supabase (Postgres). Use Pooler connection (6543) with `sslmode=require`.
+- Backend env in `.env` (not committed): `DATABASE_URL`, `JWT_SECRET`, `PORT`, `NODE_ENV`.
+- Frontend can use `VITE_API_URL` to point to the deployed backend.
+- MCP Supabase tools can list org/projects and apply migrations.
+
+## Key Features
+- **QR Code Scanning**: Camera-based location code submission
+- **Image Questions**: Visual puzzles displayed as images (1.png, 2.png, etc.)
+- **DiceBear Avatars**: Random, changeable team avatars
+- **Admin Dashboard**: Password-protected CRUD operations
+- **Mobile Optimization**: Responsive design with touch-friendly interfaces
+- **Jungle Quest Theme**: Moody teal/green color scheme with background image
+- **Randomized Sequences**: Each team gets unique location order (20 locations)
+- **Sequence Management**: Admin can view and regenerate team sequences
+
+## Architecture Overview
+- **Backend**: RESTful API with JWT authentication, PostgreSQL database (Supabase)
+- **Frontend**: React SPA with protected routes, real-time leaderboard
+- **Game Flow**: Teams progress through physical locations using QR codes and image questions

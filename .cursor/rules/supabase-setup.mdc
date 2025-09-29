@@ -1,0 +1,39 @@
+---
+description: Supabase setup, environment variables, SSL/pooler configuration, migrations, and troubleshooting
+---
+
+# Supabase Setup Guide
+
+## Environment Variables (Backend)
+Create `decrypto-backend/.env` locally (not committed):
+```
+NODE_ENV=development
+DATABASE_URL=postgresql://postgres.<project-ref>:<PASSWORD>@aws-0-<region>.pooler.supabase.com:6543/postgres?sslmode=require
+JWT_SECRET=<strong-random-secret>
+PORT=5000
+```
+Notes:
+- Prefer Pooler (6543) for connection limits and stability.
+- Keep `?sslmode=require`. Backend `db.js` sets `ssl: { rejectUnauthorized: false }` in non-dev.
+
+## Frontend Configuration
+- Set `VITE_API_URL` in your hosting provider to your backend URL.
+- [api.js](mdc:hunt-frontend/src/services/api.js) should read `import.meta.env.VITE_API_URL` with a local fallback.
+
+## Applying Schema
+- Use [init.sql](mdc:decrypto-backend/scripts/init.sql) in Supabase SQL editor or via MCP migration.
+- This creates `teams`, `locations` (seeded with 10 rows), and `progress`.
+
+## Auth Model
+- Users are teams in the `teams` table.
+- Passwords are bcrypt-hashed by [authController.js](mdc:decrypto-backend/src/controllers/authController.js).
+- Use `/auth/signup` to create teams so hashes are stored (don’t insert plaintext).
+
+## Troubleshooting
+- ENOTFOUND host: Copy the exact `DATABASE_URL` from Supabase; ensure DNS resolves.
+- duplicate key on teams: You may have manual inserts. Use `/auth/signup` or reset tables.
+- secretOrPrivateKey must have a value: Set `JWT_SECRET` in `.env` and restart.
+- 400 Invalid credentials: Check team_name and that password was hashed via signup.
+
+## CORS
+Update allowed origins in [server.js](mdc:decrypto-backend/server.js) to include your deployed frontend URL.

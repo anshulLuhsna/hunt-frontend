@@ -1,0 +1,60 @@
+---
+globs: hunt-frontend/**/*
+description: Frontend development guidelines and React patterns
+---
+
+# Frontend Development Guidelines
+
+## React Architecture
+- **App Entry**: [App.jsx](mdc:hunt-frontend/src/App.jsx) - Main app with routing and auth provider
+- **State Management**: [AuthContext.jsx](mdc:hunt-frontend/src/contexts/AuthContext.jsx) - JWT token and user state
+- **API Layer**: [api.js](mdc:hunt-frontend/src/services/api.js) - Centralized API service with auth headers
+
+## Page Components
+- **Login**: [Login.jsx](mdc:hunt-frontend/src/pages/Login.jsx) - Team authentication with form validation
+- **Signup**: [Signup.jsx](mdc:hunt-frontend/src/pages/Signup.jsx) - Team registration with validation
+- **Hunt**: [Hunt.jsx](mdc:hunt-frontend/src/pages/Hunt.jsx) - Main game interface with QR scanning and image questions
+- **Leaderboard**: [Leaderboard.jsx](mdc:hunt-frontend/src/pages/Leaderboard.jsx) - Team rankings with DiceBear avatars
+- **AdminLogin**: [AdminLogin.jsx](mdc:hunt-frontend/src/pages/AdminLogin.jsx) - Admin authentication
+- **AdminDashboard**: [AdminDashboard.jsx](mdc:hunt-frontend/src/pages/AdminDashboard.jsx) - Admin CRUD interface
+
+## Component Library
+- **QRScanner**: [QRScanner.jsx](mdc:hunt-frontend/src/components/QRScanner.jsx) - QR code scanning with camera
+- **Avatar**: [Avatar.jsx](mdc:hunt-frontend/src/components/Avatar.jsx) - DiceBear avatar display
+- **AvatarSelector**: [AvatarSelector.jsx](mdc:hunt-frontend/src/components/AvatarSelector.jsx) - Avatar selection interface
+
+## Styling Guidelines
+- **Global Styles**: [index.css](mdc:hunt-frontend/src/index.css) - Jungle Quest theme with background image
+- **Component Styles**: Page-specific CSS files with mobile optimization
+- **Design System**: Jungle Quest theme (moody teal/green) with Jersey 15 font
+- **Background**: `jungle-bg.jpg` with semi-transparent overlay and blur
+- **Colors**: Background #0B1220, Surface #0F172A, Primary #22C55E, Accent #06B6D4
+
+## API Base URL
+- Prefer environment override:
+```
+VITE_API_URL=https://your-backend-domain.com
+```
+- Update [api.js](mdc:hunt-frontend/src/services/api.js) to read `import.meta.env.VITE_API_URL` with fallback to `http://localhost:5000`.
+
+## Key Features
+- **QR Code Scanning**: Camera-based location code submission
+- **Image Questions**: Questions displayed as images (e.g., `1.png`, `2.png`)
+- **DiceBear Avatars**: Random, changeable team avatars with profile dropdown
+- **Admin Dashboard**: Password-protected CRUD operations for questions and locations
+- **Mobile Optimization**: Responsive design with improved header layout
+- **Profile Dropdown**: Avatar-based menu with logout and avatar selection
+- **Decoupled System**: Questions are step-based (1-15), locations are randomized per team
+
+## Development Patterns
+- Use React hooks and Context
+- Implement protected routes with authentication checks
+- Store JWT tokens in localStorage
+- Use async/await for API calls
+- Show error and loading states
+- Keep UI responsive and accessible
+- Minimize animations to prevent glitches
+- Use `useCallback` for API functions to prevent infinite loops
+- Implement click outside handlers for dropdowns
+- Use proper z-index for overlays and dropdowns
+- Mobile-first responsive design with touch-friendly interfaces

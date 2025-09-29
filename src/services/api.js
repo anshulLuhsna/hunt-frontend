@@ -103,6 +103,36 @@ class ApiService {
     });
   }
 
+  // Admin timing management endpoints
+  async getAdminTimings() {
+    return this.request('/admin/timings', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
+  async updateAdminTiming(eventName, startTime) {
+    return this.request('/admin/timings', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+      body: JSON.stringify({ eventName, startTime }),
+    });
+  }
+
+  async getAdminTimingStatus() {
+    return this.request('/admin/timings/status', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+      },
+    });
+  }
+
   // Team endpoints
   async updateAvatar(avatarSeed) {
     return this.request('/team/avatar', {

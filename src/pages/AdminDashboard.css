@@ -645,3 +645,173 @@
     text-align: center;
   }
 }
+
+/* Timing Control Styles */
+.timings-section {
+  padding: 20px;
+}
+
+.timing-description {
+  color: #94A3B8;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.timing-controls {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.timing-card {
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid rgba(31, 41, 55, 0.5);
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.timing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.timing-header h3 {
+  color: #22C55E;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.timing-status .status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.timing-status .status-badge.started {
+  background: #22C55E;
+  color: white;
+}
+
+.timing-status .status-badge.pending {
+  background: #F59E0B;
+  color: white;
+}
+
+.timing-details {
+  margin-bottom: 20px;
+}
+
+.timing-details p {
+  margin: 8px 0;
+  color: #E5E7EB;
+}
+
+.timing-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Jersey 15', sans-serif;
+}
+
+.action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.start-now {
+  background: #22C55E;
+  color: white;
+}
+
+.start-now:hover:not(:disabled) {
+  background: #16A34A;
+  transform: translateY(-1px);
+}
+
+.start-5min {
+  background: #3B82F6;
+  color: white;
+}
+
+.start-5min:hover:not(:disabled) {
+  background: #2563EB;
+  transform: translateY(-1px);
+}
+
+.start-30min {
+  background: #8B5CF6;
+  color: white;
+}
+
+.start-30min:hover:not(:disabled) {
+  background: #7C3AED;
+  transform: translateY(-1px);
+}
+
+.custom-timing {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.timing-input {
+  padding: 8px 12px;
+  border: 1px solid rgba(31, 41, 55, 0.5);
+  border-radius: 8px;
+  background: rgba(17, 24, 39, 0.5);
+  color: #E5E7EB;
+  font-family: 'Jersey 15', sans-serif;
+  flex: 1;
+}
+
+.timing-input:focus {
+  outline: none;
+  border-color: #22C55E;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+.custom-time {
+  background: #F59E0B;
+  color: white;
+  white-space: nowrap;
+}
+
+.custom-time:hover {
+  background: #D97706;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .timing-controls {
+    grid-template-columns: 1fr;
+  }
+  
+  .quick-actions {
+    flex-direction: column;
+  }
+  
+  .custom-timing {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

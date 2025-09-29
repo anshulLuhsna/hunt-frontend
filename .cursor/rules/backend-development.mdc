@@ -1,0 +1,75 @@
+---
+globs: decrypto-backend/**/*
+description: Backend development guidelines and patterns
+---
+
+# Backend Development Guidelines
+
+## Server Architecture
+- **Entry Point**: [server.js](mdc:decrypto-backend/server.js) - Express server with CORS configuration and latency logging
+- **Database**: [db.js](mdc:decrypto-backend/src/db.js) - PostgreSQL connection pool with warm-up and keep-alive
+- **Authentication**: [authMiddleware.js](mdc:decrypto-backend/src/middleware/authMiddleware.js) - JWT token validation
+- **Admin Auth**: [adminMiddleware.js](mdc:decrypto-backend/src/middleware/adminMiddleware.js) - Admin token validation
+
+## API Routes Structure
+- **Auth Routes**: [auth.js](mdc:decrypto-backend/src/routes/auth.js) - `/auth/login`, `/auth/signup`
+- **Hunt Routes**: [hunt.js](mdc:decrypto-backend/src/routes/hunt.js) - `/hunt/hint`, `/hunt/question`, `/hunt/code`, `/hunt/answer`, `/hunt/progress`
+- **Leaderboard**: [leaderboard.js](mdc:decrypto-backend/src/routes/leaderboard.js) - `/leaderboard/`
+- **Admin Routes**: [admin.js](mdc:decrypto-backend/src/routes/admin.js) - `/admin/*` (CRUD operations for questions, locations, teams)
+- **Team Routes**: [team.js](mdc:decrypto-backend/src/routes/team.js) - `/team/*` (avatar management)
+
+## Controllers Pattern
+All business logic is in controllers:
+- [authController.js](mdc:decrypto-backend/src/controllers/authController.js) - Login/signup with bcrypt hashing
+- [huntController.js](mdc:decrypto-backend/src/controllers/huntController.js) - Game progression logic, returns `question_image` for image-based questions
+- [leaderboardController.js](mdc:decrypto-backend/src/controllers/leaderboardController.js) - Team rankings with avatar support
+- [adminController.js](mdc:decrypto-backend/src/controllers/adminController.js) - Admin CRUD operations for questions and teams
+- [teamController.js](mdc:decrypto-backend/src/controllers/teamController.js) - Team-specific operations (avatar updates)
+
+## Database Schema
+- **teams**: id, team_name, password, score, avatar_seed, sequence (randomized location order 1-15)
+- **locations**: id, hint, code (15 total locations for physical checkpoints)
+- **questions**: id, question_text, question_image, answer, difficulty_level (15 step-based questions)
+- **progress**: team_id, location_id, completed
+
+## Supabase Connection
+- Use `DATABASE_URL` from Supabase Studio (URI). Prefer Pooler (port `6543`). Ensure `?sslmode=require` is present.
+- `db.js` enables SSL for non-development envs using `{ rejectUnauthorized: false }`.
+- Connection pool configured with `keepAlive: true`, `min: 1`, `idleTimeoutMillis: 30000`
+- Required env vars in `.env` (not committed):
+```
+NODE_ENV=development
+DATABASE_URL=postgresql://postgres.<project-ref>:<password>@aws-0-<region>.pooler.supabase.com:6543/postgres?sslmode=require
+JWT_SECRET=<strong-random-secret>
+PORT=5000
+```
+
+## Migrations
+- Initial schema: [scripts/init.sql](mdc:decrypto-backend/scripts/init.sql)
+- Avatar support: [add_avatar_to_teams.sql](mdc:decrypto-backend/src/migrations/add_avatar_to_teams.sql)
+- Image questions: [add_image_questions.sql](mdc:decrypto-backend/src/migrations/add_image_questions.sql)
+- Randomized sequences: [add_randomized_sequences.sql](mdc:decrypto-backend/src/migrations/add_randomized_sequences.sql)
+- Decouple questions: [decouple_questions_from_locations.sql](mdc:decrypto-backend/src/migrations/decouple_questions_from_locations.sql)
+- Reduce to 15 items: [reduce_to_15_items.sql](mdc:decrypto-backend/src/migrations/reduce_to_15_items.sql)
+- Apply via psql, Supabase SQL editor, or MCP migration tools
+
+## Performance & Observability
+- HTTP request latency logging in [server.js](mdc:decrypto-backend/server.js)
+- Database query timing and row count logging in [db.js](mdc:decrypto-backend/src/db.js)
+- Connection pool warm-up on server start
+- Periodic keep-alive calls to maintain connections
+
+## Development Guidelines
+- Use async/await for database operations
+- Always hash passwords with bcrypt before storing
+- JWT tokens expire in 6 hours
+- Use connection pooling for database queries
+- Return consistent error responses with status codes
+- Validate team authentication on protected routes
+- Admin routes require separate admin JWT tokens
+- Questions and locations are decoupled: questions are step-based (1-15), locations are randomized per team
+- Each team gets a randomized sequence of 15 locations on signup
+- Hunt progression uses team's sequence for locations, questions are step-based
+- Admin can manage questions and locations separately
+- Admin can view and regenerate all team sequences
+- New teams automatically get unique random sequences

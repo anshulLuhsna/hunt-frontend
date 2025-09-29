@@ -1,0 +1,106 @@
+---
+description: Treasure hunt game mechanics and flow documentation
+---
+
+# Treasure Hunt Game Mechanics
+
+## Game Flow
+1. **Team Registration/Login** → JWT authentication with DiceBear avatar and random sequence
+2. **Get Location Hint** → Physical location discovery (from team's randomized sequence)
+3. **Scan QR Code** → Camera-based location code submission
+4. **Get Question** → Fetch step-based question (1-15) for current progress
+5. **View Image Question** → Solve the visual puzzle (same for all teams)
+6. **Submit Answer** → Validate solution
+7. **Progress Update** → Score incremented, next location unlocked
+8. **Repeat** → Continue until all 15 locations completed
+
+## Database Game State
+- **teams.score**: Current progress (0-15, where 15 = completed)
+- **teams.avatar_seed**: DiceBear avatar seed for team representation
+- **teams.sequence**: Randomized array of location IDs (1-15) for each team
+- **progress table**: Tracks which locations each team has completed
+- **locations table**: 15 physical checkpoints with hints and codes
+- **questions table**: 15 step-based questions with images and answers (same for all teams)
+
+## Sample Locations (Physical Checkpoints) - 15 Total
+1. Library entrance - Code: 1234, Hint: "Go to the library entrance"
+2. Main gate board - Code: 5678, Hint: "Check the main gate board"
+3. Big oak tree - Code: 9101, Hint: "Find the big oak tree"
+4. Cafeteria fountain - Code: 1121, Hint: "Look near the cafeteria fountain"
+5. Notice board - Code: 3141, Hint: "Check the notice board"
+6. Basketball court - Code: 5161, Hint: "Visit the basketball court"
+7. Campus statue - Code: 7181, Hint: "Find the campus statue"
+8. Parking lot entrance - Code: 9202, Hint: "Go to parking lot entrance"
+9. Rooftop garden - Code: 1222, Hint: "Check the rooftop garden"
+10. Principal's office - Code: 3242, Hint: "Visit the principal's office"
+11. Art gallery entrance - Code: 1111, Hint: "Find the art gallery entrance"
+12. Music room piano - Code: 2222, Hint: "Look for the music room piano"
+13. Science lab microscope - Code: 3333, Hint: "Check the science lab"
+14. Gymnasium basketball hoop - Code: 4444, Hint: "Visit the gymnasium"
+15. Computer lab terminal - Code: 5555, Hint: "Find the computer lab"
+
+## Sample Questions (Step-Based) - 15 Total
+1. Question 1: Image "1.png", Answer: "4"
+2. Question 2: Image "2.png", Answer: "blue"
+3. Question 3: Image "3.png", Answer: "8"
+4. Question 4: Image "4.png", Answer: "Paris"
+5. Question 5: Image "5.png", Answer: "4"
+6. Question 6: Image "6.png", Answer: "Tuesday"
+7. Question 7: Image "7.png", Answer: "Mars"
+8. Question 8: Image "8.png", Answer: "7"
+9. Question 9: Image "9.png", Answer: "Water"
+10. Question 10: Image "10.png", Answer: "6"
+11. Question 11: Image "11.png", Answer: "6"
+12. Question 12: Image "12.png", Answer: "green"
+13. Question 13: Image "13.png", Answer: "7"
+14. Question 14: Image "14.png", Answer: "Delhi"
+15. Question 15: Image "15.png", Answer: "10"
+
+## Frontend Game Interface
+- **QR Code Scanner**: Camera-based location code submission
+- **Image Questions**: Visual puzzles displayed as images (1.png, 2.png, etc.)
+- **Avatar System**: DiceBear avatars with profile dropdown for team identification
+- **Progress Tracking**: Real-time completion status (15 total)
+- **Hint Display**: Shows current location hint for physical discovery
+- **Answer Input**: Text input for puzzle solutions
+- **Success Feedback**: Confirmation messages and automatic progression
+- **Mobile Header**: Leaderboard left, team name center, profile avatar right
+- **Profile Dropdown**: Avatar selection and logout options
+
+## Leaderboard Features
+- **Team Rankings**: Teams sorted by score (descending) with avatars
+- **Progress Display**: Question number and completion time
+- **Avatar Representation**: DiceBear avatars for each team
+- **Simplified Layout**: List-style cards optimized for mobile
+
+## Admin Features
+- **Question Management**: CRUD operations for step-based questions (1-15)
+- **Location Management**: CRUD operations for physical checkpoints (1-15)
+- **Team Management**: View teams, reset progress, delete teams
+- **Image Upload**: Support for image-based questions
+- **Password Protection**: Admin-only access with JWT authentication
+- **Sequence Management**: View each team's randomized location sequence
+- **Bulk Regenerate**: Regenerate sequences for all teams at once
+- **Decoupled Management**: Separate management of questions and locations
+
+## Technical Implementation
+- **QR Scanning**: `@yudiel/react-qr-scanner` for camera access
+- **Avatar Generation**: `@dicebear/core` with `lorelei` style
+- **Image Questions**: Questions stored as filenames, served from `/public/`
+- **Mobile Optimization**: Responsive design with touch-friendly interfaces
+- **Performance**: Minimized animations to prevent glitches
+
+## Development Considerations
+- Teams can only access their current location (from their randomized sequence)
+- Each team follows their own randomized sequence of 15 locations
+- Questions are step-based (1-15) and same for all teams
+- QR codes must be scanned to unlock questions
+- Wrong codes/answers return error messages
+- Completed teams see congratulations message
+- All game state is server-side for security
+- Frontend provides real-time updates via API polling
+- Admin dashboard requires separate authentication
+- Sequences are generated once on team signup and stored permanently
+- Admin can view and regenerate sequences for all teams
+- New teams automatically get unique random sequences
+- Questions and locations are decoupled for better management

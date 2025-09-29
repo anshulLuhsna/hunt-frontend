@@ -8,10 +8,13 @@ const AdminDashboard = () => {
   const [teams, setTeams] = useState([]);
   const [sequences, setSequences] = useState([]);
   const [bonusRounds, setBonusRounds] = useState([]);
+  const [timings, setTimings] = useState([]);
+  const [timingStatus, setTimingStatus] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('questions');
   const [editingQuestion, setEditingQuestion] = useState(null);
+  const [editingTiming, setEditingTiming] = useState(null);
   const navigate = useNavigate();
 
   // Form state for new/editing question
@@ -36,14 +39,18 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [questionsData, teamsData, sequencesData] = await Promise.all([
+      const [questionsData, teamsData, sequencesData, timingsData, timingStatusData] = await Promise.all([
         api.getAdminQuestions(),
         api.getAdminTeams(),
-        api.getTeamSequences()
+        api.getTeamSequences(),
+        api.getAdminTimings(),
+        api.getAdminTimingStatus()
       ]);
       setQuestions(questionsData);
       setTeams(teamsData);
       setSequences(sequencesData);
+      setTimings(timingsData);
+      setTimingStatus(timingStatusData);
       
       // Fetch bonus round data
       const [bonus1Data, bonus2Data] = await Promise.all([
@@ -141,6 +148,49 @@ const AdminDashboard = () => {
     }
   };
 
+  // Timing management functions
+  const handleUpdateTiming = async (eventName, newStartTime) => {
+    try {
+      console.log('Frontend - Updating timing:', { eventName, newStartTime });
+      console.log('Frontend - Event name type:', typeof eventName);
+      console.log('Frontend - Start time type:', typeof newStartTime);
+      
+      await api.updateAdminTiming(eventName, newStartTime);
+      setError('');
+      fetchData(); // Refresh all data including timing status
+    } catch (err) {
+      const displayName = eventName === 'bonus1' ? 'Bonus Round 1' : eventName;
+      setError(`Failed to update ${displayName} timing`);
+      console.error('Timing update error:', err);
+    }
+  };
+
+  const handleStartNow = async (eventName) => {
+    const now = new Date();
+    try {
+      await handleUpdateTiming(eventName, now.toISOString());
+      // Force reload the page to ensure timing updates are applied
+      window.location.reload();
+    } catch (error) {
+      console.error('Error starting event:', error);
+      // Still reload to get fresh state
+      window.location.reload();
+    }
+  };
+
+  const handleStartInMinutes = async (eventName, minutes) => {
+    const futureTime = new Date(Date.now() + minutes * 60 * 1000);
+    try {
+      await handleUpdateTiming(eventName, futureTime.toISOString());
+      // Force reload the page to ensure timing updates are applied
+      window.location.reload();
+    } catch (error) {
+      console.error('Error setting timing:', error);
+      // Still reload to get fresh state
+      window.location.reload();
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     navigate('/admin/login');
@@ -181,6 +231,12 @@ const AdminDashboard = () => {
           onClick={() => setActiveTab('bonus')}
         >
           Bonus Rounds
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'timings' ? 'active' : ''}`}
+          onClick={() => setActiveTab('timings')}
+        >
+          Timing Control
         </button>
       </div>
 
@@ -409,6 +465,96 @@ const AdminDashboard = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'timings' && (
+        <div className="timings-section">
+          <h2 className="jersey-15-regular">Timing Control Center</h2>
+          <p className="timing-description">Control when each event starts. Changes take effect immediately.</p>
+          
+          <div className="timing-controls">
+            {timings.map((timing) => {
+              const status = timingStatus[timing.event_name];
+              const isStarted = status?.isStarted || false;
+              const timeUntilStart = status?.timeUntilStartFormatted || 'Unknown';
+              
+              return (
+                <div key={timing.id} className="timing-card">
+                  <div className="timing-header">
+                    <h3 className="jersey-15-regular">
+                      {timing.event_name === 'bonus1' ? 'Bonus Round 1' : 
+                       timing.event_name === 'bonus2' ? 'Bonus Round 2' : 
+                       'Main Hunt'}
+                    </h3>
+                    <div className="timing-status">
+                      <span className={`status-badge ${isStarted ? 'started' : 'pending'}`}>
+                        {isStarted ? 'Started' : 'Pending'}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="timing-details">
+                    <p><strong>Start Time (IST):</strong> {new Date(timing.start_time).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
+                    <p><strong>Status:</strong> {isStarted ? 'Active' : `Starts in ${timeUntilStart}`}</p>
+                  </div>
+                  
+                  <div className="timing-actions">
+                    <div className="quick-actions">
+                      <button
+                        onClick={() => handleStartNow(timing.event_name)}
+                        className="action-button start-now"
+                        disabled={isStarted}
+                      >
+                        Start Now
+                      </button>
+                      <button
+                        onClick={() => handleStartInMinutes(timing.event_name, 5)}
+                        className="action-button start-5min"
+                        disabled={isStarted}
+                      >
+                        Start in 5 min
+                      </button>
+                      <button
+                        onClick={() => handleStartInMinutes(timing.event_name, 30)}
+                        className="action-button start-30min"
+                        disabled={isStarted}
+                      >
+                        Start in 30 min
+                      </button>
+                    </div>
+                    
+                    <div className="custom-timing">
+                      <input
+                        type="datetime-local"
+                        className="timing-input"
+                        id={`timing-input-${timing.event_name}`}
+                      />
+                      <button
+                        onClick={async () => {
+                          const input = document.getElementById(`timing-input-${timing.event_name}`);
+                          if (input && input.value) {
+                            try {
+                              await handleUpdateTiming(timing.event_name, new Date(input.value).toISOString());
+                              // Force reload the page to ensure timing updates are applied
+                              window.location.reload();
+                            } catch (error) {
+                              console.error('Error setting custom timing:', error);
+                              // Still reload to get fresh state
+                              window.location.reload();
+                            }
+                          }
+                        }}
+                        className="action-button custom-time"
+                      >
+                        Set Custom Time
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
