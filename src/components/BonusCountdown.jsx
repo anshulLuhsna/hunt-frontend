@@ -11,6 +11,14 @@ const BonusCountdown = ({ startTime, onStart }) => {
       const now = new Date();
       const difference = new Date(startTime) - now;
 
+      // Add debugging for timezone issues
+      if (difference <= 0 && !isExpired) {
+        console.log('Countdown expired:');
+        console.log(`  Start time: ${new Date(startTime).toISOString()}`);
+        console.log(`  Current time: ${now.toISOString()}`);
+        console.log(`  Difference: ${difference}ms`);
+      }
+
       if (difference > 0) {
         const days = Math.floor(difference / (1000 * 60 * 60 * 24));
         const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -24,7 +32,7 @@ const BonusCountdown = ({ startTime, onStart }) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [startTime]);
+  }, [startTime, isExpired]);
 
   if (isExpired) {
     return (
