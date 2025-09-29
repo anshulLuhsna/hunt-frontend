@@ -21,6 +21,7 @@ const BonusQuestion = ({
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleQRScan = async (code) => {
+    console.log('[BonusQuestion] handleQRScan input:', code);
     setShowScanner(false);
     setErrors({});
     setSuccessMessage('');
@@ -28,10 +29,14 @@ const BonusQuestion = ({
 
     try {
       const sanitizedCode = (code || '').trim();
+      console.log('[BonusQuestion] Sanitized code:', sanitizedCode);
+      const startTs = performance.now();
       await onLocationScanned(sanitizedCode);
+      console.log('[BonusQuestion] Scan validated OK in', (performance.now()-startTs).toFixed(1), 'ms');
       setStep('question');
       setSuccessMessage('Location code accepted! Now solve the puzzle below.');
     } catch (error) {
+      console.error('[BonusQuestion] Scan validation failed:', error);
       setErrors({ location: error?.message || 'Invalid location code' });
       setStep('location');
     } finally {

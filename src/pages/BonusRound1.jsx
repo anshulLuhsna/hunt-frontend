@@ -70,7 +70,10 @@ const BonusRound1 = () => {
   };
 
   const handleLocationScanned = async (code) => {
+    console.log('[BonusRound1] handleLocationScanned code:', code);
+    const t0 = performance.now();
     const response = await api.submitBonusLocationCode(ROUND_ID, code);
+    console.log('[BonusRound1] /scan response in', (performance.now()-t0).toFixed(1), 'ms:', response);
     setQuestionData(prev => ({
       ...prev,
       questionImage: response.questionImage
@@ -79,11 +82,17 @@ const BonusRound1 = () => {
   };
 
   const handleAnswerSubmitted = async (answer) => {
-    await api.submitBonusAnswer(ROUND_ID, answer);
+    console.log('[BonusRound1] submit answer:', answer);
+    const t0 = performance.now();
+    const res = await api.submitBonusAnswer(ROUND_ID, answer);
+    console.log('[BonusRound1] /answer response in', (performance.now()-t0).toFixed(1), 'ms:', res);
   };
 
   const handleWinnerSubmitted = async (leaderName, teamName) => {
-    await api.submitBonusWinner(ROUND_ID, leaderName, teamName);
+    console.log('[BonusRound1] submit winner:', { leaderName, teamName });
+    const t0 = performance.now();
+    const res = await api.submitBonusWinner(ROUND_ID, leaderName, teamName);
+    console.log('[BonusRound1] /winner response in', (performance.now()-t0).toFixed(1), 'ms:', res);
   };
 
   if (loading) {

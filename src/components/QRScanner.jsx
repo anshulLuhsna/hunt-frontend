@@ -10,6 +10,8 @@ const QrScannerComponent = ({ isScannerOpen, setIsScannerOpen, onScanned }) => {
   const handleScan = (detectedCodes) => {
     if (detectedCodes && detectedCodes.length > 0) {
       const result = detectedCodes[0].rawValue;
+      console.log('[QRScanner] Detected codes:', detectedCodes);
+      console.log('[QRScanner] Raw value:', result);
       onScanned?.(result);
       toggleScanner();
     }
