@@ -120,16 +120,7 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="auth-toggle">
-          <p>Don't have a team yet?</p>
-          <button 
-            type="button" 
-            className="toggle-button"
-            onClick={() => navigate('/signup')}
-          >
-            Create Team
-          </button>
-        </div>
+
       </div>
     </div>
   );
