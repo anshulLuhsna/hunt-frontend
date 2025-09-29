@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import './Leaderboard.css';
-import { FaTrophy, FaBullseye, FaCrown, FaSearch, FaPuzzlePiece, FaLightbulb, FaRocket, FaStar, FaTheaterMasks, FaPalette, FaUser, FaClock, FaEye, FaSync } from 'react-icons/fa';
+import { FaTrophy, FaBullseye, FaCrown, FaSearch, FaPuzzlePiece, FaLightbulb, FaRocket, FaStar, FaTheaterMasks, FaPalette, FaUser, FaClock, FaEye, FaSync, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import Avatar from '../components/Avatar';
 
 const Leaderboard = () => {
@@ -11,24 +11,33 @@ const Leaderboard = () => {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [teamProgress, setTeamProgress] = useState([]);
   const [showProgress, setShowProgress] = useState(false);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalTeams: 0,
+    limit: 10,
+    hasNextPage: false,
+    hasPrevPage: false
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchLeaderboard();
+    fetchLeaderboard(pagination.currentPage);
   }, []);
 
   // Refresh leaderboard when modal is closed to get latest avatar updates
   useEffect(() => {
     if (!showProgress) {
-      fetchLeaderboard();
+      fetchLeaderboard(pagination.currentPage);
     }
   }, [showProgress]);
 
-  const fetchLeaderboard = async () => {
+  const fetchLeaderboard = async (page = 1) => {
     try {
       setLoading(true);
-      const response = await api.getLeaderboard();
-      setTeams(response);
+      const response = await api.getLeaderboard(page, 10);
+      setTeams(response.teams);
+      setPagination(response.pagination);
     } catch (error) {
       console.error('Error fetching leaderboard:', error);
     } finally {
@@ -66,6 +75,16 @@ const Leaderboard = () => {
     return <Avatar seed={team.avatar_seed || team.team_name} size={35} />;
   };
 
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= pagination.totalPages) {
+      fetchLeaderboard(newPage);
+    }
+  };
+
+  const handleRefresh = () => {
+    fetchLeaderboard(pagination.currentPage);
+  };
+
   if (loading) {
     return (
       <div className="leaderboard-container">
@@ -80,7 +99,13 @@ const Leaderboard = () => {
         <button onClick={() => navigate('/hunt')} className="back-button">
           ← Back to Hunt
         </button>
-        <button onClick={fetchLeaderboard} className="refresh-button" disabled={loading}>
+        <div className="header-center">
+          <h1 className="leaderboard-title jersey-15-regular">🏆 Leaderboard</h1>
+          <p className="leaderboard-subtitle jersey-15-regular">
+            Page {pagination.currentPage} of {pagination.totalPages} • {pagination.totalTeams} teams
+          </p>
+        </div>
+        <button onClick={handleRefresh} className="refresh-button" disabled={loading}>
           <FaSync /> {loading ? 'Loading...' : 'Refresh'}
         </button>
       </header>
@@ -130,6 +155,33 @@ const Leaderboard = () => {
           ))
         )}
       </div>
+
+      {/* Pagination Controls */}
+      {pagination.totalPages > 1 && (
+        <div className="pagination-controls">
+          <button 
+            className="pagination-button"
+            onClick={() => handlePageChange(pagination.currentPage - 1)}
+            disabled={!pagination.hasPrevPage || loading}
+          >
+            <FaChevronLeft /> Previous
+          </button>
+          
+          <div className="pagination-info">
+            <span className="jersey-15-regular">
+              Page {pagination.currentPage} of {pagination.totalPages}
+            </span>
+          </div>
+          
+          <button 
+            className="pagination-button"
+            onClick={() => handlePageChange(pagination.currentPage + 1)}
+            disabled={!pagination.hasNextPage || loading}
+          >
+            Next <FaChevronRight />
+          </button>
+        </div>
+      )}
 
       {/* Team Progress Modal */}
       {showProgress && selectedTeam && (

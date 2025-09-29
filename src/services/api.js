@@ -142,8 +142,8 @@ class ApiService {
   }
 
   // Leaderboard endpoint
-  async getLeaderboard() {
-    return this.request('/leaderboard', {
+  async getLeaderboard(page = 1, limit = 10) {
+    return this.request(`/leaderboard?page=${page}&limit=${limit}`, {
       method: 'GET',
     });
   }
