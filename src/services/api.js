@@ -16,14 +16,6 @@ class ApiService {
       ...options,
     };
 
-    // Debug: Log the request config
-    console.log('[API] Request config:', {
-      url,
-      method: config.method,
-      body: config.body,
-      headers: config.headers
-    });
-
     // Add authorization header if token exists and not already set
     if (!config.headers.Authorization) {
       const token = localStorage.getItem('token');
@@ -76,14 +68,7 @@ class ApiService {
   }
 
   async submitCode(code) {
-    console.log('[API] submitCode called with:', code);
-    console.log('[API] Code type:', typeof code);
-    console.log('[API] Code length:', code?.length);
-    console.log('[API] Code trimmed:', code?.trim());
-    
     const requestBody = { code };
-    console.log('[API] Request body:', requestBody);
-    console.log('[API] JSON stringified:', JSON.stringify(requestBody));
     
     return this.request('/hunt/code', {
       method: 'POST',
@@ -153,7 +138,6 @@ class ApiService {
   // Leaderboard endpoint
   async getLeaderboard(page = 1, limit = 10) {
     const url = `/leaderboard?page=${page}&limit=${limit}`;
-    console.log(`🌐 API Request: ${url}`);
     return this.request(url, {
       method: 'GET',
     });
