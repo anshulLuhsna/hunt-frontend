@@ -41,19 +41,13 @@ const Leaderboard = () => {
   const fetchLeaderboard = async (page = 1) => {
     try {
       setLoading(true);
-      console.log(`🔍 Fetching leaderboard - Page: ${page}, Limit: 10`);
       const response = await api.getLeaderboard(page, 10);
-      console.log('📊 Leaderboard API response:', response);
-      console.log('👥 Teams count:', response.teams?.length);
-      console.log('📄 Teams:', response.teams);
-      console.log('📊 Pagination:', response.pagination);
       
       // Handle both new pagination format and old array format
       if (response.teams && Array.isArray(response.teams)) {
         setTeams(response.teams);
       } else if (Array.isArray(response)) {
         // Fallback for old format (direct array)
-        console.log('Using fallback format (direct array)');
         setTeams(response);
         setPagination({
           currentPage: 1,

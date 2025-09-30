@@ -22,6 +22,7 @@ const Hunt = () => {
   const [showAvatarSelector, setShowAvatarSelector] = useState(false);
   const [teamAvatar, setTeamAvatar] = useState(null);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(null);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
@@ -29,6 +30,14 @@ const Hunt = () => {
     try {
       const progressData = await api.getProgress();
       setProgress(progressData);
+      
+      // Also fetch current question number from leaderboard API
+      try {
+        const rankData = await api.getCurrentTeamRank();
+        setCurrentQuestionNumber(rankData.score + 1); // Next question to solve
+      } catch (error) {
+        console.error('Error fetching current question number:', error);
+      }
     } catch (error) {
       console.error('Error fetching progress:', error);
     }
@@ -73,24 +82,16 @@ const Hunt = () => {
   }, [fetchProgress]);
 
   useEffect(() => {
-    console.log('🚀 Hunt component useEffect triggered');
-    console.log('👤 User:', user);
-    console.log('👤 User teamName:', user?.teamName);
-    
     if (!user) {
-      console.log('❌ No user, redirecting to login');
       navigate('/login');
       return;
     }
     
-    console.log('✅ User authenticated, initializing component');
     setTeamName(user.teamName);
     // Initialize avatar with saved preference or team name as seed
     const savedAvatar = localStorage.getItem('teamAvatar');
-    console.log('🖼️ Saved avatar:', savedAvatar);
     setTeamAvatar(savedAvatar || user.teamName);
     
-    console.log('📡 Calling fetchHint and fetchProgress');
     fetchHint();
     fetchProgress();
   }, [user, navigate, fetchHint, fetchProgress]);
@@ -110,11 +111,6 @@ const Hunt = () => {
   }, [showProfileDropdown]);
 
   const submitLocationCode = async (code) => {
-    console.log('🔍 submitLocationCode called with code:', code);
-    console.log('🔍 Code type:', typeof code);
-    console.log('🔍 Code length:', code?.length);
-    console.log('🔍 Code trimmed:', code?.trim());
-    
     if (!code || !code.trim()) {
       setErrors({ locationCode: 'Location code is required' });
       return;
@@ -125,25 +121,13 @@ const Hunt = () => {
       setErrors({}); // Clear previous errors
       setSuccessMessage(''); // Clear previous success messages
       
-      console.log('📡 Calling api.submitCode with:', code.trim());
-      console.log('📡 User token:', localStorage.getItem('token'));
-      console.log('📡 User team:', user);
-      
       const response = await api.submitCode(code.trim());
-      console.log('✅ Submit code response:', response);
-      console.log('📝 Response.question:', response.question);
-      console.log('📝 Response type:', typeof response);
-      console.log('📝 Response keys:', Object.keys(response || {}));
-      console.log('📝 Response.success:', response.success);
-      console.log('📝 Response.alreadyScanned:', response.alreadyScanned);
       
       // Close QR scanner
       setIsScannerOpen(false);
       
       setCurrentQuestion(response.question);
-      console.log('🎯 Set currentQuestion to:', response.question);
       setShowPuzzleInput(true);
-      console.log('🎯 Set showPuzzleInput to true');
       
       // Show different message based on whether location was already scanned
       if (response.alreadyScanned) {
@@ -152,15 +136,11 @@ const Hunt = () => {
         setSuccessMessage('Code accepted! Answer the puzzle below.');
       }
     } catch (error) {
-      console.error('❌ Error submitting code:', error);
-      console.error('❌ Error message:', error.message);
-      console.error('❌ Error stack:', error.stack);
-      console.error('❌ Full error object:', error);
+      console.error('Error submitting code:', error);
       
-      // Enhanced error message with debugging info
-      const errorMessage = error.message || 'Invalid location code. Please check and try again.';
+      // Simple error message without exposing the code
       setErrors({ 
-        locationCode: `${errorMessage} (Code: "${code.trim()}", User: ${user?.teamName || 'Unknown'})` 
+        locationCode: 'Wrong QR' 
       });
       
       // Close scanner on error too
@@ -238,6 +218,15 @@ const Hunt = () => {
         </div>
         <div className="header-center">
           <span className="team-name jersey-15-regular">Team: {teamName}</span>
+          {currentQuestionNumber && (
+            <span className="question-number jersey-15-regular" style={{ 
+              marginTop: '5px', 
+              fontSize: '0.9rem', 
+              color: '#94A3B8' 
+            }}>
+              Question #{currentQuestionNumber}
+            </span>
+          )}
         </div>
         <div className="header-right">
           <div className="profile-dropdown">
@@ -396,55 +385,32 @@ const Hunt = () => {
                 <form onSubmit={handlePuzzleAnswerSubmit} className="answer-form">
                   <h2 className="jersey-15-regular"><FaLightbulb /> Answer the Puzzle</h2>
                   <div className="question-image-container" style={{ marginBottom: '10px', textAlign: 'center' }}>
-                    {(() => {
-                      console.log('🖼️ Rendering question image container');
-                      console.log('🖼️ currentQuestion value:', currentQuestion);
-                      console.log('🖼️ currentQuestion type:', typeof currentQuestion);
-                      console.log('🖼️ currentQuestion truthy:', !!currentQuestion);
-                      
-                      if (currentQuestion) {
-                        const imageSrc = `/${currentQuestion}`;
-                        console.log('🖼️ Image src will be:', imageSrc);
-                        return (
-                          <img 
-                            src={imageSrc} 
-                            alt="Puzzle Question" 
-                            style={{ 
-                              maxWidth: '100%', 
-                              maxHeight: '400px', 
-                              borderRadius: '8px',
-                              boxShadow: '0 4px 8px rgba(0,0,0,0.3)'
-                            }}
-                            onError={(e) => {
-                              console.error('❌ Image failed to load:', currentQuestion, 'src:', imageSrc);
-                              e.target.style.display = 'none';
-                            }}
-                            onLoad={() => {
-                              console.log('✅ Image loaded successfully:', currentQuestion, 'src:', imageSrc);
-                            }}
-                          />
-                        );
-                      } else {
-                        console.log('🖼️ No currentQuestion, showing fallback');
-                        return (
-                          <div style={{
-                            padding: '40px',
-                            background: 'rgba(31, 41, 55, 0.3)',
-                            borderRadius: '8px',
-                            border: '2px dashed #64748B',
-                            color: '#94A3B8'
-                          }}>
-                            <p className="jersey-15-regular">Loading question image...</p>
-                            <p style={{ fontSize: '0.8rem', marginTop: '10px' }}>
-                              Question: {currentQuestion || 'No question loaded'}
-                            </p>
-                            <p style={{ fontSize: '0.7rem', marginTop: '5px', color: '#64748B' }}>
-                              Debug: currentQuestion = "{currentQuestion}"
-                            </p>
-                          </div>
-                        );
-                      }
-                    })()}
+                    {currentQuestion ? (
+                      <img 
+                        src={`/${currentQuestion}`} 
+                        alt="Puzzle Question" 
+                        style={{ 
+                          maxWidth: '100%', 
+                          maxHeight: '400px', 
+                          borderRadius: '8px',
+                          boxShadow: '0 4px 8px rgba(0,0,0,0.3)'
+                        }}
+                        onError={(e) => {
+                          console.error('Image failed to load:', currentQuestion);
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div style={{
+                        padding: '40px',
+                        background: 'rgba(31, 41, 55, 0.3)',
+                        borderRadius: '8px',
+                        border: '2px dashed #64748B',
+                        color: '#94A3B8'
+                      }}>
+                        <p className="jersey-15-regular">Loading question image...</p>
+                      </div>
+                    )}
                   </div>
                   <div className="form-group">
                     <input
