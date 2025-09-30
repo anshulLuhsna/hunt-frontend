@@ -41,7 +41,7 @@ export const useHintTimer = (currentQuestion, showPuzzleInput) => {
       }
     }, 1000);
   };
-
+// dummt comment
   const stopTimer = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
