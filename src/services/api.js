@@ -1,5 +1,5 @@
-// Use relative paths for production (Vercel redirects) or direct URL for development
-const API_BASE_URL = import.meta.env.DEV ? '/api' : '/api';
+// Direct URL for both development and production (avoids proxy issues and Vercel redirects)
+const API_BASE_URL = 'https://api.thegradient.blog';
 
 class ApiService {
   constructor() {
@@ -69,7 +69,7 @@ class ApiService {
 
   async submitCode(code) {
     const requestBody = { code };
-    
+
     return this.request('/hunt/code', {
       method: 'POST',
       body: JSON.stringify(requestBody),
