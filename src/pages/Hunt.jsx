@@ -30,7 +30,7 @@ const Hunt = () => {
     try {
       const progressData = await api.getProgress();
       setProgress(progressData);
-      
+
       // Also fetch current question number from leaderboard API
       try {
         const rankData = await api.getCurrentTeamRank();
@@ -48,7 +48,7 @@ const Hunt = () => {
       setLoading(true);
       const response = await api.getHint();
       setCurrentHint(response);
-      
+
       // If location is already scanned, show the question directly
       if (response.alreadyScanned) {
         setShowPuzzleInput(true);
@@ -67,7 +67,7 @@ const Hunt = () => {
         setErrors({});
         setSuccessMessage('');
       }
-      
+
       await fetchProgress();
     } catch (error) {
       console.error('Error fetching hint:', error);
@@ -86,12 +86,12 @@ const Hunt = () => {
       navigate('/login');
       return;
     }
-    
+
     setTeamName(user.teamName);
     // Initialize avatar with saved preference or team name as seed
     const savedAvatar = localStorage.getItem('teamAvatar');
     setTeamAvatar(savedAvatar || user.teamName);
-    
+
     fetchHint();
     fetchProgress();
   }, [user, navigate, fetchHint, fetchProgress]);
@@ -115,20 +115,20 @@ const Hunt = () => {
       setErrors({ locationCode: 'Location code is required' });
       return;
     }
-    
+
     try {
       setLoading(true);
       setErrors({}); // Clear previous errors
       setSuccessMessage(''); // Clear previous success messages
-      
+
       const response = await api.submitCode(code.trim());
-      
+
       // Close QR scanner
       setIsScannerOpen(false);
-      
+
       setCurrentQuestion(response.question);
       setShowPuzzleInput(true);
-      
+
       // Show different message based on whether location was already scanned
       if (response.alreadyScanned) {
         setSuccessMessage('Location already scanned! Answer the puzzle below.');
@@ -137,12 +137,12 @@ const Hunt = () => {
       }
     } catch (error) {
       console.error('Error submitting code:', error);
-      
+
       // Simple error message without exposing the code
-      setErrors({ 
-        locationCode: 'Wrong QR' 
+      setErrors({
+        locationCode: 'Wrong QR'
       });
-      
+
       // Close scanner on error too
       setIsScannerOpen(false);
     } finally {
@@ -177,7 +177,7 @@ const Hunt = () => {
       setLoading(true);
       const response = await api.submitAnswer(puzzleAnswer);
       setSuccessMessage(response.msg);
-      
+
       // Reset puzzle input and clear form
       setShowPuzzleInput(false);
       setPuzzleAnswer('');
@@ -217,12 +217,12 @@ const Hunt = () => {
           </button>
         </div>
         <div className="header-center">
-          <span className="team-name jersey-15-regular">Team: {teamName}</span>
+          <span className="team-name">Team: {teamName}</span>
           {currentQuestionNumber && (
-            <span className="question-number jersey-15-regular" style={{ 
-              marginTop: '5px', 
-              fontSize: '0.9rem', 
-              color: '#94A3B8' 
+            <span className="question-number" style={{
+              marginTop: '5px',
+              fontSize: '0.9rem',
+              color: 'var(--text-secondary)'
             }}>
               Question #{currentQuestionNumber}
             </span>
@@ -230,19 +230,19 @@ const Hunt = () => {
         </div>
         <div className="header-right">
           <div className="profile-dropdown">
-            <button 
-              onClick={() => setShowProfileDropdown(!showProfileDropdown)} 
+            <button
+              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
               className="profile-button"
             >
-              <Avatar 
-                seed={teamAvatar || teamName} 
-                size={35} 
+              <Avatar
+                seed={teamAvatar || teamName}
+                size={35}
                 className="profile-avatar"
               />
             </button>
             {showProfileDropdown && (
               <div className="dropdown-menu">
-                <button 
+                <button
                   onClick={() => {
                     setShowAvatarSelector(true);
                     setShowProfileDropdown(false);
@@ -251,7 +251,7 @@ const Hunt = () => {
                 >
                   <FaCog /> Change Avatar
                 </button>
-                <button 
+                <button
                   onClick={() => {
                     handleLogout();
                     setShowProfileDropdown(false);
@@ -275,15 +275,15 @@ const Hunt = () => {
 
         {successMessage && (
           <div className="success-message" style={{
-            background: 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)',
-            color: 'white',
+            background: 'rgba(0, 230, 118, 0.1)',
+            color: 'var(--accent-green)',
             padding: '15px 20px',
             borderRadius: '8px',
             textAlign: 'center',
             marginBottom: '20px',
             fontWeight: '600',
-            boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
-            border: '1px solid rgba(34, 197, 94, 0.3)'
+            boxShadow: '0 4px 15px rgba(0, 230, 118, 0.2)',
+            border: '1px solid var(--accent-green)'
           }}>
             {successMessage}
           </div>
@@ -292,8 +292,8 @@ const Hunt = () => {
 
         {currentHint && currentHint.msg ? (
           <section className="puzzle-section">
-            <h2 className="jersey-15-regular"><FaStar /> Adventure Status</h2>
-            <div className="puzzle-text" style={{ background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)' }}>
+            <h2 className=""><FaStar /> Adventure Status</h2>
+            <div className="puzzle-text" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
               {currentHint.msg}
             </div>
             <button
@@ -311,7 +311,7 @@ const Hunt = () => {
               <>
                 {/* Puzzle Section */}
                 <section className="puzzle-section">
-                  <h2 className="jersey-15-regular">Location Hint #{progress.completed + 1}</h2>
+                  <h2>Location Hint #{progress.completed + 1}</h2>
                   <div className="puzzle-text">
                     {currentHint?.hint || 'Loading puzzle...'}
                   </div>
@@ -319,42 +319,42 @@ const Hunt = () => {
 
                 {/* QR Scanner Section */}
                 <section className="submit-section">
-                  <h2 className="jersey-15-regular"><FaQrcode /> Scan QR Code</h2>
-                  <p className="jersey-15-regular">Scan the QR code at the location to unlock the puzzle</p>
-                  
+                  <h2><FaQrcode /> Scan QR Code</h2>
+                  <p>Scan the QR code at the location to unlock the puzzle</p>
+
                   {/* Loading indicator */}
                   {loading && (
                     <div className="loading-indicator" style={{
                       textAlign: 'center',
                       padding: '20px',
-                      color: '#F59E0B',
+                      color: 'var(--accent-orange)',
                       fontSize: '1.1rem',
                       fontWeight: '600'
                     }}>
                       <div style={{ marginBottom: '10px' }}>🔄 Processing QR code...</div>
-                      <div style={{ fontSize: '0.9rem', color: '#94A3B8' }}>
+                      <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
                         Please wait while we verify your location
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Error message for location code */}
                   {errors.locationCode && (
                     <div className="error-message" style={{
-                      background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
-                      color: 'white',
+                      background: 'rgba(255, 69, 0, 0.1)',
+                      color: 'var(--accent-orange)',
                       padding: '15px 20px',
                       borderRadius: '8px',
                       textAlign: 'center',
                       marginBottom: '20px',
                       fontWeight: '600',
-                      boxShadow: '0 4px 15px rgba(239, 68, 68, 0.3)',
-                      border: '1px solid rgba(239, 68, 68, 0.3)'
+                      boxShadow: '0 4px 15px var(--accent-orange-glow)',
+                      border: '1px solid var(--accent-orange)'
                     }}>
                       ❌ {errors.locationCode}
                     </div>
                   )}
-                  
+
                   <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                     <QrScannerComponent
                       isScannerOpen={isScannerOpen}
@@ -362,19 +362,19 @@ const Hunt = () => {
                       onScanned={handleQrScanned}
                     />
                   </div>
-                  
+
                   {/* Instructions */}
                   {!isScannerOpen && !loading && (
                     <div style={{
                       textAlign: 'center',
                       marginTop: '15px',
-                      color: '#94A3B8',
+                      color: 'var(--text-secondary)',
                       fontSize: '0.9rem'
                     }}>
                       Click the camera icon to start scanning
                     </div>
                   )}
-                  
+
                 </section>
               </>
             )}
@@ -383,15 +383,15 @@ const Hunt = () => {
             {showPuzzleInput && (
               <section className="answer-section">
                 <form onSubmit={handlePuzzleAnswerSubmit} className="answer-form">
-                  <h2 className="jersey-15-regular"><FaLightbulb /> Answer the Puzzle</h2>
+                  <h2><FaLightbulb /> Answer the Puzzle</h2>
                   <div className="question-image-container" style={{ marginBottom: '10px', textAlign: 'center' }}>
                     {currentQuestion ? (
-                      <img 
-                        src={`/${currentQuestion}`} 
-                        alt="Puzzle Question" 
-                        style={{ 
-                          maxWidth: '100%', 
-                          maxHeight: '400px', 
+                      <img
+                        src={`/${currentQuestion}`}
+                        alt="Puzzle Question"
+                        style={{
+                          maxWidth: '100%',
+                          maxHeight: '400px',
                           borderRadius: '8px',
                           boxShadow: '0 4px 8px rgba(0,0,0,0.3)'
                         }}
@@ -403,12 +403,12 @@ const Hunt = () => {
                     ) : (
                       <div style={{
                         padding: '40px',
-                        background: 'rgba(31, 41, 55, 0.3)',
+                        background: 'var(--bg-secondary)',
                         borderRadius: '8px',
-                        border: '2px dashed #64748B',
-                        color: '#94A3B8'
+                        border: '2px dashed var(--border-color)',
+                        color: 'var(--text-muted)'
                       }}>
-                        <p className="jersey-15-regular">Loading question image...</p>
+                        <p>Loading question image...</p>
                       </div>
                     )}
                   </div>

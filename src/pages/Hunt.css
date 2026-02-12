@@ -1,19 +1,22 @@
 .hunt-container {
   min-height: 100vh;
-  background: rgba(11, 18, 32, 0.3);
-  color: #E5E7EB;
-  backdrop-filter: blur(1px);
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 @keyframes huntBackgroundShift {
-  0%, 100% {
-    background: linear-gradient(135deg, #0F1419 0%, #1a2332 100%);
+
+  0%,
+  100% {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   }
+
   33% {
-    background: linear-gradient(135deg, #1a2332 0%, #0F1419 100%);
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
   }
+
   66% {
-    background: linear-gradient(135deg, #0F1419 0%, #1a2332 100%);
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   }
 }
 
@@ -22,9 +25,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
-  background: rgba(15, 23, 42, 0.4);
-  border-bottom: 1px solid rgba(31, 41, 55, 0.3);
-  backdrop-filter: blur(8px);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
   min-height: 60px;
   position: relative;
 }
@@ -34,6 +36,7 @@
     opacity: 0;
     transform: translateY(-100%);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -68,6 +71,7 @@
     opacity: 0;
     transform: translateX(-30px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -80,9 +84,12 @@
 }
 
 @keyframes logoFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-8px);
   }
@@ -92,6 +99,7 @@
   from {
     filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
   }
+
   to {
     filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
   }
@@ -100,13 +108,14 @@
 .team-name {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #E5E7EB;
+  color: var(--text-primary);
 }
 
 @keyframes textGlow {
   from {
     text-shadow: 0 0 5px rgba(230, 243, 255, 0.3);
   }
+
   to {
     text-shadow: 0 0 15px rgba(230, 243, 255, 0.6);
   }
@@ -159,14 +168,14 @@
 
 .profile-avatar:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+  box-shadow: 0 0 15px rgba(0, 230, 118, 0.3);
 }
 
 .dropdown-menu {
   position: absolute;
   top: 100%;
   right: 0;
-  background: rgba(15, 23, 42, 0.95);
+  background: var(--bg-card);
   border: 1px solid rgba(31, 41, 55, 0.5);
   border-radius: 8px;
   padding: 8px 0;
@@ -182,6 +191,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -196,7 +206,7 @@
   padding: 10px 16px;
   background: none;
   border: none;
-  color: #E5E7EB;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 14px;
@@ -204,8 +214,8 @@
 }
 
 .dropdown-item:hover {
-  background: rgba(34, 197, 94, 0.1);
-  color: #22C55E;
+  background: rgba(0, 230, 118, 0.1);
+  color: var(--accent-green);
 }
 
 .dropdown-item svg {
@@ -218,6 +228,7 @@
     opacity: 0;
     transform: translateX(30px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -258,12 +269,19 @@
 }
 
 @keyframes logoutShake {
-  0%, 100% { transform: translateY(-1px); }
-  50% { transform: translateY(-3px); }
+
+  0%,
+  100% {
+    transform: translateY(-1px);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
 }
 
 .leaderboard-button {
-  background: #22C55E;
+  background: var(--accent-orange);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -291,15 +309,18 @@
 }
 
 .leaderboard-button:hover {
-  background: #16A34A;
+  background: #E63E00;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+  box-shadow: 0 5px 15px rgba(230, 62, 0, 0.4);
 }
 
 @keyframes leaderboardBounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(-2px);
   }
+
   50% {
     transform: translateY(-4px);
   }
@@ -316,6 +337,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -323,7 +345,7 @@
 }
 
 .progress-section {
-  background: rgba(15, 20, 25, 0.2);
+  background: rgba(15, 20, 25, 0.6);
   border-radius: 15px;
   padding: 25px;
   margin-bottom: 30px;
@@ -341,7 +363,7 @@
   left: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #FFD700, transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-orange), transparent);
   /* shine removed */
 }
 
@@ -350,6 +372,7 @@
     opacity: 0;
     transform: translateY(40px) scale(0.95);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -360,6 +383,7 @@
   0% {
     left: -100%;
   }
+
   100% {
     left: 100%;
   }
@@ -378,6 +402,7 @@
     opacity: 0;
     transform: translateX(-20px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -392,9 +417,12 @@
 }
 
 @keyframes titlePulse {
-  0%, 100% {
+
+  0%,
+  100% {
     text-shadow: 0 0 5px rgba(230, 243, 255, 0.3);
   }
+
   50% {
     text-shadow: 0 0 15px rgba(230, 243, 255, 0.6);
   }
@@ -412,6 +440,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -430,6 +459,7 @@
   0% {
     transform: scaleX(0);
   }
+
   100% {
     transform: scaleX(1);
   }
@@ -437,7 +467,7 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+  background: linear-gradient(90deg, #FF4500 0%, #FF8C00 100%);
   border-radius: 4px;
   transition: width 0.5s ease;
   position: relative;
@@ -458,19 +488,22 @@
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
 }
 
-.puzzle-section, .clue-section, .submit-section, .answer-section {
-  background: rgba(17, 24, 39, 0.3);
+.puzzle-section,
+.clue-section,
+.submit-section,
+.answer-section {
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 25px;
   margin-bottom: 30px;
-  border: 1px solid rgba(31, 41, 55, 0.3);
+  border: 1px solid var(--border-color);
   position: relative;
-  backdrop-filter: blur(6px);
 }
 
 .puzzle-section::before {
@@ -480,7 +513,7 @@
   left: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #4ECDC4, transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
   /* shine removed */
 }
 
@@ -491,7 +524,7 @@
   left: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #FFD700, transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-orange), transparent);
   /* shine removed */
 }
 
@@ -502,7 +535,7 @@
   left: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #FFA500, transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-orange), transparent);
   /* shine removed */
 }
 
@@ -511,6 +544,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -521,16 +555,27 @@
   0% {
     left: -100%;
   }
+
   100% {
     left: 100%;
   }
 }
 
-.puzzle-section { animation-delay: 0.2s; }
-.clue-section { animation-delay: 0.4s; }
-.submit-section { animation-delay: 0.6s; }
+.puzzle-section {
+  animation-delay: 0.2s;
+}
 
-.puzzle-section h2, .clue-section h2, .submit-section h2 {
+.clue-section {
+  animation-delay: 0.4s;
+}
+
+.submit-section {
+  animation-delay: 0.6s;
+}
+
+.puzzle-section h2,
+.clue-section h2,
+.submit-section h2 {
   margin: 0 0 15px 0;
   color: #E5E7EB;
   font-size: 1.3rem;
@@ -542,6 +587,7 @@
     opacity: 0;
     transform: translateY(-20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -549,8 +595,9 @@
 }
 
 .puzzle-text {
-  background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
-  color: #2C3E50;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   padding: 20px;
   border-radius: 12px;
   font-size: 1.1rem;
@@ -577,6 +624,7 @@
     opacity: 0;
     transform: scale(0.9) translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -587,18 +635,20 @@
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
 }
 
 .clue-text {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
   padding: 20px;
   border-radius: 12px;
   font-size: 1.1rem;
   line-height: 1.6;
-  color: #E5E7EB;
+  color: var(--text-primary);
   animation: clueTextFade 0.6s ease-out both;
 }
 
@@ -607,6 +657,7 @@
     opacity: 0;
     transform: translateY(15px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -618,14 +669,20 @@
   animation: formFieldSlide 0.5s ease-out both;
 }
 
-.form-group:nth-child(1) { animation-delay: 0.8s; }
-.form-group:nth-child(2) { animation-delay: 0.9s; }
+.form-group:nth-child(1) {
+  animation-delay: 0.8s;
+}
+
+.form-group:nth-child(2) {
+  animation-delay: 0.9s;
+}
 
 @keyframes formFieldSlide {
   0% {
     opacity: 0;
     transform: translateX(-20px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -633,7 +690,7 @@
 }
 
 .form-group label {
-  color: #E5E7EB;
+  color: var(--text-primary);
   font-weight: 600;
   font-size: 1rem;
   margin-bottom: 8px;
@@ -646,6 +703,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -671,6 +729,7 @@
     opacity: 0;
     transform: scale(0.95);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -689,9 +748,11 @@
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.02);
   }
+
   100% {
     transform: scale(1);
   }
@@ -708,9 +769,19 @@
 }
 
 @keyframes errorShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 .error-message {
@@ -727,6 +798,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -734,7 +806,7 @@
 }
 
 .submit-code-button {
-  background: #22C55E;
+  background: var(--accent-orange);
   color: white;
   border: none;
   border-radius: 12px;
@@ -753,6 +825,7 @@
     opacity: 0;
     transform: translateY(30px) scale(0.9);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -775,15 +848,18 @@
 }
 
 .submit-code-button:hover {
-  background: #16A34A;
+  background: #E63E00;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+  box-shadow: 0 8px 25px rgba(255, 69, 0, 0.4);
 }
 
 @keyframes submitButtonGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
   }
+
   50% {
     box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
   }
@@ -810,6 +886,7 @@
     opacity: 0;
     transform: translateY(30px) scale(0.9);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -838,9 +915,12 @@
 }
 
 @keyframes answerButtonPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
   }
+
   50% {
     box-shadow: 0 12px 35px rgba(34, 197, 94, 0.6);
   }
@@ -858,6 +938,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -945,7 +1026,10 @@
     font-size: 0.9rem;
   }
 
-  .puzzle-section, .clue-section, .submit-section, .answer-section {
+  .puzzle-section,
+  .clue-section,
+  .submit-section,
+  .answer-section {
     padding: 20px;
     margin-bottom: 20px;
   }
@@ -968,13 +1052,16 @@
 
   .form-group input {
     padding: 12px 15px;
-    font-size: 16px; /* Prevents zoom on iOS */
+    font-size: 16px;
+    /* Prevents zoom on iOS */
   }
 
-  .submit-code-button, .submit-answer-button {
+  .submit-code-button,
+  .submit-answer-button {
     padding: 12px 20px;
     font-size: 1rem;
-    min-height: 48px; /* Better touch target */
+    min-height: 48px;
+    /* Better touch target */
   }
 
   .leaderboard-button {
@@ -1004,7 +1091,11 @@
     padding: 10px;
   }
 
-  .progress-section, .puzzle-section, .clue-section, .submit-section, .answer-section {
+  .progress-section,
+  .puzzle-section,
+  .clue-section,
+  .submit-section,
+  .answer-section {
     padding: 15px;
     margin-bottom: 15px;
   }
@@ -1022,7 +1113,8 @@
     font-size: 0.9rem;
   }
 
-  .puzzle-text, .clue-text {
+  .puzzle-text,
+  .clue-text {
     padding: 12px;
     font-size: 0.95rem;
   }
@@ -1031,7 +1123,8 @@
     padding: 10px 12px;
   }
 
-  .submit-code-button, .submit-answer-button {
+  .submit-code-button,
+  .submit-answer-button {
     padding: 10px 15px;
     font-size: 0.95rem;
   }

@@ -18,7 +18,7 @@ const BonusRound2 = () => {
     try {
       const response = await api.getBonusStatus(ROUND_ID);
       setStatus(response);
-      
+
       if (response.isEnded) {
         setCurrentStep('leaderboard');
         fetchLeaderboard();
@@ -65,7 +65,7 @@ const BonusRound2 = () => {
     console.log('[BonusRound2] handleLocationScanned code:', code);
     const t0 = performance.now();
     const response = await api.submitBonusLocationCode(ROUND_ID, code);
-    console.log('[BonusRound2] /scan response in', (performance.now()-t0).toFixed(1), 'ms:', response);
+    console.log('[BonusRound2] /scan response in', (performance.now() - t0).toFixed(1), 'ms:', response);
     setQuestionData(prev => ({
       ...prev,
       questionImage: response.questionImage
@@ -77,21 +77,21 @@ const BonusRound2 = () => {
     console.log('[BonusRound2] submit answer:', answer);
     const t0 = performance.now();
     const res = await api.submitBonusAnswer(ROUND_ID, answer);
-    console.log('[BonusRound2] /answer response in', (performance.now()-t0).toFixed(1), 'ms:', res);
+    console.log('[BonusRound2] /answer response in', (performance.now() - t0).toFixed(1), 'ms:', res);
   };
 
   const handleWinnerSubmitted = async (leaderName, teamName) => {
     console.log('[BonusRound2] submit winner:', { leaderName, teamName });
     const t0 = performance.now();
     const res = await api.submitBonusWinner(ROUND_ID, leaderName, teamName);
-    console.log('[BonusRound2] /winner response in', (performance.now()-t0).toFixed(1), 'ms:', res);
+    console.log('[BonusRound2] /winner response in', (performance.now() - t0).toFixed(1), 'ms:', res);
   };
 
   if (loading) {
     return (
       <div className="bonus-round2-container">
         <div className="loading-content">
-          <h1 className="loading-title jersey-15-regular">Loading Bonus Round...</h1>
+          <h1 className="loading-title">Loading Bonus Round...</h1>
         </div>
       </div>
     );
@@ -99,7 +99,7 @@ const BonusRound2 = () => {
 
   if (currentStep === 'countdown') {
     return (
-      <BonusCountdown 
+      <BonusCountdown
         startTime={status?.start_time}
         onStart={handleStart}
       />
@@ -108,7 +108,7 @@ const BonusRound2 = () => {
 
   if (currentStep === 'leaderboard') {
     return (
-      <BonusLeaderboard 
+      <BonusLeaderboard
         roundId={ROUND_ID}
         submissions={submissions}
       />
@@ -131,8 +131,8 @@ const BonusRound2 = () => {
   return (
     <div className="bonus-round2-container">
       <div className="error-content">
-        <h1 className="error-title jersey-15-regular">Error</h1>
-        <p className="error-text jersey-15-regular">Something went wrong. Please try again.</p>
+        <h1 className="error-title">Error</h1>
+        <p className="error-text">Something went wrong. Please try again.</p>
       </div>
     </div>
   );

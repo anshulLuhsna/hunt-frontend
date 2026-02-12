@@ -1,32 +1,27 @@
 .bonus-leaderboard-container {
   min-height: 100vh;
-  background: linear-gradient(rgba(11, 18, 32, 0.8), rgba(15, 23, 42, 0.9)), url('/jungle-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  font-family: 'Jersey 15', sans-serif;
   overflow-y: auto;
 }
 
 .bonus-leaderboard-content {
-  background: rgba(17, 24, 39, 0.95);
+  background: var(--bg-card);
   border-radius: 16px;
-  border: 1px solid rgba(31, 41, 55, 0.5);
+  border: 1px solid var(--border-color);
   padding: 40px;
   text-align: center;
   max-width: 800px;
   width: 100%;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .bonus-leaderboard-title {
   font-size: 2.5rem;
-  color: #22C55E;
+  color: var(--accent-orange);
   margin-bottom: 30px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -41,19 +36,19 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(34, 197, 94, 0.1);
-  border: 2px solid #22C55E;
+  background: rgba(255, 69, 0, 0.1);
+  border: 2px solid var(--accent-orange);
   border-radius: 12px;
   padding: 15px 25px;
 }
 
 .stat-icon {
-  color: #22C55E;
+  color: var(--accent-orange);
   font-size: 1.2rem;
 }
 
 .stat-text {
-  color: #E5E7EB;
+  color: var(--text-primary);
   font-size: 1.1rem;
   font-weight: bold;
 }
@@ -63,8 +58,8 @@
 }
 
 .submission-item {
-  background: rgba(31, 41, 55, 0.3);
-  border: 2px solid rgba(34, 197, 94, 0.3);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 15px;
@@ -75,10 +70,10 @@
 }
 
 .submission-item:hover {
-  background: rgba(34, 197, 94, 0.05);
-  border-color: #22C55E;
+  background: var(--bg-card);
+  border-color: var(--accent-orange);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+  box-shadow: 0 4px 15px rgba(255, 69, 0, 0.2);
 }
 
 .submission-rank {
@@ -87,9 +82,9 @@
   justify-content: center;
   min-width: 50px;
   height: 50px;
-  background: rgba(17, 24, 39, 0.8);
+  background: var(--bg-card);
   border-radius: 50%;
-  border: 2px solid rgba(34, 197, 94, 0.3);
+  border: 2px solid var(--border-color);
 }
 
 .rank-icon {
@@ -109,7 +104,7 @@
 }
 
 .rank-number {
-  color: #94A3B8;
+  color: var(--text-secondary);
   font-size: 1.2rem;
   font-weight: bold;
 }
@@ -129,17 +124,17 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 5px;
-  color: #E5E7EB;
+  color: var(--text-primary);
   font-size: 1.1rem;
 }
 
 .leader-name {
   font-weight: bold;
-  color: #22C55E;
+  color: var(--accent-orange);
 }
 
 .name-icon {
-  color: #22C55E;
+  color: var(--accent-green);
   font-size: 0.9rem;
 }
 
@@ -147,7 +142,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #94A3B8;
+  color: var(--text-muted);
   font-size: 0.9rem;
 }
 
@@ -161,24 +156,24 @@
 }
 
 .leaderboard-footer {
-  background: rgba(31, 41, 55, 0.3);
+  background: var(--bg-secondary);
   border-radius: 12px;
   padding: 20px;
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  border: 1px solid var(--border-color);
 }
 
 .footer-text {
-  color: #E5E7EB;
+  color: var(--text-primary);
   font-size: 1.1rem;
   margin: 0;
 }
 
 .no-submissions {
-  background: rgba(31, 41, 55, 0.3);
-  border: 2px dashed rgba(34, 197, 94, 0.3);
+  background: var(--bg-secondary);
+  border: 2px dashed var(--border-color);
   border-radius: 12px;
   padding: 40px;
-  color: #94A3B8;
+  color: var(--text-muted);
   font-size: 1.2rem;
   font-style: italic;
 }
@@ -187,21 +182,21 @@
   .bonus-leaderboard-content {
     padding: 30px 20px;
   }
-  
+
   .bonus-leaderboard-title {
     font-size: 2rem;
   }
-  
+
   .submission-item {
     flex-direction: column;
     text-align: center;
     gap: 15px;
   }
-  
+
   .submission-info {
     text-align: center;
   }
-  
+
   .submission-names {
     margin-bottom: 15px;
   }

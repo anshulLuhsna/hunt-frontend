@@ -27,10 +27,10 @@ const BonusLeaderboard = ({ roundId, submissions = [] }) => {
     return (
       <div className="bonus-leaderboard-container">
         <div className="bonus-leaderboard-content">
-          <h1 className="bonus-leaderboard-title jersey-15-regular">
+          <h1 className="bonus-leaderboard-title">
             🏆 Bonus Round {roundId} - Winners
           </h1>
-          <div className="no-submissions jersey-15-regular">
+          <div className="no-submissions">
             No submissions yet. Be the first to solve it!
           </div>
         </div>
@@ -41,14 +41,14 @@ const BonusLeaderboard = ({ roundId, submissions = [] }) => {
   return (
     <div className="bonus-leaderboard-container">
       <div className="bonus-leaderboard-content">
-        <h1 className="bonus-leaderboard-title jersey-15-regular">
+        <h1 className="bonus-leaderboard-title">
           🏆 Bonus Round {roundId} - Winners
         </h1>
-        
+
         <div className="submissions-stats">
           <div className="stat-item">
             <FaUsers className="stat-icon" />
-            <span className="stat-text jersey-15-regular">
+            <span className="stat-text">
               {submissions.length} Winner{submissions.length !== 1 ? 's' : ''}
             </span>
           </div>
@@ -56,30 +56,30 @@ const BonusLeaderboard = ({ roundId, submissions = [] }) => {
 
         <div className="submissions-list">
           {submissions.map((submission, index) => (
-            <div 
-              key={submission.id} 
+            <div
+              key={submission.id}
               className="submission-item"
               style={{ borderColor: getRankColor(index) }}
             >
               <div className="submission-rank">
                 {getRankIcon(index)}
               </div>
-              
+
               <div className="submission-info">
                 <div className="submission-names">
-                  <div className="leader-name jersey-15-regular">
+                  <div className="leader-name">
                     <FaUser className="name-icon" />
                     {submission.leader_name}
                   </div>
-                  <div className="team-name jersey-15-regular">
+                  <div className="team-name">
                     <FaUsers className="name-icon" />
                     {submission.team_name}
                   </div>
                 </div>
-                
+
                 <div className="submission-time">
                   <FaClock className="time-icon" />
-                  <span className="time-text jersey-15-regular">
+                  <span className="time-text">
                     {formatTime(submission.submitted_at)}
                   </span>
                 </div>
@@ -89,7 +89,7 @@ const BonusLeaderboard = ({ roundId, submissions = [] }) => {
         </div>
 
         <div className="leaderboard-footer">
-          <p className="footer-text jersey-15-regular">
+          <p className="footer-text">
             Congratulations to all winners! 🎉
           </p>
         </div>

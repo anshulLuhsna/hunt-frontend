@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 import Hunt from './pages/Hunt';
 import Leaderboard from './pages/Leaderboard';
@@ -26,11 +27,11 @@ const ProtectedRoute = ({ children }) => {
 function AppRoutes() {
   const [isHuntStarted, setIsHuntStarted] = useState(false);
   const [loading, setLoading] = useState(true);
-  
+
   // Check for dev mode override
   const urlParams = new URLSearchParams(window.location.search);
   const isDevMode = urlParams.get('dev') === 'true';
-  
+
   useEffect(() => {
     const fetchHuntStatus = async () => {
       try {
@@ -44,7 +45,7 @@ function AppRoutes() {
         setLoading(false);
       }
     };
-    
+
     fetchHuntStatus();
   }, []);
 
@@ -55,6 +56,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
 
       <Route path="/hunt" element={
         !isHuntStarted && !isDevMode ? <CountdownPage isLoggedIn={true} /> : <ProtectedRoute><Hunt /></ProtectedRoute>

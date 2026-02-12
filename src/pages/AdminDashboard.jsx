@@ -32,7 +32,7 @@ const AdminDashboard = () => {
       navigate('/admin/login');
       return;
     }
-    
+
     fetchData();
   }, [navigate]);
 
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
       setSequences(sequencesData);
       setTimings(timingsData);
       setTimingStatus(timingStatusData);
-      
+
       // Fetch bonus round data
       const [bonus1Data, bonus2Data] = await Promise.all([
         api.getBonusStatus(1).catch(() => null),
@@ -68,16 +68,16 @@ const AdminDashboard = () => {
 
   const handleQuestionSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Debug: Log the form data being sent
     console.log('Form data being sent:', questionForm);
-    
+
     // Validate form data before sending
     if (!questionForm.hint || !questionForm.code || !questionForm.question || !questionForm.answer || !questionForm.question_image) {
       setError('All fields are required');
       return;
     }
-    
+
     try {
       if (editingQuestion) {
         // Remove id from form data before sending
@@ -154,7 +154,7 @@ const AdminDashboard = () => {
       console.log('Frontend - Updating timing:', { eventName, newStartTime });
       console.log('Frontend - Event name type:', typeof eventName);
       console.log('Frontend - Start time type:', typeof newStartTime);
-      
+
       await api.updateAdminTiming(eventName, newStartTime);
       setError('');
       fetchData(); // Refresh all data including timing status
@@ -196,12 +196,12 @@ const AdminDashboard = () => {
     navigate('/admin/login');
   };
 
-  if (loading) return <div className="loading jersey-15-regular">Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="admin-dashboard">
       <header className="admin-header">
-        <h1 className="jersey-15-regular">Admin Dashboard</h1>
+        <h1>Admin Dashboard</h1>
         <button onClick={handleLogout} className="logout-button">Logout</button>
       </header>
 
@@ -243,13 +243,13 @@ const AdminDashboard = () => {
       {activeTab === 'questions' && (
         <div className="questions-section">
           <form onSubmit={handleQuestionSubmit} className="question-form">
-            <h2 className="jersey-15-regular">{editingQuestion ? 'Edit Question' : 'Add New Question'}</h2>
+            <h2>{editingQuestion ? 'Edit Question' : 'Add New Question'}</h2>
             <div className="form-group">
               <input
                 type="text"
                 placeholder="Hint"
                 value={questionForm.hint}
-                onChange={(e) => setQuestionForm({...questionForm, hint: e.target.value})}
+                onChange={(e) => setQuestionForm({ ...questionForm, hint: e.target.value })}
                 required
               />
             </div>
@@ -258,7 +258,7 @@ const AdminDashboard = () => {
                 type="text"
                 placeholder="Location Code"
                 value={questionForm.code}
-                onChange={(e) => setQuestionForm({...questionForm, code: e.target.value})}
+                onChange={(e) => setQuestionForm({ ...questionForm, code: e.target.value })}
                 required
               />
             </div>
@@ -267,7 +267,7 @@ const AdminDashboard = () => {
                 type="text"
                 placeholder="Question"
                 value={questionForm.question}
-                onChange={(e) => setQuestionForm({...questionForm, question: e.target.value})}
+                onChange={(e) => setQuestionForm({ ...questionForm, question: e.target.value })}
                 required
               />
             </div>
@@ -276,7 +276,7 @@ const AdminDashboard = () => {
                 type="text"
                 placeholder="Answer"
                 value={questionForm.answer}
-                onChange={(e) => setQuestionForm({...questionForm, answer: e.target.value})}
+                onChange={(e) => setQuestionForm({ ...questionForm, answer: e.target.value })}
                 required
               />
             </div>
@@ -285,7 +285,7 @@ const AdminDashboard = () => {
                 type="text"
                 placeholder="Question Image (e.g., 1.png)"
                 value={questionForm.question_image}
-                onChange={(e) => setQuestionForm({...questionForm, question_image: e.target.value})}
+                onChange={(e) => setQuestionForm({ ...questionForm, question_image: e.target.value })}
                 required
               />
             </div>
@@ -309,11 +309,11 @@ const AdminDashboard = () => {
           </form>
 
           <div className="questions-list">
-            <h2 className="jersey-15-regular">Questions List</h2>
+            <h2>Questions List</h2>
             {questions.map((q) => (
               <div key={q.id} className="question-card">
                 <div className="question-content">
-                  <h3 className="jersey-15-regular">Question {q.id}</h3>
+                  <h3>Question {q.id}</h3>
                   <p><strong>Hint:</strong> {q.hint}</p>
                   <p><strong>Code:</strong> {q.code}</p>
                   <p><strong>Question:</strong> {q.question}</p>
@@ -352,12 +352,12 @@ const AdminDashboard = () => {
 
       {activeTab === 'teams' && (
         <div className="teams-section">
-          <h2 className="jersey-15-regular">Teams List</h2>
+          <h2>Teams List</h2>
           <div className="teams-list">
             {teams.map((team) => (
               <div key={team.id} className="team-card">
                 <div className="team-content">
-                  <h3 className="jersey-15-regular">{team.team_name}</h3>
+                  <h3>{team.team_name}</h3>
                   <p><strong>Score:</strong> {team.score}</p>
                   <p><strong>Completed Locations:</strong> {team.completed_locations}</p>
                 </div>
@@ -384,7 +384,7 @@ const AdminDashboard = () => {
       {activeTab === 'sequences' && (
         <div className="sequences-section">
           <div className="sequences-header">
-            <h2 className="jersey-15-regular">Team Sequences</h2>
+            <h2>Team Sequences</h2>
             <button
               onClick={handleRegenerateSequences}
               className="regenerate-button"
@@ -396,7 +396,7 @@ const AdminDashboard = () => {
             {sequences.map((team) => (
               <div key={team.id} className="sequence-card">
                 <div className="sequence-content">
-                  <h3 className="jersey-15-regular">{team.team_name}</h3>
+                  <h3>{team.team_name}</h3>
                   <p><strong>Current Score:</strong> {team.score}/15</p>
                   <div className="sequence-display">
                     <strong>Sequence:</strong>
@@ -404,10 +404,9 @@ const AdminDashboard = () => {
                       {team.sequence && team.sequence.map((locationId, index) => (
                         <span
                           key={index}
-                          className={`sequence-number ${
-                            index < team.score ? 'completed' : 
-                            index === team.score ? 'current' : 'pending'
-                          }`}
+                          className={`sequence-number ${index < team.score ? 'completed' :
+                              index === team.score ? 'current' : 'pending'
+                            }`}
                         >
                           {locationId}
                         </span>
@@ -423,19 +422,19 @@ const AdminDashboard = () => {
 
       {activeTab === 'bonus' && (
         <div className="bonus-section">
-          <h2 className="jersey-15-regular">Bonus Rounds Management</h2>
+          <h2>Bonus Rounds Management</h2>
           <div className="bonus-rounds-list">
             {bonusRounds.map((round, index) => (
               <div key={round.id || index} className="bonus-round-card">
                 <div className="bonus-round-header">
-                  <h3 className="jersey-15-regular">Bonus Round {round.id || index + 1}</h3>
+                  <h3>Bonus Round {round.id || index + 1}</h3>
                   <div className="bonus-round-status">
                     <span className={`status-badge ${round.isEnded ? 'ended' : round.isStarted ? 'active' : 'pending'}`}>
                       {round.isEnded ? 'Ended' : round.isStarted ? 'Active' : 'Pending'}
                     </span>
                   </div>
                 </div>
-                
+
                 <div className="bonus-round-details">
                   <p><strong>Start Time:</strong> {new Date(round.start_time).toLocaleString()}</p>
                   <p><strong>Location Code:</strong> {round.location_code}</p>
@@ -444,7 +443,7 @@ const AdminDashboard = () => {
                     <p><strong>Ended At:</strong> {new Date(round.ended_at).toLocaleString()}</p>
                   )}
                 </div>
-                
+
                 <div className="bonus-round-actions">
                   {!round.isEnded && round.isStarted && (
                     <button
@@ -471,22 +470,22 @@ const AdminDashboard = () => {
 
       {activeTab === 'timings' && (
         <div className="timings-section">
-          <h2 className="jersey-15-regular">Timing Control Center</h2>
+          <h2>Timing Control Center</h2>
           <p className="timing-description">Control when each event starts. Changes take effect immediately.</p>
-          
+
           <div className="timing-controls">
             {timings.map((timing) => {
               const status = timingStatus[timing.event_name];
               const isStarted = status?.isStarted || false;
               const timeUntilStart = status?.timeUntilStartFormatted || 'Unknown';
-              
+
               return (
                 <div key={timing.id} className="timing-card">
                   <div className="timing-header">
-                    <h3 className="jersey-15-regular">
-                      {timing.event_name === 'bonus1' ? 'Bonus Round 1' : 
-                       timing.event_name === 'bonus2' ? 'Bonus Round 2' : 
-                       'Main Hunt'}
+                    <h3>
+                      {timing.event_name === 'bonus1' ? 'Bonus Round 1' :
+                        timing.event_name === 'bonus2' ? 'Bonus Round 2' :
+                          'Main Hunt'}
                     </h3>
                     <div className="timing-status">
                       <span className={`status-badge ${isStarted ? 'started' : 'pending'}`}>
@@ -494,12 +493,12 @@ const AdminDashboard = () => {
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className="timing-details">
                     <p><strong>Start Time (IST):</strong> {new Date(timing.start_time).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
                     <p><strong>Status:</strong> {isStarted ? 'Active' : `Starts in ${timeUntilStart}`}</p>
                   </div>
-                  
+
                   <div className="timing-actions">
                     <div className="quick-actions">
                       <button
@@ -524,7 +523,7 @@ const AdminDashboard = () => {
                         Start in 30 min
                       </button>
                     </div>
-                    
+
                     <div className="custom-timing">
                       <input
                         type="datetime-local"

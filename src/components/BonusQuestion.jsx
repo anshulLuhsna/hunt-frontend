@@ -3,13 +3,13 @@ import { FaQrcode, FaCamera, FaCheck, FaLightbulb } from 'react-icons/fa';
 import QrScannerComponent from './QRScanner';
 import './BonusQuestion.css';
 
-const BonusQuestion = ({ 
-  roundId, 
-  locationHint, 
-  questionImage, 
-  onLocationScanned, 
+const BonusQuestion = ({
+  roundId,
+  locationHint,
+  questionImage,
+  onLocationScanned,
   onAnswerSubmitted,
-  onWinnerSubmitted 
+  onWinnerSubmitted
 }) => {
   const [showScanner, setShowScanner] = useState(false);
   const [answer, setAnswer] = useState('');
@@ -32,7 +32,7 @@ const BonusQuestion = ({
       console.log('[BonusQuestion] Sanitized code:', sanitizedCode);
       const startTs = performance.now();
       await onLocationScanned(sanitizedCode);
-      console.log('[BonusQuestion] Scan validated OK in', (performance.now()-startTs).toFixed(1), 'ms');
+      console.log('[BonusQuestion] Scan validated OK in', (performance.now() - startTs).toFixed(1), 'ms');
       setStep('question');
       setSuccessMessage('Location code accepted! Now solve the puzzle below.');
     } catch (error) {
@@ -68,7 +68,7 @@ const BonusQuestion = ({
   const handleWinnerSubmit = async (e) => {
     e.preventDefault();
     if (!leaderName.trim() || !teamName.trim()) {
-      setErrors({ 
+      setErrors({
         leaderName: !leaderName.trim() ? 'Leader name is required' : '',
         teamName: !teamName.trim() ? 'Team name is required' : ''
       });
@@ -100,11 +100,11 @@ const BonusQuestion = ({
     return (
       <div className="bonus-question-container">
         <div className="bonus-question-content">
-          <h1 className="bonus-question-title jersey-15-regular">🎯 Bonus Round {roundId}</h1>
-          
+          <h1 className="bonus-question-title">🎯 Bonus Round {roundId}</h1>
+
           {/* Location Hint Section */}
           <section className="hint-section">
-            <h2 className="jersey-15-regular"><FaLightbulb /> Location Hint</h2>
+            <h2 className=""><FaLightbulb /> Location Hint</h2>
             <div className="puzzle-text">
               {locationHint}
             </div>
@@ -112,22 +112,22 @@ const BonusQuestion = ({
 
           {/* QR Scanner Section - Same as main hunt */}
           <section className="submit-section">
-            <h2 className="jersey-15-regular"><FaQrcode /> Scan QR Code</h2>
-            <p className="jersey-15-regular">Scan the QR code at the location to unlock the puzzle</p>
+            <h2 className=""><FaQrcode /> Scan QR Code</h2>
+            <p className="">Scan the QR code at the location to unlock the puzzle</p>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-              <QrScannerComponent 
+              <QrScannerComponent
                 isScannerOpen={showScanner}
                 setIsScannerOpen={setShowScanner}
                 onScanned={handleQRScan}
               />
             </div>
             {errors.location && (
-              <div className="error-message jersey-15-regular" style={{ marginTop: 12 }}>
+              <div className="error-message" style={{ marginTop: 12 }}>
                 {errors.location}
               </div>
             )}
             {loading && (
-              <div className="jersey-15-regular" style={{ color: '#94A3B8', marginTop: 8 }}>Validating...</div>
+              <div className="" style={{ color: 'var(--text-muted)', marginTop: 8 }}>Validating...</div>
             )}
           </section>
         </div>
@@ -139,19 +139,19 @@ const BonusQuestion = ({
     return (
       <div className="bonus-question-container">
         <div className="bonus-question-content">
-          <h1 className="bonus-question-title jersey-15-regular">🎯 Bonus Round {roundId}</h1>
-          
+          <h1 className="bonus-question-title">🎯 Bonus Round {roundId}</h1>
+
           {successMessage && (
-            <div className="success-message jersey-15-regular">
+            <div className="success-message">
               {successMessage}
             </div>
           )}
 
           <div className="question-section">
-            <h2 className="question-title jersey-15-regular">Solve the Puzzle</h2>
-            <img 
-              src={`/${questionImage}`} 
-              alt="Bonus Question" 
+            <h2 className="question-title">Solve the Puzzle</h2>
+            <img
+              src={`/${questionImage}`}
+              alt="Bonus Question"
               className="question-image"
               onError={(e) => {
                 e.target.style.display = 'none';
@@ -161,23 +161,23 @@ const BonusQuestion = ({
 
           <form onSubmit={handleAnswerSubmit} className="answer-form">
             <div className="form-group">
-              <label className="form-label jersey-15-regular">Your Answer:</label>
+              <label className="form-label">Your Answer:</label>
               <input
                 type="text"
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
-                className="form-input jersey-15-regular"
+                className="form-input"
                 placeholder="Enter your answer..."
                 disabled={loading}
               />
               {errors.answer && (
-                <div className="error-message jersey-15-regular">{errors.answer}</div>
+                <div className="error-message">{errors.answer}</div>
               )}
             </div>
-            
-            <button 
-              type="submit" 
-              className="submit-button jersey-15-regular"
+
+            <button
+              type="submit"
+              className="submit-button"
               disabled={loading}
             >
               {loading ? 'Submitting...' : 'Submit Answer'}
@@ -192,52 +192,52 @@ const BonusQuestion = ({
     return (
       <div className="bonus-question-container">
         <div className="bonus-question-content">
-          <h1 className="bonus-question-title jersey-15-regular">🎉 Congratulations!</h1>
-          
+          <h1 className="bonus-question-title">🎉 Congratulations!</h1>
+
           {successMessage && (
-            <div className="success-message jersey-15-regular">
+            <div className="success-message">
               {successMessage}
             </div>
           )}
 
           <form onSubmit={handleWinnerSubmit} className="winner-form">
             <div className="form-group">
-              <label className="form-label jersey-15-regular">Leader Name:</label>
+              <label className="form-label">Leader Name:</label>
               <input
                 type="text"
                 value={leaderName}
                 onChange={(e) => setLeaderName(e.target.value)}
-                className="form-input jersey-15-regular"
+                className="form-input"
                 placeholder="Enter leader name..."
                 disabled={loading}
               />
               {errors.leaderName && (
-                <div className="error-message jersey-15-regular">{errors.leaderName}</div>
+                <div className="error-message">{errors.leaderName}</div>
               )}
             </div>
 
             <div className="form-group">
-              <label className="form-label jersey-15-regular">Team Name:</label>
+              <label className="form-label">Team Name:</label>
               <input
                 type="text"
                 value={teamName}
                 onChange={(e) => setTeamName(e.target.value)}
-                className="form-input jersey-15-regular"
+                className="form-input"
                 placeholder="Enter team name..."
                 disabled={loading}
               />
               {errors.teamName && (
-                <div className="error-message jersey-15-regular">{errors.teamName}</div>
+                <div className="error-message">{errors.teamName}</div>
               )}
             </div>
 
             {errors.general && (
-              <div className="error-message jersey-15-regular">{errors.general}</div>
+              <div className="error-message">{errors.general}</div>
             )}
-            
-            <button 
-              type="submit" 
-              className="submit-button jersey-15-regular"
+
+            <button
+              type="submit"
+              className="submit-button"
               disabled={loading}
             >
               {loading ? 'Submitting...' : 'Submit Winner Info'}

@@ -1,10 +1,8 @@
 .leaderboard-container {
   min-height: 100vh;
-  background: rgba(11, 18, 32, 0.3);
+  background: var(--bg-primary);
   padding: 20px;
-  backdrop-filter: blur(1px);
   border-radius: 12px;
-  margin: 10px;
 }
 
 .leaderboard-header {
@@ -12,9 +10,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 30px;
-  background: rgba(15, 23, 42, 0.4);
-  border-bottom: 1px solid rgba(31, 41, 55, 0.3);
-  backdrop-filter: blur(8px);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
   border-radius: 12px 12px 0 0;
 }
 
@@ -27,29 +24,29 @@
 
 .leaderboard-title {
   font-size: 1.5rem;
-  color: #F59E0B;
+  color: var(--accent-orange);
   margin: 0;
-  text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+  text-shadow: 0 0 10px var(--accent-orange-glow);
 }
 
 .leaderboard-subtitle {
   font-size: 0.9rem;
-  color: #94A3B8;
+  color: var(--text-secondary);
   margin: 5px 0 0 0;
 }
 
 .current-team-rank {
   font-size: 0.85rem;
-  color: #F59E0B;
+  color: var(--accent-orange);
   margin: 8px 0 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(245, 158, 11, 0.1);
+  background: rgba(255, 69, 0, 0.1);
   padding: 8px 12px;
   border-radius: 6px;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border: 1px solid var(--accent-orange);
   text-align: center;
   gap: 4px;
 }
@@ -63,12 +60,12 @@
 }
 
 .trophy-icon {
-  color: #F59E0B;
+  color: var(--accent-orange);
   font-size: 0.9em;
 }
 
 .rank-score-info {
-  color: #22C55E;
+  color: var(--accent-green);
   font-size: 0.85em;
   font-weight: 500;
 }
@@ -76,39 +73,46 @@
 .back-button {
   padding: 10px 20px;
   border-radius: 8px;
-  border: none;
-  background: #22C55E;
-  color: white;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .back-button:hover {
-  background: #16A34A;
+  background: var(--bg-card);
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
 }
 
 .refresh-button {
   padding: 10px 20px;
   border-radius: 8px;
   border: none;
-  background: #06B6D4;
-  color: white;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 8px;
+  border: 1px solid var(--border-color);
 }
 
 .refresh-button:hover:not(:disabled) {
-  background: #0891B2;
+  background: var(--bg-card);
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
 }
 
 .refresh-button:disabled {
-  background: #64748B;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .rankings-list {
@@ -121,10 +125,10 @@
 }
 
 .team-card {
-  background: rgba(17, 24, 39, 0.3);
+  background: var(--bg-card);
   border-radius: 8px;
   padding: 12px 16px;
-  border: 1px solid rgba(31, 41, 55, 0.3);
+  border: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   gap: 15px;
@@ -136,20 +140,21 @@
 }
 
 .team-card.clickable:hover {
-  background: rgba(17, 24, 39, 0.5);
+  background: var(--bg-secondary);
+  border-color: var(--accent-orange);
   transform: translateY(-2px);
 }
-  backdrop-filter: blur(6px);
-  min-height: 60px;
-}
+
+
 
 .team-card:hover {
   transform: translateY(-2px);
 }
 
 .team-card.winner {
-  background: rgba(34, 197, 94, 0.2);
-  border-color: rgba(34, 197, 94, 0.5);
+  background: var(--bg-secondary);
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 15px var(--accent-orange-glow);
 }
 
 .rank-avatar {
@@ -161,7 +166,7 @@
 .rank {
   font-size: 1rem;
   font-weight: 600;
-  color: #94A3B8;
+  color: var(--text-muted);
   min-width: 30px;
 }
 
@@ -170,7 +175,7 @@
   height: 35px;
   border-radius: 50%;
   overflow: hidden;
-  background: #1F2937;
+  background: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -187,7 +192,7 @@
 }
 
 .team-info h3 {
-  color: #E5E7EB;
+  color: var(--text-primary);
   margin: 0 0 4px 0;
   font-size: 1rem;
   font-weight: 600;
@@ -200,13 +205,13 @@
 }
 
 .question-info {
-  color: #4ECDC4;
+  color: var(--accent-green);
   font-size: 0.85rem;
   font-weight: 500;
 }
 
 .time-info {
-  color: #94A3B8;
+  color: var(--text-muted);
   font-size: 0.75rem;
 }
 
@@ -314,7 +319,7 @@
   .time-info {
     font-size: 0.65rem;
   }
-  
+
   .current-team-rank {
     font-size: 0.7rem;
     padding: 4px 6px;
@@ -326,24 +331,24 @@
     max-width: 280px;
     margin: 0 auto;
   }
-  
+
   .rank-main-info {
     gap: 3px;
     font-size: 0.85em;
   }
-  
+
   .trophy-icon {
     font-size: 0.75em;
   }
-  
+
   .rank-score-info {
     font-size: 0.75em;
   }
-  
+
   .leaderboard-title {
     font-size: 1.1rem;
   }
-  
+
   .leaderboard-subtitle {
     font-size: 0.75rem;
   }
@@ -385,14 +390,13 @@
 }
 
 .progress-modal {
-  background: rgba(17, 24, 39, 0.95);
+  background: var(--bg-card);
   border-radius: 12px;
-  border: 1px solid rgba(31, 41, 55, 0.5);
+  border: 1px solid var(--border-color);
   max-width: 500px;
   width: 100%;
   max-height: 80vh;
   overflow-y: auto;
-  backdrop-filter: blur(10px);
 }
 
 .progress-modal-header {
@@ -405,13 +409,13 @@
 
 .progress-modal-header h2 {
   margin: 0;
-  color: #E5E7EB;
+  color: var(--text-primary);
 }
 
 .close-button {
   background: none;
   border: none;
-  color: #94A3B8;
+  color: var(--text-muted);
   font-size: 24px;
   cursor: pointer;
   padding: 5px;
@@ -420,8 +424,8 @@
 }
 
 .close-button:hover {
-  background: rgba(31, 41, 55, 0.5);
-  color: #E5E7EB;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .progress-content {
@@ -435,10 +439,10 @@
 }
 
 .progress-item {
-  background: rgba(31, 41, 55, 0.3);
+  background: var(--bg-card);
   border-radius: 8px;
   padding: 12px 16px;
-  border: 1px solid rgba(31, 41, 55, 0.5);
+  border: 1px solid var(--border-color);
 }
 
 .progress-info {
@@ -449,12 +453,12 @@
 }
 
 .question-number {
-  color: #22C55E;
+  color: var(--accent-green);
   font-weight: 600;
 }
 
 .solve-time {
-  color: #94A3B8;
+  color: var(--text-muted);
   font-size: 0.9rem;
   display: flex;
   align-items: center;
@@ -462,7 +466,7 @@
 }
 
 .view-progress {
-  color: #06B6D4;
+  color: var(--accent-orange);
   font-size: 0.8rem;
   display: flex;
   align-items: center;
@@ -471,7 +475,7 @@
 }
 
 .no-progress-info {
-  color: #94A3B8;
+  color: var(--text-muted);
   font-size: 0.8rem;
   font-style: italic;
 }
@@ -488,9 +492,8 @@
   align-items: center;
   gap: 20px;
   padding: 20px;
-  background: rgba(15, 23, 42, 0.4);
-  border-top: 1px solid rgba(31, 41, 55, 0.3);
-  backdrop-filter: blur(8px);
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
   border-radius: 0 0 12px 12px;
 }
 
@@ -498,7 +501,7 @@
   padding: 10px 20px;
   border-radius: 8px;
   border: none;
-  background: #3B82F6;
+  background: var(--accent-orange);
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -510,7 +513,7 @@
 }
 
 .pagination-button:hover:not(:disabled) {
-  background: #2563EB;
+  background: #E63E00;
   transform: translateY(-1px);
 }
 
@@ -523,7 +526,7 @@
 .pagination-info {
   display: flex;
   align-items: center;
-  color: #94A3B8;
+  color: var(--text-muted);
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -534,40 +537,40 @@
     margin: 10px;
     max-height: 90vh;
   }
-  
+
   .pagination-controls {
     flex-direction: column;
     gap: 15px;
     padding: 15px;
   }
-  
+
   .pagination-button {
     width: 100%;
     justify-content: center;
   }
-  
+
   .leaderboard-header {
     flex-direction: column;
     gap: 10px;
     text-align: center;
     padding: 15px 20px;
   }
-  
+
   .header-center {
     order: -1;
     width: 100%;
   }
-  
+
   .leaderboard-title {
     font-size: 1.3rem;
     margin-bottom: 5px;
   }
-  
+
   .leaderboard-subtitle {
     font-size: 0.8rem;
     margin-bottom: 8px;
   }
-  
+
   .current-team-rank {
     font-size: 0.75rem;
     padding: 6px 8px;
@@ -579,40 +582,40 @@
     max-width: 300px;
     margin: 0 auto;
   }
-  
+
   .rank-main-info {
     gap: 4px;
     font-size: 0.9em;
   }
-  
+
   .trophy-icon {
     font-size: 0.8em;
   }
-  
+
   .rank-score-info {
     font-size: 0.8em;
   }
-  
+
   .back-button {
     width: 100%;
     max-width: 200px;
     margin: 0 auto;
   }
-  
+
   .progress-modal-header {
     padding: 15px;
   }
-  
+
   .progress-content {
     padding: 15px;
   }
-  
+
   .progress-info {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-  
+
   .solve-time {
     font-size: 0.8rem;
   }

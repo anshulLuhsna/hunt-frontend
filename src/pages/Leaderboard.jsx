@@ -42,7 +42,7 @@ const Leaderboard = () => {
     try {
       setLoading(true);
       const response = await api.getLeaderboard(page, 10);
-      
+
       // Handle both new pagination format and old array format
       if (response.teams && Array.isArray(response.teams)) {
         setTeams(response.teams);
@@ -61,7 +61,7 @@ const Leaderboard = () => {
         console.error('Invalid response format:', response);
         setTeams([]);
       }
-      
+
       if (response.pagination) {
         setPagination(response.pagination);
       }
@@ -121,7 +121,7 @@ const Leaderboard = () => {
   if (loading) {
     return (
       <div className="leaderboard-container">
-        <div className="loading jersey-15-regular">Loading leaderboard...</div>
+        <div className="loading">Loading leaderboard...</div>
       </div>
     );
   }
@@ -133,12 +133,12 @@ const Leaderboard = () => {
           ← Back to Hunt
         </button>
         <div className="header-center">
-          <h1 className="leaderboard-title jersey-15-regular">🏆 Leaderboard</h1>
-          <p className="leaderboard-subtitle jersey-15-regular">
+          <h1 className="leaderboard-title">🏆 Leaderboard</h1>
+          <p className="leaderboard-subtitle">
             Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1} • {pagination?.totalTeams || 0} teams
           </p>
           {currentTeamRank && (
-            <div className="current-team-rank jersey-15-regular">
+            <div className="current-team-rank">
               <div className="rank-main-info">
                 <FaTrophy className="trophy-icon" />
                 <span>Rank #{currentTeamRank.rank} of {currentTeamRank.totalTeams}</span>
@@ -153,13 +153,13 @@ const Leaderboard = () => {
         </div>
         <div></div>
       </header>
-      
+
       <div className="rankings-list">
         {teams.length === 0 ? (
           <div className="team-card">
             <div className="team-info">
-              <h3 className="jersey-15-regular">No teams found</h3>
-              <p className="jersey-15-regular">Be the first to start the adventure!</p>
+              <h3>No teams found</h3>
+              <p>Be the first to start the adventure!</p>
             </div>
           </div>
         ) : (
@@ -176,20 +176,20 @@ const Leaderboard = () => {
                 </div>
               </div>
               <div className="team-info">
-                <h3 className="jersey-15-regular">{team.team_name}</h3>
+                <h3>{team.team_name}</h3>
                 <div className="team-details">
-                  <span className="question-info jersey-15-regular">Question {team.score}/15</span>
+                  <span className="question-info">Question {team.score}/15</span>
                   {team.score > 0 && team.last_solve_time && (
-                    <span className="time-info jersey-15-regular">
+                    <span className="time-info">
                       <FaClock /> Last solve: {formatTime(team.last_solve_time)}
                     </span>
                   )}
                   {team.score > 0 ? (
-                    <span className="view-progress jersey-15-regular">
+                    <span className="view-progress">
                       <FaEye /> Click to view progress
                     </span>
                   ) : (
-                    <span className="no-progress-info jersey-15-regular" style={{ color: '#94A3B8', fontSize: '0.8rem' }}>
+                    <span className="no-progress-info" style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                       Not started yet
                     </span>
                   )}
@@ -203,21 +203,21 @@ const Leaderboard = () => {
       {/* Pagination Controls */}
       {(pagination?.totalPages || 1) > 1 && (
         <div className="pagination-controls">
-          <button 
+          <button
             className="pagination-button"
             onClick={() => handlePageChange((pagination?.currentPage || 1) - 1)}
             disabled={!pagination?.hasPrevPage || loading}
           >
             <FaChevronLeft /> Previous
           </button>
-          
+
           <div className="pagination-info">
-            <span className="jersey-15-regular">
+            <span>
               Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1}
             </span>
           </div>
-          
-          <button 
+
+          <button
             className="pagination-button"
             onClick={() => handlePageChange((pagination?.currentPage || 1) + 1)}
             disabled={!pagination?.hasNextPage || loading}
@@ -232,8 +232,8 @@ const Leaderboard = () => {
         <div className="progress-modal-overlay" onClick={() => setShowProgress(false)}>
           <div className="progress-modal" onClick={(e) => e.stopPropagation()}>
             <div className="progress-modal-header">
-              <h2 className="jersey-15-regular">{selectedTeam.team_name}'s Progress</h2>
-              <button 
+              <h2>{selectedTeam.team_name}'s Progress</h2>
+              <button
                 className="close-button"
                 onClick={() => setShowProgress(false)}
               >
@@ -243,8 +243,8 @@ const Leaderboard = () => {
             <div className="progress-content">
               {teamProgress.length === 0 ? (
                 <div className="no-progress">
-                  <p className="jersey-15-regular">No questions solved yet</p>
-                  <p className="jersey-15-regular" style={{ color: '#94A3B8', fontSize: '0.9rem', marginTop: '10px' }}>
+                  <p>No questions solved yet</p>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '10px' }}>
                     This team hasn't started the treasure hunt yet. They need to solve at least one question to see progress here.
                   </p>
                 </div>
@@ -253,10 +253,10 @@ const Leaderboard = () => {
                   {teamProgress.map((progress, index) => (
                     <div key={index} className="progress-item">
                       <div className="progress-info">
-                        <span className="question-number jersey-15-regular">
+                        <span className="question-number">
                           Question #{progress.question_number}
                         </span>
-                        <span className="solve-time jersey-15-regular">
+                        <span className="solve-time">
                           <FaClock /> {formatTime(progress.solved_at)}
                         </span>
                       </div>

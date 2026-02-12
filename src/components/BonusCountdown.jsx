@@ -38,12 +38,12 @@ const BonusCountdown = ({ startTime, onStart }) => {
     return (
       <div className="bonus-countdown-container">
         <div className="bonus-countdown-content">
-          <h1 className="bonus-countdown-title jersey-15-regular">🎉 Bonus Round Begins!</h1>
-          <p className="bonus-countdown-subtitle jersey-15-regular">
+          <h1 className="bonus-countdown-title">🎉 Bonus Round Begins!</h1>
+          <p className="bonus-countdown-subtitle">
             Get ready for the bonus challenge!
           </p>
-          <button 
-            className="start-bonus-button jersey-15-regular"
+          <button
+            className="start-bonus-button"
             onClick={onStart}
           >
             <FaStar /> Start Bonus Round
@@ -56,27 +56,27 @@ const BonusCountdown = ({ startTime, onStart }) => {
   return (
     <div className="bonus-countdown-container">
       <div className="bonus-countdown-content">
-        <h1 className="bonus-countdown-title jersey-15-regular">🎪 Bonus Round</h1>
-        <p className="bonus-countdown-subtitle jersey-15-regular">
+        <h1 className="bonus-countdown-title">🎪 Bonus Round</h1>
+        <p className="bonus-countdown-subtitle">
           Bonus round starts in:
         </p>
-        
+
         <div className="bonus-countdown-timer">
           <div className="time-unit">
-            <div className="time-value jersey-15-regular">{timeLeft.days}</div>
-            <div className="time-label jersey-15-regular">Days</div>
+            <div className="time-value">{timeLeft.days}</div>
+            <div className="time-label">Days</div>
           </div>
           <div className="time-unit">
-            <div className="time-value jersey-15-regular">{timeLeft.hours}</div>
-            <div className="time-label jersey-15-regular">Hours</div>
+            <div className="time-value">{timeLeft.hours}</div>
+            <div className="time-label">Hours</div>
           </div>
           <div className="time-unit">
-            <div className="time-value jersey-15-regular">{timeLeft.minutes}</div>
-            <div className="time-label jersey-15-regular">Minutes</div>
+            <div className="time-value">{timeLeft.minutes}</div>
+            <div className="time-label">Minutes</div>
           </div>
           <div className="time-unit">
-            <div className="time-value jersey-15-regular">{timeLeft.seconds}</div>
-            <div className="time-label jersey-15-regular">Seconds</div>
+            <div className="time-value">{timeLeft.seconds}</div>
+            <div className="time-label">Seconds</div>
           </div>
         </div>
 

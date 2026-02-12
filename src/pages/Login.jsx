@@ -68,14 +68,14 @@ const Login = () => {
         <div className="logo-container">
           <div className="logo">
             <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-              <circle cx="30" cy="30" r="30" fill="#FFD700"/>
-              <path d="M30 15L35 25H25L30 15Z" fill="#2C3E50"/>
-              <circle cx="30" cy="35" r="8" fill="#2C3E50"/>
+              <circle cx="30" cy="30" r="30" fill="#FF4500" />
+              <path d="M30 15L35 25H25L30 15Z" fill="#000000" />
+              <circle cx="30" cy="35" r="8" fill="#000000" />
             </svg>
           </div>
         </div>
 
-        <h1 className="title jersey-15-regular">FE Carnival Treasure Hunt</h1>
+        <h1 className="title">FE Carnival Treasure Hunt</h1>
         <p className="subtitle">Enter your team credentials to begin the adventure</p>
 
         {errors.general && (
@@ -119,6 +119,17 @@ const Login = () => {
             {loading ? 'Logging in...' : 'Start Adventure'}
           </button>
         </form>
+
+        <div className="auth-toggle">
+          <p>New to the hunt?</p>
+          <button
+            type="button"
+            className="toggle-button"
+            onClick={() => navigate('/signup')}
+          >
+            Create New Team
+          </button>
+        </div>
 
 
       </div>

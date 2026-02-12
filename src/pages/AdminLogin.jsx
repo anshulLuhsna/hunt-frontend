@@ -28,7 +28,7 @@ const AdminLogin = () => {
   return (
     <div className="admin-login-container">
       <div className="admin-login-card">
-        <h1 className="jersey-15-regular">Admin Login</h1>
+        <h1>Admin Login</h1>
         <form onSubmit={handleSubmit}>
           {error && <div className="error-message">{error}</div>}
           <div className="form-group">

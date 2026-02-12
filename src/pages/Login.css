@@ -1,73 +1,56 @@
 .login-container {
   min-height: 100vh;
-  background: rgba(11, 18, 32, 0.3);
+  background: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(1px);
 }
 
-.login-container::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200px;
-  height: 200px;
-  margin: -100px 0 0 -100px;
-  border: 3px solid rgba(255, 215, 0, 0.1);
-  border-top: 3px solid #FFD700;
-  border-radius: 50%;
-  /* animation removed */
-  z-index: 0;
-}
-
-.login-container::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 150px;
-  height: 150px;
-  margin: -75px 0 0 -75px;
-  border: 2px solid rgba(78, 205, 196, 0.1);
-  border-bottom: 2px solid #4ECDC4;
-  border-radius: 50%;
-  /* animation removed */
-  z-index: 0;
-}
+/* Removed circular decorations for cleaner look */
 
 @keyframes backgroundPulse {
-  0%, 100% {
-    background: linear-gradient(135deg, #0F1419 0%, #1a2332 100%);
+
+  0%,
+  100% {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   }
+
   50% {
-    background: linear-gradient(135deg, #1a2332 0%, #0F1419 100%);
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
   }
 }
 
 @keyframes spinWheel {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes spinWheelReverse {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(-360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 
 .login-card {
-  background: rgba(17, 24, 39, 0.3);
+  background: var(--bg-card);
   border-radius: 20px;
   padding: 40px;
   width: 100%;
   max-width: 450px;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(31, 41, 55, 0.3);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
   text-align: center;
   animation: cardEntrance 0.8s ease-out;
   transform: translateY(0);
@@ -80,6 +63,7 @@
     opacity: 0;
     transform: translateY(50px) scale(0.9);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -101,9 +85,12 @@
 }
 
 @keyframes logoFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -111,15 +98,16 @@
 
 @keyframes glow {
   from {
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+    filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.5));
   }
+
   to {
-    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+    filter: drop-shadow(0 0 30px rgba(255, 69, 0, 0.8));
   }
 }
 
 .title {
-  color: #FFD700;
+  color: var(--text-primary);
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 15px;
@@ -131,15 +119,16 @@
 
 @keyframes titleGlow {
   from {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 215, 0, 0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 69, 0, 0.3);
   }
+
   to {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.6);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 69, 0, 0.6);
   }
 }
 
 .subtitle {
-  color: #B0C4DE;
+  color: var(--text-secondary);
   font-size: 1.1rem;
   margin-bottom: 40px;
   line-height: 1.5;
@@ -153,6 +142,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -173,6 +163,7 @@
     opacity: 0;
     transform: translateX(-30px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -189,14 +180,20 @@
   z-index: 1;
 }
 
-.form-group:nth-child(1) { animation-delay: 0.7s; }
-.form-group:nth-child(2) { animation-delay: 0.8s; }
+.form-group:nth-child(1) {
+  animation-delay: 0.7s;
+}
+
+.form-group:nth-child(2) {
+  animation-delay: 0.8s;
+}
 
 @keyframes fieldEntrance {
   0% {
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -204,9 +201,9 @@
 }
 
 .form-group label {
-  color: #E6F3FF;
+  color: var(--text-primary);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
   animation: labelSlide 0.4s ease-out both;
   position: relative;
   z-index: 1;
@@ -217,6 +214,7 @@
     opacity: 0;
     transform: translateX(-10px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -227,8 +225,8 @@
   padding: 15px 20px;
   border: none;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: var(--input-bg);
+  color: var(--text-primary);
   font-size: 1rem;
   transition: all 0.3s ease;
   border: 2px solid transparent;
@@ -240,18 +238,19 @@
 
 @keyframes inputGlow {
   0% {
-    box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+    box-shadow: 0 0 0 rgba(255, 69, 0, 0);
   }
+
   100% {
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.1);
   }
 }
 
 .form-group input:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.15);
-  border-color: #FFD700;
-  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2), 0 0 20px rgba(255, 215, 0, 0.3);
+  background: var(--input-bg);
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 2px rgba(255, 69, 0, 0.2);
   animation: inputFocus 0.3s ease-out;
 }
 
@@ -259,9 +258,11 @@
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.02);
   }
+
   100% {
     transform: scale(1);
   }
@@ -278,9 +279,19 @@
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 .error-message {
@@ -297,6 +308,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -304,7 +316,7 @@
 }
 
 .start-button {
-  background: #22C55E;
+  background: var(--accent-orange);
   color: white;
   border: none;
   border-radius: 12px;
@@ -327,6 +339,7 @@
     opacity: 0;
     transform: translateY(30px) scale(0.9);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -349,17 +362,21 @@
 }
 
 .start-button:hover {
-  background: #16A34A;
+  background: #E63E00;
+  /* Darker orange */
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+  box-shadow: 0 8px 25px rgba(255, 69, 0, 0.4);
 }
 
 @keyframes buttonPulse {
-  0%, 100% {
-    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+
+  0%,
+  100% {
+    box-shadow: 0 8px 25px rgba(255, 69, 0, 0.4);
   }
+
   50% {
-    box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+    box-shadow: 0 12px 35px rgba(255, 69, 0, 0.6);
   }
 }
 
@@ -372,7 +389,8 @@
 .start-button:disabled,
 .start-button[disabled] {
   cursor: not-allowed;
-  opacity: 1;            /* avoid native dimming flicker */
+  opacity: 1;
+  /* avoid native dimming flicker */
   filter: none;
   transform: none;
   box-shadow: none;
@@ -381,16 +399,19 @@
 
 .start-button:disabled::before,
 .start-button[disabled]::before {
-  display: none;        /* stop shimmer during loading */
+  display: none;
+  /* stop shimmer during loading */
 }
 
 @keyframes buttonClick {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(0.95);
   }
+
   100% {
     transform: scale(1);
   }
@@ -398,6 +419,7 @@
 
 /* Respect users who prefer reduced motion and reduce repaint cost */
 @media (prefers-reduced-motion: reduce) {
+
   .login-container,
   .logo,
   .title,
@@ -418,15 +440,15 @@
 }
 
 .auth-toggle p {
-  color: #B0C4DE;
+  color: var(--text-secondary);
   margin-bottom: 15px;
   font-size: 0.95rem;
 }
 
 .toggle-button {
   background: transparent;
-  color: #FFD700;
-  border: 2px solid #FFD700;
+  color: var(--accent-orange);
+  border: 2px solid var(--accent-orange);
   border-radius: 8px;
   padding: 10px 20px;
   font-size: 0.95rem;
@@ -438,10 +460,10 @@
 }
 
 .toggle-button:hover {
-  background: #FFD700;
-  color: #2C3E50;
+  background: var(--accent-orange);
+  color: #FFFFFF;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
 }
 
 .toggle-button:active {
@@ -453,7 +475,8 @@
   .login-container {
     padding: 15px;
     min-height: 100vh;
-    min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    min-height: 100dvh;
+    /* Dynamic viewport height for mobile browsers */
   }
 
   .login-card {
@@ -474,8 +497,10 @@
 
   .form-group input {
     padding: 12px 15px;
-    font-size: 16px; /* Prevents zoom on iOS */
-    min-height: 48px; /* Better touch target */
+    font-size: 16px;
+    /* Prevents zoom on iOS */
+    min-height: 48px;
+    /* Better touch target */
   }
 
   .start-button {

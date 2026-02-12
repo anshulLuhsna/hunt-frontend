@@ -5,30 +5,52 @@
 }
 
 :root {
-  --primary-blue: #0F1419;
-  --secondary-blue: #1a2332;
-  --accent-yellow: #FFD700;
-  --accent-teal: #4ECDC4;
-  --text-light: #E6F3FF;
-  --text-muted: #B0C4DE;
-  --error-red: #FF6B6B;
-  --card-bg: rgba(15, 20, 25, 0.9);
-  --border-light: rgba(255, 255, 255, 0.1);
+  /* Xenia Design System */
+  --bg-primary: #000000;
+  --bg-secondary: #0A0A0A;
+  --bg-card: #111111;
+
+  --accent-orange: #FF4500;
+  /* Neon Orange */
+  --accent-orange-glow: rgba(255, 69, 0, 0.5);
+  --accent-green: #00E676;
+  /* Neon Green */
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+
+  --border-color: #333333;
+  --input-bg: #1A1A1A;
+
+  /* Mappings to existing var names for compatibility */
+  --primary-blue: var(--bg-primary);
+  --secondary-blue: var(--bg-secondary);
+  --accent-yellow: var(--accent-orange);
+  /* Replace Yellow with Orange */
+  --accent-teal: var(--accent-green);
+  /* Replace Teal with Green */
+  --text-light: var(--text-primary);
+  --card-bg: var(--bg-card);
+  --border-light: var(--border-color);
 }
 
 body {
   margin: 0;
-  font-family: "Jersey 15", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0B1220 url('/bg-2.jpeg') center/cover no-repeat fixed;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
-  min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
-  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
-  -webkit-touch-callout: none; /* Disable callout on mobile */
-  -webkit-user-select: none; /* Disable text selection on mobile */
+  min-height: 100dvh;
+  /* Dynamic viewport height for mobile browsers */
+  -webkit-tap-highlight-color: transparent;
+  /* Remove tap highlight on mobile */
+  -webkit-touch-callout: none;
+  /* Disable callout on mobile */
+  -webkit-user-select: none;
+  /* Disable text selection on mobile */
   user-select: none;
 }
 
@@ -49,31 +71,35 @@ a:hover {
   color: var(--accent-yellow);
 }
 
-button {
-  font-family: "Jersey 15", inherit;
+/* Typography - Modern Sans Serif */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Jersey 15", sans-serif;
+p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+button {
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 input {
   font-family: inherit;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: var(--text-light);
-}
 
-p {
-  color: var(--text-muted);
-}
-
-.jersey-15-regular {
-  font-family: "Jersey 15", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
 
 /* Global Mobile Optimizations */
 @media (max-width: 768px) {
@@ -81,25 +107,32 @@ p {
     -webkit-tap-highlight-color: transparent;
   }
 
-  button, input, select, textarea {
-    font-size: 16px; /* Prevents zoom on iOS */
+  button,
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+    /* Prevents zoom on iOS */
     -webkit-appearance: none;
+    appearance: none;
     border-radius: 0;
   }
 
   button {
-    min-height: 44px; /* Better touch target */
+    min-height: 44px;
+    /* Better touch target */
     min-width: 44px;
   }
 
-  input, textarea {
-    min-height: 48px; /* Better touch target */
+  input,
+  textarea {
+    min-height: 48px;
+    /* Better touch target */
   }
 
   /* Improve scrolling on mobile */
   .scroll-container {
     -webkit-overflow-scrolling: touch;
-    overflow-scrolling: touch;
   }
 
   /* Prevent horizontal scroll */
@@ -108,7 +141,12 @@ p {
   }
 
   /* Better text rendering on mobile */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -116,17 +154,21 @@ p {
 
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
-  button:hover, .clickable:hover {
+
+  button:hover,
+  .clickable:hover {
     transform: none;
   }
 
-  button:active, .clickable:active {
+  button:active,
+  .clickable:active {
     transform: scale(0.98);
   }
 }
 
 /* High DPI display optimizations */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

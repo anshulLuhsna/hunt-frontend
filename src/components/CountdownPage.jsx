@@ -58,7 +58,7 @@ const CountdownPage = ({ isLoggedIn = false }) => {
     return (
       <div className="countdown-container">
         <div className="countdown-content">
-          <div className="loading jersey-15-regular">Loading hunt timing...</div>
+          <div className="loading">Loading hunt timing...</div>
         </div>
       </div>
     );
@@ -68,12 +68,12 @@ const CountdownPage = ({ isLoggedIn = false }) => {
     return (
       <div className="countdown-container">
         <div className="countdown-content">
-          <h1 className="countdown-title jersey-15-regular">🎉 The Hunt Begins!</h1>
-          <p className="countdown-subtitle jersey-15-regular">
+          <h1 className="countdown-title">🎉 The Hunt Begins!</h1>
+          <p className="countdown-subtitle">
             Get ready for the ultimate treasure hunt adventure!
           </p>
-          <button 
-            className="start-hunt-button jersey-15-regular"
+          <button
+            className="start-hunt-button"
             onClick={handleStartHunt}
           >
             🏃‍♂️ Start Your Hunt
@@ -86,36 +86,36 @@ const CountdownPage = ({ isLoggedIn = false }) => {
   return (
     <div className="countdown-container">
       <div className="countdown-content">
-        <h1 className="countdown-title jersey-15-regular">🎪 FE Carnival Treasure Hunt</h1>
-        <p className="countdown-subtitle jersey-15-regular">
+        <h1 className="countdown-title">🎪 FE Carnival Treasure Hunt</h1>
+        <p className="countdown-subtitle">
           {isLoggedIn ? 'The hunt begins in:' : 'The adventure begins in:'}
         </p>
-        
+
         <div className="countdown-timer">
           <div className="time-unit">
-            <div className="time-value jersey-15-regular">{timeLeft.days}</div>
-            <div className="time-label jersey-15-regular">Days</div>
+            <div className="time-value">{timeLeft.days}</div>
+            <div className="time-label">Days</div>
           </div>
           <div className="time-separator">:</div>
           <div className="time-unit">
-            <div className="time-value jersey-15-regular">{timeLeft.hours}</div>
-            <div className="time-label jersey-15-regular">Hours</div>
+            <div className="time-value">{timeLeft.hours}</div>
+            <div className="time-label">Hours</div>
           </div>
           <div className="time-separator">:</div>
           <div className="time-unit">
-            <div className="time-value jersey-15-regular">{timeLeft.minutes}</div>
-            <div className="time-label jersey-15-regular">Minutes</div>
+            <div className="time-value">{timeLeft.minutes}</div>
+            <div className="time-label">Minutes</div>
           </div>
           <div className="time-separator">:</div>
           <div className="time-unit">
-            <div className="time-value jersey-15-regular">{timeLeft.seconds}</div>
-            <div className="time-label jersey-15-regular">Seconds</div>
+            <div className="time-value">{timeLeft.seconds}</div>
+            <div className="time-label">Seconds</div>
           </div>
         </div>
 
         <div className="countdown-info">
-          <h3 className="info-title jersey-15-regular">🎯 {isLoggedIn ? 'Get Ready!' : 'Hunt Instructions'}</h3>
-          <ul className="info-list jersey-15-regular">
+          <h3 className="info-title">🎯 {isLoggedIn ? 'Get Ready!' : 'Hunt Instructions'}</h3>
+          <ul className="info-list">
             {isLoggedIn ? (
               <>
                 <li>🎪 You're all set for the FE Carnival Treasure Hunt!</li>
@@ -135,7 +135,7 @@ const CountdownPage = ({ isLoggedIn = false }) => {
         </div>
 
         <div className="countdown-footer">
-          <p className="footer-text jersey-15-regular">
+          <p className="footer-text">
             Make sure you're registered and ready to go!
           </p>
         </div>
