@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Always use relative /api so Vercel (prod) and Vite (dev) proxies handle target
-const API_BASE_URL = '/api';
+// Direct API URL for all environments
+const API_BASE_URL = 'https://api.thegradient.blog';
 
 const AuthContext = createContext();
 
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
             },
             credentials: 'include'
           });
-          
+
           if (response.ok) {
             setUser({ teamName, token });
           } else {
