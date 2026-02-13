@@ -11,8 +11,22 @@ const Signup = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [signupsEnabled, setSignupsEnabled] = useState(true);
   const navigate = useNavigate();
   const { signup } = useAuth();
+
+  useEffect(() => {
+    // Check if signups are enabled
+    const checkStatus = async () => {
+      try {
+        const response = await api.getMainHuntStatus();
+        setSignupsEnabled(response.signupsEnabled !== false); // Default to true if undefined
+      } catch (error) {
+        console.error('Error fetching hunt status:', error);
+      }
+    };
+    checkStatus();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,62 +102,85 @@ const Signup = () => {
         <h1 className="title">Join the Adventure</h1>
         <p className="subtitle">Create your team to start the Xenia '26: Vault of the Multiverse Hunt</p>
 
-        {errors.general && (
-          <div className="error-message" style={{ textAlign: 'center', marginBottom: '20px' }}>
-            {errors.general}
+        {!signupsEnabled ? (
+          <div className="closed-message" style={{
+            textAlign: 'center',
+            padding: '30px',
+            background: 'rgba(255, 69, 0, 0.1)',
+            border: '1px solid #FF4500',
+            borderRadius: '10px',
+            margin: '20px 0'
+          }}>
+            <h2 style={{ color: '#FF4500', marginBottom: '10px' }}>Signups Closed</h2>
+            <p>Registration for the treasure hunt has ended.</p>
+            <button
+              className="login-link-button"
+              onClick={() => navigate('/login')}
+              style={{ marginTop: '20px' }}
+            >
+              Go to Login
+            </button>
           </div>
+        ) : (
+          <>
+            {errors.general && (
+              <div className="error-message" style={{ textAlign: 'center', marginBottom: '20px' }}>
+                {errors.general}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="login-form">
+              <div className="form-group">
+                <label htmlFor="team_name">Team Name</label>
+                <input
+                  type="text"
+                  id="team_name"
+                  name="team_name"
+                  value={formData.team_name}
+                  onChange={handleChange}
+                  placeholder="Enter your team name"
+                  className={errors.team_name ? 'error' : ''}
+                  disabled={loading}
+                />
+                {errors.team_name && <span className="error-message">{errors.team_name}</span>}
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Create a password"
+                  className={errors.password ? 'error' : ''}
+                  disabled={loading}
+                />
+                {errors.password && <span className="error-message">{errors.password}</span>}
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Confirm your password"
+                  className={errors.confirmPassword ? 'error' : ''}
+                  disabled={loading}
+                />
+                {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+              </div>
+
+              <button type="submit" className="start-button" disabled={loading}>
+                {loading ? 'Creating Team...' : 'Create Team'}
+              </button>
+            </form>
+          </>
         )}
-
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="team_name">Team Name</label>
-            <input
-              type="text"
-              id="team_name"
-              name="team_name"
-              value={formData.team_name}
-              onChange={handleChange}
-              placeholder="Enter your team name"
-              className={errors.team_name ? 'error' : ''}
-              disabled={loading}
-            />
-            {errors.team_name && <span className="error-message">{errors.team_name}</span>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Create a password"
-              className={errors.password ? 'error' : ''}
-              disabled={loading}
-            />
-            {errors.password && <span className="error-message">{errors.password}</span>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Confirm your password"
-              className={errors.confirmPassword ? 'error' : ''}
-              disabled={loading}
-            />
-            {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
-          </div>
-
-          <button type="submit" className="start-button" disabled={loading}>
-            {loading ? 'Creating Team...' : 'Create Team'}
-          </button>
-        </form>
 
         <div className="auth-toggle">
           <p>Already have a team?</p>
