@@ -397,7 +397,7 @@ const AdminDashboard = () => {
               <div key={team.id} className="sequence-card">
                 <div className="sequence-content">
                   <h3>{team.team_name}</h3>
-                  <p><strong>Current Score:</strong> {team.score}/15</p>
+                  <p><strong>Current Score:</strong> {team.score}/16</p>
                   <div className="sequence-display">
                     <strong>Sequence:</strong>
                     <div className="sequence-numbers">
@@ -405,7 +405,7 @@ const AdminDashboard = () => {
                         <span
                           key={index}
                           className={`sequence-number ${index < team.score ? 'completed' :
-                              index === team.score ? 'current' : 'pending'
+                            index === team.score ? 'current' : 'pending'
                             }`}
                         >
                           {locationId}
