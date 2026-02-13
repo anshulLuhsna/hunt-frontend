@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { QUESTIONS } from '../data/questions';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
@@ -53,6 +54,19 @@ const Hunt = () => {
       if (response.alreadyScanned) {
         setShowPuzzleInput(true);
         // Get the question for current step
+        // We now use hardcoded QUESTIONS array based on rankData/question number
+        // But we still fetch getQuestion just to ensure backend state is consistent if needed
+        // Actually, we can just set currentQuestion directly from QUESTIONS
+
+        // Fallback: If we don't have currentQuestionNumber yet, we might need to rely on API or calculate it
+        // But fetchProgress() is called, so currentQuestionNumber should be available eventually
+        // Let's set it based on `response` (hint) which implies we are at a step
+
+        // Wait, response (hint) doesn't have step number directly unless we passed it
+        // But getQuestion returns it implicitly.
+        // Let's rely on currentQuestionNumber which is updated in fetchProgress
+
+        // Actually, let's keep the API call for consistency but override the display
         try {
           const questionResponse = await api.getQuestion();
           setCurrentQuestion(questionResponse.question);
@@ -384,78 +398,66 @@ const Hunt = () => {
               <section className="answer-section">
                 <form onSubmit={handlePuzzleAnswerSubmit} className="answer-form">
                   <h2><FaLightbulb /> Answer the Puzzle</h2>
+
+                  {/* HARDCODED QUESTION RENDERING */}
                   <div className="question-content" style={{ marginBottom: '20px', textAlign: 'center' }}>
+                    {(() => {
+                      const qData = QUESTIONS[currentQuestionNumber];
+                      if (!qData) return <p>Loading question...</p>;
 
-                    {/* 1. Question Text */}
-                    {currentQuestion?.text && (
-                      <div className="question-text" style={{
-                        fontSize: '1.2rem',
-                        marginBottom: '15px',
-                        color: 'var(--text-primary)',
-                        padding: '15px',
-                        background: 'var(--bg-secondary)',
-                        borderRadius: '8px',
-                        borderLeft: '4px solid var(--accent-orange)'
-                      }}>
-                        {currentQuestion.text}
-                      </div>
-                    )}
-
-                    {/* 2. Question Image */}
-                    {currentQuestion?.image ? (
-                      <img
-                        src={`/${currentQuestion.image}`}
-                        alt="Puzzle Question"
-                        style={{
-                          maxWidth: '100%',
-                          maxHeight: '400px',
-                          borderRadius: '8px',
-                          boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
-                          marginBottom: '15px'
-                        }}
-                        onError={(e) => {
-                          console.error('Image failed to load:', currentQuestion.image);
-                          e.target.style.display = 'none';
-                        }}
-                      />
-                    ) : (
-                      !currentQuestion?.text && (
-                        <div style={{
-                          padding: '40px',
-                          background: 'var(--bg-secondary)',
-                          borderRadius: '8px',
-                          border: '2px dashed var(--border-color)',
-                          color: 'var(--text-muted)'
-                        }}>
-                          <p>Loading question...</p>
-                        </div>
-                      )
-                    )}
-
-                    {/* 3. Question Link */}
-                    {currentQuestion?.link && (
-                      <div className="question-link" style={{ marginTop: '15px' }}>
-                        <a
-                          href={currentQuestion.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            padding: '10px 20px',
-                            backgroundColor: 'var(--accent-blue)',
-                            color: 'white',
-                            borderRadius: '20px',
-                            textDecoration: 'none',
-                            fontWeight: '600',
-                            boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
-                          }}
-                        >
-                          🔗 Open Resource Link
-                        </a>
-                      </div>
-                    )}
+                      if (qData.type === 'link') {
+                        return (
+                          <div className="question-link" style={{ marginTop: '15px', padding: '20px' }}>
+                            <a
+                              href={qData.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                padding: '15px 25px',
+                                backgroundColor: 'var(--accent-blue)',
+                                color: 'white',
+                                borderRadius: '25px',
+                                textDecoration: 'none',
+                                fontWeight: 'bold',
+                                fontSize: '1.1rem',
+                                boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+                                transition: 'transform 0.2s'
+                              }}
+                              onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
+                              onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+                            >
+                              🔗 {qData.text}
+                            </a>
+                            <p style={{ marginTop: '15px', color: 'var(--text-secondary)' }}>
+                              Click the button above to view the puzzle for this step.
+                            </p>
+                          </div>
+                        );
+                      } else {
+                        // Image
+                        return (
+                          <img
+                            src={`/${qData.src}`}
+                            alt={`Question ${currentQuestionNumber}`}
+                            style={{
+                              maxWidth: '100%',
+                              maxHeight: '400px',
+                              borderRadius: '8px',
+                              boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+                              marginBottom: '15px'
+                            }}
+                            onError={(e) => {
+                              console.error('Image failed to load:', qData.src);
+                              e.target.style.display = 'none';
+                              e.target.parentNode.innerHTML += `<p style="color:red">Error loading image: ${qData.src}</p>`;
+                            }}
+                          />
+                        );
+                      }
+                    })()}
                   </div>
                   <div className="form-group">
                     <input
