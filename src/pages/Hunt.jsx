@@ -32,13 +32,11 @@ const Hunt = () => {
       const progressData = await api.getProgress();
       setProgress(progressData);
 
-      // Also fetch current question number from leaderboard API
-      try {
-        const rankData = await api.getCurrentTeamRank();
-        setCurrentQuestionNumber(rankData.score + 1); // Next question to solve
-      } catch (error) {
-        console.error('Error fetching current question number:', error);
-      }
+      // Set current question number directly from progress
+      // progressData.completed is the number of solved questions (score)
+      // So current question is score + 1
+      setCurrentQuestionNumber(progressData.completed + 1);
+
     } catch (error) {
       console.error('Error fetching progress:', error);
     }
@@ -139,6 +137,10 @@ const Hunt = () => {
 
       // Close QR scanner
       setIsScannerOpen(false);
+
+      if (response.question && response.question.id) {
+        setCurrentQuestionNumber(response.question.id);
+      }
 
       setCurrentQuestion(response.question);
       setShowPuzzleInput(true);
