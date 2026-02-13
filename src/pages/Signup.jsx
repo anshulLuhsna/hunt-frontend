@@ -86,7 +86,7 @@ const Signup = () => {
         </div>
 
         <h1 className="title">Join the Adventure</h1>
-        <p className="subtitle">Create your team to start the FE Carnival Treasure Hunt</p>
+        <p className="subtitle">Create your team to start the Xenia '26: Vault of the Multiverse Hunt</p>
 
         {errors.general && (
           <div className="error-message" style={{ textAlign: 'center', marginBottom: '20px' }}>

@@ -86,7 +86,7 @@ const CountdownPage = ({ isLoggedIn = false }) => {
   return (
     <div className="countdown-container">
       <div className="countdown-content">
-        <h1 className="countdown-title">🎪 FE Carnival Treasure Hunt</h1>
+        <h1 className="countdown-title">🌌 Xenia '26: Vault of the Multiverse</h1>
         <p className="countdown-subtitle">
           {isLoggedIn ? 'The hunt begins in:' : 'The adventure begins in:'}
         </p>
@@ -118,9 +118,9 @@ const CountdownPage = ({ isLoggedIn = false }) => {
           <ul className="info-list">
             {isLoggedIn ? (
               <>
-                <li>🎪 You're all set for the FE Carnival Treasure Hunt!</li>
+                <li>🚀 You're all set for the Xenia '26: Vault of the Multiverse Hunt!</li>
                 <li>📱 Make sure your team is ready with phones for QR scanning</li>
-                <li>🧩 Prepare to solve challenging carnival-themed puzzles</li>
+                <li>🧩 Prepare to solve challenging multiverse-themed puzzles</li>
                 <li>🏆 Get ready to race against other teams!</li>
               </>
             ) : (
