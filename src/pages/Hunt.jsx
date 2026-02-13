@@ -13,7 +13,7 @@ const Hunt = () => {
   const [currentHint, setCurrentHint] = useState(null);
   const [puzzleAnswer, setPuzzleAnswer] = useState('');
   const [showPuzzleInput, setShowPuzzleInput] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState('');
+  const [currentQuestion, setCurrentQuestion] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
@@ -55,14 +55,14 @@ const Hunt = () => {
         // Get the question for current step
         try {
           const questionResponse = await api.getQuestion();
-          setCurrentQuestion(questionResponse.question_image || `${response.id}.png`);
+          setCurrentQuestion(questionResponse.question);
           setSuccessMessage('Location already scanned! Answer the puzzle below.');
         } catch (questionError) {
           console.error('Error fetching question:', questionError);
         }
       } else {
         setShowPuzzleInput(false);
-        setCurrentQuestion('');
+        setCurrentQuestion(null);
         setPuzzleAnswer('');
         setErrors({});
         setSuccessMessage('');
@@ -384,31 +384,76 @@ const Hunt = () => {
               <section className="answer-section">
                 <form onSubmit={handlePuzzleAnswerSubmit} className="answer-form">
                   <h2><FaLightbulb /> Answer the Puzzle</h2>
-                  <div className="question-image-container" style={{ marginBottom: '10px', textAlign: 'center' }}>
-                    {currentQuestion ? (
+                  <div className="question-content" style={{ marginBottom: '20px', textAlign: 'center' }}>
+
+                    {/* 1. Question Text */}
+                    {currentQuestion?.text && (
+                      <div className="question-text" style={{
+                        fontSize: '1.2rem',
+                        marginBottom: '15px',
+                        color: 'var(--text-primary)',
+                        padding: '15px',
+                        background: 'var(--bg-secondary)',
+                        borderRadius: '8px',
+                        borderLeft: '4px solid var(--accent-orange)'
+                      }}>
+                        {currentQuestion.text}
+                      </div>
+                    )}
+
+                    {/* 2. Question Image */}
+                    {currentQuestion?.image ? (
                       <img
-                        src={`/${currentQuestion}`}
+                        src={`/${currentQuestion.image}`}
                         alt="Puzzle Question"
                         style={{
                           maxWidth: '100%',
                           maxHeight: '400px',
                           borderRadius: '8px',
-                          boxShadow: '0 4px 8px rgba(0,0,0,0.3)'
+                          boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+                          marginBottom: '15px'
                         }}
                         onError={(e) => {
-                          console.error('Image failed to load:', currentQuestion);
+                          console.error('Image failed to load:', currentQuestion.image);
                           e.target.style.display = 'none';
                         }}
                       />
                     ) : (
-                      <div style={{
-                        padding: '40px',
-                        background: 'var(--bg-secondary)',
-                        borderRadius: '8px',
-                        border: '2px dashed var(--border-color)',
-                        color: 'var(--text-muted)'
-                      }}>
-                        <p>Loading question image...</p>
+                      !currentQuestion?.text && (
+                        <div style={{
+                          padding: '40px',
+                          background: 'var(--bg-secondary)',
+                          borderRadius: '8px',
+                          border: '2px dashed var(--border-color)',
+                          color: 'var(--text-muted)'
+                        }}>
+                          <p>Loading question...</p>
+                        </div>
+                      )
+                    )}
+
+                    {/* 3. Question Link */}
+                    {currentQuestion?.link && (
+                      <div className="question-link" style={{ marginTop: '15px' }}>
+                        <a
+                          href={currentQuestion.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '10px 20px',
+                            backgroundColor: 'var(--accent-blue)',
+                            color: 'white',
+                            borderRadius: '20px',
+                            textDecoration: 'none',
+                            fontWeight: '600',
+                            boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
+                          }}
+                        >
+                          🔗 Open Resource Link
+                        </a>
                       </div>
                     )}
                   </div>
