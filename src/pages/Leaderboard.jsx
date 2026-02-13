@@ -5,6 +5,7 @@ import api from '../services/api';
 import './Leaderboard.css';
 import { FaTrophy, FaPuzzlePiece, FaClock, FaEye, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import Avatar from '../components/Avatar';
+import HuntTimer from '../components/HuntTimer';
 
 const Leaderboard = () => {
   const [teams, setTeams] = useState([]);
@@ -147,22 +148,9 @@ const Leaderboard = () => {
           <p className="leaderboard-subtitle">
             Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1} • {pagination?.totalTeams || 0} teams
           </p>
-
-          {huntStatus.isEnded && (
-            <div className="hunt-ended-banner" style={{
-              backgroundColor: 'rgba(255, 69, 0, 0.2)',
-              border: '1px solid var(--accent-orange)',
-              color: 'var(--accent-orange)',
-              padding: '10px 20px',
-              borderRadius: '8px',
-              marginTop: '15px',
-              textAlign: 'center',
-              fontWeight: 'bold',
-              display: 'inline-block'
-            }}>
-              🏁 HUNT ENDED
-            </div>
-          )}
+          <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
+            <HuntTimer />
+          </div>
 
           {currentTeamRank && (
             <div className="current-team-rank">
@@ -181,100 +169,79 @@ const Leaderboard = () => {
         <div></div>
       </header>
 
-      {!huntStatus.isEnded ? (
-        <div className="game-in-progress" style={{
-          textAlign: 'center',
-          padding: '50px 20px',
-          background: 'rgba(255, 255, 255, 0.05)',
-          borderRadius: '12px',
-          margin: '20px auto',
-          maxWidth: '600px',
-          border: '1px solid rgba(255, 255, 255, 0.1)'
-        }}>
-          <FaPuzzlePiece style={{ fontSize: '3rem', color: 'var(--accent-orange)', marginBottom: '20px', opacity: 0.8 }} />
-          <h2 style={{ marginBottom: '15px' }}>Hunt in Progress</h2>
-          <p style={{ fontSize: '1.1rem', marginBottom: '15px' }}>
-            The leaderboard is hidden until the portal closes.
-          </p>
-          <p style={{ fontSize: '0.9rem', color: '#aaa' }}>
-            Focus on your path. The final rankings will be revealed at 7:00 PM.
-          </p>
-        </div>
-      ) : (
-        <>
-          <div className="rankings-list">
-            {teams.length === 0 ? (
-              <div className="team-card">
-                <div className="team-info">
-                  <h3>No teams found</h3>
-                  <p>Be the first to start the adventure!</p>
+
+      <div className="rankings-list">
+        {teams.length === 0 ? (
+          <div className="team-card">
+            <div className="team-info">
+              <h3>No teams found</h3>
+              <p>Be the first to start the adventure!</p>
+            </div>
+          </div>
+        ) : (
+          teams.map((team, index) => (
+            <div
+              key={index}
+              className={`team-card ${team.score >= 16 ? 'winner' : ''} clickable`}
+              onClick={() => handleTeamClick(team)}
+            >
+              <div className="rank-avatar">
+                <span className="rank">#{team.rank || index + 1}</span>
+                <div className="avatar">
+                  {getAvatar(team)}
                 </div>
               </div>
-            ) : (
-              teams.map((team, index) => (
-                <div
-                  key={index}
-                  className={`team-card ${team.score >= 16 ? 'winner' : ''} clickable`}
-                  onClick={() => handleTeamClick(team)}
-                >
-                  <div className="rank-avatar">
-                    <span className="rank">#{team.rank || index + 1}</span>
-                    <div className="avatar">
-                      {getAvatar(team)}
-                    </div>
-                  </div>
-                  <div className="team-info">
-                    <h3>{team.team_name}</h3>
-                    <div className="team-details">
-                      <span className="question-info">Question {team.score}/16</span>
-                      {team.score > 0 && team.last_solve_time && (
-                        <span className="time-info">
-                          <FaClock /> Last solve: {formatTime(team.last_solve_time)}
-                        </span>
-                      )}
-                      {team.score > 0 ? (
-                        <span className="view-progress">
-                          <FaEye /> Click to view progress
-                        </span>
-                      ) : (
-                        <span className="no-progress-info" style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-                          Not started yet
-                        </span>
-                      )}
-                    </div>
-                  </div>
+              <div className="team-info">
+                <h3>{team.team_name}</h3>
+                <div className="team-details">
+                  <span className="question-info">Question {team.score}/16</span>
+                  {team.score > 0 && team.last_solve_time && (
+                    <span className="time-info">
+                      <FaClock /> Last solve: {formatTime(team.last_solve_time)}
+                    </span>
+                  )}
+                  {team.score > 0 ? (
+                    <span className="view-progress">
+                      <FaEye /> Click to view progress
+                    </span>
+                  ) : (
+                    <span className="no-progress-info" style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                      Not started yet
+                    </span>
+                  )}
                 </div>
-              ))
-            )}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {(pagination?.totalPages || 1) > 1 && (
+        <div className="pagination-controls">
+          <button
+            className="pagination-button"
+            onClick={() => handlePageChange((pagination?.currentPage || 1) - 1)}
+            disabled={!pagination?.hasPrevPage || loading}
+          >
+            <FaChevronLeft /> Previous
+          </button>
+
+          <div className="pagination-info">
+            <span>
+              Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1}
+            </span>
           </div>
 
-          {(pagination?.totalPages || 1) > 1 && (
-            <div className="pagination-controls">
-              <button
-                className="pagination-button"
-                onClick={() => handlePageChange((pagination?.currentPage || 1) - 1)}
-                disabled={!pagination?.hasPrevPage || loading}
-              >
-                <FaChevronLeft /> Previous
-              </button>
-
-              <div className="pagination-info">
-                <span>
-                  Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1}
-                </span>
-              </div>
-
-              <button
-                className="pagination-button"
-                onClick={() => handlePageChange((pagination?.currentPage || 1) + 1)}
-                disabled={!pagination?.hasNextPage || loading}
-              >
-                Next <FaChevronRight />
-              </button>
-            </div>
-          )}
-        </>
+          <button
+            className="pagination-button"
+            onClick={() => handlePageChange((pagination?.currentPage || 1) + 1)}
+            disabled={!pagination?.hasNextPage || loading}
+          >
+            Next <FaChevronRight />
+          </button>
+        </div>
       )}
+
 
       {showProgress && selectedTeam && (
         <div className="progress-modal-overlay" onClick={() => setShowProgress(false)}>

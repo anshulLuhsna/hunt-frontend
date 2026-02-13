@@ -7,6 +7,7 @@ import './Hunt.css';
 import QrScannerComponent from '../components/QRScanner';
 import Avatar from '../components/Avatar';
 import AvatarSelector from '../components/AvatarSelector';
+import HuntTimer from '../components/HuntTimer';
 import { FaTrophy, FaQrcode, FaLightbulb, FaStar, FaCamera, FaCheckCircle, FaUser, FaSignOutAlt, FaCog } from 'react-icons/fa';
 
 const Hunt = () => {
@@ -247,7 +248,8 @@ const Hunt = () => {
             </span>
           )}
         </div>
-        <div className="header-right">
+        <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <HuntTimer />
           <div className="profile-dropdown">
             <button
               onClick={() => setShowProfileDropdown(!showProfileDropdown)}

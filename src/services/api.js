@@ -107,14 +107,19 @@ class ApiService {
     });
   }
 
-  async updateAdminTiming(eventName, startTime) {
+  async updateAdminTiming(eventName, startTime, endTime = null) {
+    const body = { eventName, startTime };
+    if (endTime) {
+      body.endTime = endTime;
+    }
+
     return this.request('/admin/timings', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
       },
-      body: JSON.stringify({ eventName, startTime }),
+      body: JSON.stringify(body),
     });
   }
 
