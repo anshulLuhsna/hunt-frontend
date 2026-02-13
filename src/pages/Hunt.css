@@ -22,8 +22,8 @@
 
 .hunt-header {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
   padding: 15px 20px;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
@@ -37,11 +37,13 @@
   width: 100%;
 }
 
-.header-timer-row {
+.timer-bar {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  padding: 10px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
 }
 
 @keyframes headerSlideDown {

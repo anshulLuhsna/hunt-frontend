@@ -286,10 +286,11 @@ const Hunt = () => {
             </div>
           </div>
         </div>
-        <div className="header-timer-row">
-          <HuntTimer />
-        </div>
       </header>
+
+      <div className="timer-bar">
+        <HuntTimer />
+      </div>
 
       <main className="hunt-main">
         {errors.general && (
