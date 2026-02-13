@@ -67,6 +67,9 @@ const Hunt = () => {
         // Actually, let's keep the API call for consistency but override the display
         try {
           const questionResponse = await api.getQuestion();
+          if (questionResponse.question && questionResponse.id) {
+            setCurrentQuestionNumber(questionResponse.id);
+          }
           setCurrentQuestion(questionResponse.question);
           setSuccessMessage('Location already scanned! Answer the puzzle below.');
         } catch (questionError) {
