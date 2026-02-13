@@ -149,13 +149,16 @@ const AdminDashboard = () => {
   };
 
   // Timing management functions
-  const handleUpdateTiming = async (eventName, newStartTime) => {
+  const handleUpdateTiming = async (eventName, newStartTime, newEndTime = null) => {
     try {
-      console.log('Frontend - Updating timing:', { eventName, newStartTime });
-      console.log('Frontend - Event name type:', typeof eventName);
-      console.log('Frontend - Start time type:', typeof newStartTime);
+      console.log('Frontend - Updating timing:', { eventName, newStartTime, newEndTime });
 
-      await api.updateAdminTiming(eventName, newStartTime);
+      const payload = { eventName, startTime: newStartTime };
+      if (newEndTime) {
+        payload.endTime = newEndTime;
+      }
+
+      await api.updateAdminTiming(eventName, payload.startTime, payload.endTime);
       setError('');
       fetchData(); // Refresh all data including timing status
     } catch (err) {
@@ -496,7 +499,13 @@ const AdminDashboard = () => {
 
                   <div className="timing-details">
                     <p><strong>Start Time (IST):</strong> {new Date(timing.start_time).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
-                    <p><strong>Status:</strong> {isStarted ? 'Active' : `Starts in ${timeUntilStart}`}</p>
+                    {timing.end_time && (
+                      <p><strong>End Time (IST):</strong> {new Date(timing.end_time).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
+                    )}
+                    <p><strong>Status:</strong> {status?.isEnded ? <span style={{ color: 'red', fontWeight: 'bold' }}>ENDED</span> : (isStarted ? 'Active' : `Starts in ${timeUntilStart}`)}</p>
+                    {!status?.isEnded && isStarted && status?.timeUntilEndFormatted && (
+                      <p><strong>Time Remaining:</strong> {status.timeUntilEndFormatted}</p>
+                    )}
                   </div>
 
                   <div className="timing-actions">
@@ -524,40 +533,64 @@ const AdminDashboard = () => {
                       </button>
                     </div>
 
-                    <div className="custom-timing">
-                      <input
-                        type="datetime-local"
-                        className="timing-input"
-                        id={`timing-input-${timing.event_name}`}
-                      />
-                      <button
-                        onClick={async () => {
-                          const input = document.getElementById(`timing-input-${timing.event_name}`);
-                          if (input && input.value) {
-                            try {
-                              await handleUpdateTiming(timing.event_name, new Date(input.value).toISOString());
-                              // Force reload the page to ensure timing updates are applied
-                              window.location.reload();
-                            } catch (error) {
-                              console.error('Error setting custom timing:', error);
-                              // Still reload to get fresh state
-                              window.location.reload();
+
+
+                    <div className="custom-timing" style={{ marginTop: '10px', borderTop: '1px solid #eee', paddingTop: '10px' }}>
+                      <h4>Update Timing Window</h4>
+                      <div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
+                        <div>
+                          <label style={{ display: 'block', fontSize: '0.8rem', marginBottom: '5px' }}>Start Time:</label>
+                          <input
+                            type="datetime-local"
+                            className="timing-input"
+                            id={`timing-input-start-${timing.event_name}`}
+                            defaultValue={timing.start_time ? new Date(new Date(timing.start_time).getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0, 16) : ''}
+                          />
+                        </div>
+                        <div>
+                          <label style={{ display: 'block', fontSize: '0.8rem', marginBottom: '5px' }}>End Time (Optional):</label>
+                          <input
+                            type="datetime-local"
+                            className="timing-input"
+                            id={`timing-input-end-${timing.event_name}`}
+                            defaultValue={timing.end_time ? new Date(new Date(timing.end_time).getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0, 16) : ''}
+                          />
+                        </div>
+                        <button
+                          onClick={async () => {
+                            const startInput = document.getElementById(`timing-input-start-${timing.event_name}`);
+                            const endInput = document.getElementById(`timing-input-end-${timing.event_name}`);
+
+                            if (startInput && startInput.value) {
+                              try {
+                                const startTime = new Date(startInput.value).toISOString();
+                                const endTime = endInput && endInput.value ? new Date(endInput.value).toISOString() : null;
+
+                                await handleUpdateTiming(timing.event_name, startTime, endTime);
+                                // Force reload the page to ensure timing updates are applied
+                                window.location.reload();
+                              } catch (error) {
+                                console.error('Error setting custom timing:', error);
+                                // Still reload to get fresh state
+                                window.location.reload();
+                              }
                             }
-                          }
-                        }}
-                        className="action-button custom-time"
-                      >
-                        Set Custom Time
-                      </button>
+                          }}
+                          className="action-button custom-time"
+                          style={{ width: '100%' }}
+                        >
+                          Update Window
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               );
             })}
           </div>
-        </div>
+        </div >
       )}
-    </div>
+    </div >
   );
 };
 

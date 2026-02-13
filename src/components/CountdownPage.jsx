@@ -115,23 +115,65 @@ const CountdownPage = ({ isLoggedIn = false }) => {
 
         <div className="countdown-info">
           <h3 className="info-title">🎯 {isLoggedIn ? 'Get Ready!' : 'Hunt Instructions'}</h3>
-          <ul className="info-list">
-            {isLoggedIn ? (
-              <>
-                <li>🚀 You're all set for the Xenia '26: Vault of the Multiverse Hunt!</li>
-                <li>📱 Make sure your team is ready with phones for QR scanning</li>
-                <li>🧩 Prepare to solve challenging multiverse-themed puzzles</li>
-                <li>🏆 Get ready to race against other teams!</li>
-              </>
-            ) : (
-              <>
-                <li>📱 Use your phone to scan QR codes at each location</li>
-                <li>🧩 Solve puzzles to unlock the next clue</li>
-                <li>🏆 Race against other teams to complete the hunt first</li>
-                <li>👥 Work together as a team to solve challenging riddles</li>
-              </>
-            )}
-          </ul>
+          {isLoggedIn ? (
+            <div className="rules-container">
+              <div className="rule-group">
+                <h3>📜 Mission Protocols</h3>
+                <div className="rule-step">
+                  <strong>1. Two Question Types:</strong>
+                  <p>There are <strong>Location Questions</strong> (hints to find where to go) and <strong>Main Puzzles</strong> (the actual riddles).</p>
+                </div>
+                <div className="rule-step">
+                  <strong>2. The Location Loop:</strong>
+                  <p>There are <strong>10 total locations</strong>. Solve the hint, run there, and scan the QR code.</p>
+                </div>
+                <div className="rule-step">
+                  <strong>3. Scan & Sync:</strong>
+                  <p>Once scanned, refresh your page. Progress saves automatically for your entire team (only one person needs to scan).</p>
+                </div>
+              </div>
+
+              <div className="rule-group">
+                <h3>🔄 The Multiverse Mechanics</h3>
+                <div className="rule-step">
+                  <strong>Recursive Locations:</strong>
+                  <p>There are 16 questions but only 10 locations. <strong>Locations will repeat.</strong> You must go back and scan the QR again for each new step.</p>
+                </div>
+                <div className="rule-step">
+                  <strong>Unique Paths:</strong>
+                  <p>Every team has a unique sequence. Following others is futile and will waste your time.</p>
+                </div>
+              </div>
+
+              <div className="rule-group">
+                <h3>🏆 Mission Timeline & Victory</h3>
+                <div className="rule-step">
+                  <strong>Deadline:</strong>
+                  <p>The portal closes deeply at <strong>7:00 PM SHARP</strong>. All activity ceases.</p>
+                </div>
+                <div className="rule-step">
+                  <strong>Winning Condition:</strong>
+                  <p>The team that solves <strong>all 16 questions first</strong> wins. If no one completes all, the team with the most solved questions at 7 PM takes the crown.</p>
+                </div>
+              </div>
+
+              <div className="rule-group warning-group">
+                <h3>⚠️ Survival Guide</h3>
+                <ul>
+                  <li>🚫 <strong>Anti-AI Designed:</strong> ChatGPT/Gemini will mislead you. Trust your brain over bots.</li>
+                  <li>🔍 <strong>Google is Allowed:</strong> Search engines are your best friend.</li>
+                  <li>🎵 <strong>Audio Intel:</strong> Keep <strong>Shazam</strong> ready for identifying songs.</li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <ul className="info-list">
+              <li>📱 Use your phone to scan QR codes at each location</li>
+              <li>🧩 Solve puzzles to unlock the next clue</li>
+              <li>🏆 Race against other teams to complete the hunt first</li>
+              <li>👥 Work together as a team to solve challenging riddles</li>
+            </ul>
+          )}
         </div>
 
         <div className="countdown-footer">
