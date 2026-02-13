@@ -22,13 +22,26 @@
 
 .hunt-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
   padding: 15px 20px;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
-  min-height: 60px;
   position: relative;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header-timer-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 @keyframes headerSlideDown {

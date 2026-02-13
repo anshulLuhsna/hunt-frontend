@@ -512,6 +512,31 @@
     font-size: 1rem;
     min-height: 48px;
     width: 100%;
+    /* Critical mobile touch optimizations */
+    -webkit-tap-highlight-color: rgba(255, 69, 0, 0.3);
+    touch-action: manipulation;
+    /* Prevents double-tap zoom delay */
+    animation: none !important;
+    /* Remove entrance animation on mobile */
+    transition: background-color 0.15s ease;
+    /* Faster, simpler transition */
+  }
+
+  /* Disable hover effects on touch devices */
+  .start-button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Remove pseudo-element shimmer on mobile */
+  .start-button::before {
+    display: none;
+  }
+
+  /* Provide immediate visual feedback on tap */
+  .start-button:active {
+    background: #E63E00;
+    transform: scale(0.98);
   }
 
   .auth-toggle {

@@ -70,8 +70,7 @@ const HuntTimer = () => {
             color: 'var(--accent-orange)',
             fontWeight: 'bold',
             fontSize: '1rem',
-            boxShadow: '0 0 10px rgba(255, 69, 0, 0.2)',
-            marginLeft: '15px'
+            boxShadow: '0 0 10px rgba(255, 69, 0, 0.2)'
         }}>
             <FaClock />
             <span>{isEnded ? 'HUNT ENDED' : formatTime(timeLeft)}</span>

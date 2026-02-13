@@ -231,59 +231,63 @@ const Hunt = () => {
   return (
     <div className="hunt-container">
       <header className="hunt-header">
-        <div className="header-left">
-          <button onClick={() => navigate('/leaderboard')} className="leaderboard-button">
-            <FaTrophy /> Leaderboard
-          </button>
-        </div>
-        <div className="header-center">
-          <span className="team-name">Team: {team_name}</span>
-          {currentQuestionNumber && (
-            <span className="question-number" style={{
-              marginTop: '5px',
-              fontSize: '0.9rem',
-              color: 'var(--text-secondary)'
-            }}>
-              Question #{currentQuestionNumber}
-            </span>
-          )}
-        </div>
-        <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <HuntTimer />
-          <div className="profile-dropdown">
-            <button
-              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-              className="profile-button"
-            >
-              <Avatar
-                seed={teamAvatar || team_name}
-                size={35}
-                className="profile-avatar"
-              />
+        <div className="header-top-row">
+          <div className="header-left">
+            <button onClick={() => navigate('/leaderboard')} className="leaderboard-button">
+              <FaTrophy /> Leaderboard
             </button>
-            {showProfileDropdown && (
-              <div className="dropdown-menu">
-                <button
-                  onClick={() => {
-                    setShowAvatarSelector(true);
-                    setShowProfileDropdown(false);
-                  }}
-                  className="dropdown-item"
-                >
-                  <FaCog /> Change Avatar
-                </button>
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setShowProfileDropdown(false);
-                  }}
-                  className="dropdown-item"
-                >
-                  <FaSignOutAlt /> Logout
-                </button>
-              </div>
+          </div>
+          <div className="header-center">
+            <span className="team-name">Team: {team_name}</span>
+            {currentQuestionNumber && (
+              <span className="question-number" style={{
+                marginTop: '5px',
+                fontSize: '0.9rem',
+                color: 'var(--text-secondary)'
+              }}>
+                Question #{currentQuestionNumber}
+              </span>
             )}
           </div>
+          <div className="header-right">
+            <div className="profile-dropdown">
+              <button
+                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                className="profile-button"
+              >
+                <Avatar
+                  seed={teamAvatar || team_name}
+                  size={35}
+                  className="profile-avatar"
+                />
+              </button>
+              {showProfileDropdown && (
+                <div className="dropdown-menu">
+                  <button
+                    onClick={() => {
+                      setShowAvatarSelector(true);
+                      setShowProfileDropdown(false);
+                    }}
+                    className="dropdown-item"
+                  >
+                    <FaCog /> Change Avatar
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setShowProfileDropdown(false);
+                    }}
+                    className="dropdown-item"
+                  >
+                    <FaSignOutAlt /> Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="header-timer-row">
+          <HuntTimer />
         </div>
       </header>
 
