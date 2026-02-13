@@ -1128,4 +1128,19 @@
     padding: 10px 15px;
     font-size: 0.95rem;
   }
+
+  /* Ensure success message is visible on mobile */
+  .success-message {
+    position: fixed;
+    top: 80px;
+    /* Below header */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    background: rgba(15, 20, 25, 0.95) !important;
+    border: 1px solid var(--accent-green) !important;
+    backdrop-filter: blur(10px);
+  }
 }

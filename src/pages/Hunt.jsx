@@ -325,8 +325,8 @@ const Hunt = () => {
           </section>
         ) : (
           <>
-            {/* Show location hint and QR scanner only when puzzle input is NOT shown */}
-            {!showPuzzleInput && (
+            {/* Show location hint and QR scanner only when puzzle input is NOT shown AND success message is cleared */}
+            {!showPuzzleInput && !successMessage && (
               <>
                 {/* Puzzle Section */}
                 <section className="puzzle-section">
