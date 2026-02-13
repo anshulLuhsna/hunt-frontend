@@ -145,7 +145,7 @@ const Leaderboard = () => {
               </div>
               {currentTeamRank.score > 0 && (
                 <div className="rank-score-info">
-                  {currentTeamRank.score}/15 solved
+                  {currentTeamRank.score}/16 solved
                 </div>
               )}
             </div>
@@ -166,7 +166,7 @@ const Leaderboard = () => {
           teams.map((team, index) => (
             <div
               key={index}
-              className={`team-card ${team.score >= 15 ? 'winner' : ''} clickable`}
+              className={`team-card ${team.score >= 16 ? 'winner' : ''} clickable`}
               onClick={() => handleTeamClick(team)}
             >
               <div className="rank-avatar">
@@ -178,7 +178,7 @@ const Leaderboard = () => {
               <div className="team-info">
                 <h3>{team.team_name}</h3>
                 <div className="team-details">
-                  <span className="question-info">Question {team.score}/15</span>
+                  <span className="question-info">Question {team.score}/16</span>
                   {team.score > 0 && team.last_solve_time && (
                     <span className="time-info">
                       <FaClock /> Last solve: {formatTime(team.last_solve_time)}

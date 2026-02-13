@@ -109,6 +109,28 @@
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .team-name {
+    font-size: 1rem;
+    max-width: 120px;
+  }
+
+  .hunt-header {
+    padding: 10px 15px;
+    min-height: 50px;
+  }
+
+  .header-left,
+  .header-right {
+    gap: 8px;
+  }
 }
 
 @keyframes textGlow {
