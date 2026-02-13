@@ -328,13 +328,15 @@ const Hunt = () => {
             {/* Show location hint and QR scanner only when puzzle input is NOT shown AND success message is cleared */}
             {!showPuzzleInput && !successMessage && (
               <>
-                {/* Puzzle Section */}
-                <section className="puzzle-section">
-                  <h2>Location Hint #{progress.completed + 1}</h2>
-                  <div className="puzzle-text">
-                    {currentHint?.hint || 'Loading puzzle...'}
-                  </div>
-                </section>
+                {/* Puzzle Section - Hide when scanning to save space */}
+                {!isScannerOpen && (
+                  <section className="puzzle-section" style={{ animation: 'sectionSlideIn 0.5s ease-out' }}>
+                    <h2>Location Hint #{progress.completed + 1}</h2>
+                    <div className="puzzle-text">
+                      {currentHint?.hint || 'Loading puzzle...'}
+                    </div>
+                  </section>
+                )}
 
                 {/* QR Scanner Section */}
                 <section className="submit-section">
@@ -374,7 +376,7 @@ const Hunt = () => {
                     </div>
                   )}
 
-                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px', width: '100%' }}>
                     <QrScannerComponent
                       isScannerOpen={isScannerOpen}
                       setIsScannerOpen={setIsScannerOpen}
