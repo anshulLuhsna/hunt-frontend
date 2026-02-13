@@ -14,7 +14,7 @@ const BonusQuestion = ({
   const [showScanner, setShowScanner] = useState(false);
   const [answer, setAnswer] = useState('');
   const [leaderName, setLeaderName] = useState('');
-  const [teamName, setTeamName] = useState('');
+  const [team_name, setteam_name] = useState('');
   const [step, setStep] = useState('location'); // location, question, winner
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -67,10 +67,10 @@ const BonusQuestion = ({
 
   const handleWinnerSubmit = async (e) => {
     e.preventDefault();
-    if (!leaderName.trim() || !teamName.trim()) {
+    if (!leaderName.trim() || !team_name.trim()) {
       setErrors({
         leaderName: !leaderName.trim() ? 'Leader name is required' : '',
-        teamName: !teamName.trim() ? 'Team name is required' : ''
+        team_name: !team_name.trim() ? 'Team name is required' : ''
       });
       return;
     }
@@ -79,13 +79,13 @@ const BonusQuestion = ({
     setErrors({});
 
     try {
-      await onWinnerSubmitted(leaderName, teamName);
+      await onWinnerSubmitted(leaderName, team_name);
       setSuccessMessage('Congratulations! Your submission has been recorded.');
       // Reset form for next submission
       setTimeout(() => {
         setAnswer('');
         setLeaderName('');
-        setTeamName('');
+        setteam_name('');
         setStep('question');
         setSuccessMessage('');
       }, 3000);
@@ -220,14 +220,14 @@ const BonusQuestion = ({
               <label className="form-label">Team Name:</label>
               <input
                 type="text"
-                value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
+                value={team_name}
+                onChange={(e) => setteam_name(e.target.value)}
                 className="form-input"
                 placeholder="Enter team name..."
                 disabled={loading}
               />
-              {errors.teamName && (
-                <div className="error-message">{errors.teamName}</div>
+              {errors.team_name && (
+                <div className="error-message">{errors.team_name}</div>
               )}
             </div>
 

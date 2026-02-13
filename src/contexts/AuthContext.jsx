@@ -22,9 +22,9 @@ export const AuthProvider = ({ children }) => {
     // Check if user is logged in on app start
     const checkAuth = async () => {
       const token = localStorage.getItem('token');
-      const teamName = localStorage.getItem('teamName');
+      const team_name = localStorage.getItem('team_name');
 
-      if (token && teamName) {
+      if (token && team_name) {
         // Verify token is still valid by making a test request
         try {
           const response = await fetch(`${API_BASE_URL}/hunt/progress`, {
@@ -35,16 +35,16 @@ export const AuthProvider = ({ children }) => {
           });
 
           if (response.ok) {
-            setUser({ teamName, token });
+            setUser({ team_name, token });
           } else {
             // Token is invalid, clear storage
             localStorage.removeItem('token');
-            localStorage.removeItem('teamName');
+            localStorage.removeItem('team_name');
           }
         } catch (error) {
           // Network error or invalid token, clear storage
           localStorage.removeItem('token');
-          localStorage.removeItem('teamName');
+          localStorage.removeItem('team_name');
         }
       }
       setLoading(false);
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = async (teamName, password) => {
+  const login = async (team_name, password) => {
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ teamName: teamName, password }),
+        body: JSON.stringify({ team_name: team_name, password }),
       });
 
       const data = await response.json();
@@ -72,16 +72,16 @@ export const AuthProvider = ({ children }) => {
 
       // Store token and team name
       localStorage.setItem('token', data.token);
-      localStorage.setItem('teamName', teamName);
+      localStorage.setItem('team_name', team_name);
 
-      setUser({ teamName, token: data.token });
+      setUser({ team_name, token: data.token });
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
     }
   };
 
-  const signup = async (teamName, password) => {
+  const signup = async (team_name, password) => {
     try {
       const response = await fetch(`${API_BASE_URL}/auth/signup`, {
         method: 'POST',
@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ teamName: teamName, password }),
+        body: JSON.stringify({ team_name: team_name, password }),
       });
 
       const data = await response.json();
@@ -100,9 +100,9 @@ export const AuthProvider = ({ children }) => {
 
       // Store token and team name
       localStorage.setItem('token', data.token);
-      localStorage.setItem('teamName', teamName);
+      localStorage.setItem('team_name', team_name);
 
-      setUser({ teamName, token: data.token });
+      setUser({ team_name, token: data.token });
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       // Clear local storage and state
       localStorage.removeItem('token');
-      localStorage.removeItem('teamName');
+      localStorage.removeItem('team_name');
       setUser(null);
     }
   };

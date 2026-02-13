@@ -5,7 +5,7 @@ import './Login.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    teamName: '',
+    team_name: '',
     password: ''
   });
   const [errors, setErrors] = useState({});
@@ -34,8 +34,8 @@ const Login = () => {
     setErrors({});
 
     const newErrors = {};
-    if (!formData.teamName.trim()) {
-      newErrors.teamName = 'Team name is required';
+    if (!formData.team_name.trim()) {
+      newErrors.team_name = 'Team name is required';
     }
     if (!formData.password.trim()) {
       newErrors.password = 'Password is required';
@@ -48,7 +48,7 @@ const Login = () => {
     }
 
     try {
-      const result = await login(formData.teamName, formData.password);
+      const result = await login(formData.team_name, formData.password);
 
       if (result.success) {
         navigate('/hunt');
@@ -86,18 +86,18 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label htmlFor="teamName">Team Name</label>
+            <label htmlFor="team_name">Team Name</label>
             <input
               type="text"
-              id="teamName"
-              name="teamName"
-              value={formData.teamName}
+              id="team_name"
+              name="team_name"
+              value={formData.team_name}
               onChange={handleChange}
               placeholder="Enter your team name"
-              className={errors.teamName ? 'error' : ''}
+              className={errors.team_name ? 'error' : ''}
               disabled={loading}
             />
-            {errors.teamName && <span className="error-message">{errors.teamName}</span>}
+            {errors.team_name && <span className="error-message">{errors.team_name}</span>}
           </div>
 
           <div className="form-group">

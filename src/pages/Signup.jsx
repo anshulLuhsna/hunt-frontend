@@ -5,7 +5,7 @@ import './Login.css';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    teamName: '',
+    team_name: '',
     password: '',
     confirmPassword: ''
   });
@@ -35,10 +35,10 @@ const Signup = () => {
     setErrors({});
 
     const newErrors = {};
-    if (!formData.teamName.trim()) {
-      newErrors.teamName = 'Team name is required';
-    } else if (formData.teamName.length < 3) {
-      newErrors.teamName = 'Team name must be at least 3 characters';
+    if (!formData.team_name.trim()) {
+      newErrors.team_name = 'Team name is required';
+    } else if (formData.team_name.length < 3) {
+      newErrors.team_name = 'Team name must be at least 3 characters';
     }
     if (!formData.password.trim()) {
       newErrors.password = 'Password is required';
@@ -58,7 +58,7 @@ const Signup = () => {
     }
 
     try {
-      const result = await signup(formData.teamName, formData.password);
+      const result = await signup(formData.team_name, formData.password);
 
       if (result.success) {
         navigate('/hunt');
@@ -96,18 +96,18 @@ const Signup = () => {
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label htmlFor="teamName">Team Name</label>
+            <label htmlFor="team_name">Team Name</label>
             <input
               type="text"
-              id="teamName"
-              name="teamName"
-              value={formData.teamName}
+              id="team_name"
+              name="team_name"
+              value={formData.team_name}
               onChange={handleChange}
               placeholder="Enter your team name"
-              className={errors.teamName ? 'error' : ''}
+              className={errors.team_name ? 'error' : ''}
               disabled={loading}
             />
-            {errors.teamName && <span className="error-message">{errors.teamName}</span>}
+            {errors.team_name && <span className="error-message">{errors.team_name}</span>}
           </div>
 
           <div className="form-group">

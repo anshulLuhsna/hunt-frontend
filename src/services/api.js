@@ -307,10 +307,10 @@ class ApiService {
     });
   }
 
-  async submitBonusWinner(roundId, leaderName, teamName) {
+  async submitBonusWinner(roundId, leaderName, team_name) {
     return this.request(`/bonus/${roundId}/winner`, {
       method: 'POST',
-      body: JSON.stringify({ leaderName, teamName }),
+      body: JSON.stringify({ leaderName, team_name }),
     });
   }
 

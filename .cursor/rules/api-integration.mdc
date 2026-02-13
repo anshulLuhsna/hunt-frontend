@@ -37,14 +37,14 @@ description: API integration patterns and endpoint documentation
 // Signup Request
 POST /auth/signup
 {
-  "teamName": "string",
+  "team_name": "string",
   "password": "string"
 }
 
 // Login Request
 POST /auth/login
 {
-  "teamName": "string",
+  "team_name": "string",
   "password": "string"
 }
 

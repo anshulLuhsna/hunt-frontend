@@ -80,10 +80,10 @@ const BonusRound2 = () => {
     console.log('[BonusRound2] /answer response in', (performance.now() - t0).toFixed(1), 'ms:', res);
   };
 
-  const handleWinnerSubmitted = async (leaderName, teamName) => {
-    console.log('[BonusRound2] submit winner:', { leaderName, teamName });
+  const handleWinnerSubmitted = async (leaderName, team_name) => {
+    console.log('[BonusRound2] submit winner:', { leaderName, team_name });
     const t0 = performance.now();
-    const res = await api.submitBonusWinner(ROUND_ID, leaderName, teamName);
+    const res = await api.submitBonusWinner(ROUND_ID, leaderName, team_name);
     console.log('[BonusRound2] /winner response in', (performance.now() - t0).toFixed(1), 'ms:', res);
   };
 

@@ -9,7 +9,7 @@ import AvatarSelector from '../components/AvatarSelector';
 import { FaTrophy, FaQrcode, FaLightbulb, FaStar, FaCamera, FaCheckCircle, FaUser, FaSignOutAlt, FaCog } from 'react-icons/fa';
 
 const Hunt = () => {
-  const [teamName, setTeamName] = useState('');
+  const [team_name, setteam_name] = useState('');
   const [currentHint, setCurrentHint] = useState(null);
   const [puzzleAnswer, setPuzzleAnswer] = useState('');
   const [showPuzzleInput, setShowPuzzleInput] = useState(false);
@@ -87,10 +87,10 @@ const Hunt = () => {
       return;
     }
 
-    setTeamName(user.teamName);
+    setteam_name(user.team_name);
     // Initialize avatar with saved preference or team name as seed
     const savedAvatar = localStorage.getItem('teamAvatar');
-    setTeamAvatar(savedAvatar || user.teamName);
+    setTeamAvatar(savedAvatar || user.team_name);
 
     fetchHint();
     fetchProgress();
@@ -217,7 +217,7 @@ const Hunt = () => {
           </button>
         </div>
         <div className="header-center">
-          <span className="team-name">Team: {teamName}</span>
+          <span className="team-name">Team: {team_name}</span>
           {currentQuestionNumber && (
             <span className="question-number" style={{
               marginTop: '5px',
@@ -235,7 +235,7 @@ const Hunt = () => {
               className="profile-button"
             >
               <Avatar
-                seed={teamAvatar || teamName}
+                seed={teamAvatar || team_name}
                 size={35}
                 className="profile-avatar"
               />
@@ -480,7 +480,7 @@ const Hunt = () => {
 
       {showAvatarSelector && (
         <AvatarSelector
-          currentSeed={teamAvatar || teamName}
+          currentSeed={teamAvatar || team_name}
           onSelect={handleAvatarSelect}
           onClose={() => setShowAvatarSelector(false)}
         />
