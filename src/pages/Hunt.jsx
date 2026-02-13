@@ -233,8 +233,12 @@ const Hunt = () => {
       <header className="hunt-header">
         <div className="header-top-row">
           <div className="header-left">
-            <button onClick={() => navigate('/leaderboard')} className="leaderboard-button">
-              <FaTrophy /> Leaderboard
+            <button
+              onClick={() => navigate('/leaderboard')}
+              className="leaderboard-button"
+              aria-label="View Leaderboard"
+            >
+              <FaTrophy />
             </button>
           </div>
           <div className="header-center">
